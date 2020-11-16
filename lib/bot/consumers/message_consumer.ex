@@ -1,7 +1,8 @@
-defmodule HomeBot.Bot.MainHandler do
+defmodule HomeBot.Bot.MessageConsumer do
   use Nostrum.Consumer
 
   alias Nostrum.Api
+  alias HomeBot.Bot.RouteHandler
 
   def start_link do
     Consumer.start_link(__MODULE__)
@@ -10,7 +11,13 @@ defmodule HomeBot.Bot.MainHandler do
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
     case msg.content do
       "version" ->
-        Api.create_message(msg.channel_id, "0.01")
+        HomeBot.Bot.VersionHandler.handle(:version, msg)
+
+      "time to work" ->
+        RouteHandler.handle(:time_to_work, msg)
+
+      "time to home" ->
+        RouteHandler.handle(:time_to_home, msg)
 
       _ ->
         :ignore

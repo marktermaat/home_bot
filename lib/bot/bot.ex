@@ -8,7 +8,7 @@ defmodule HomeBot.Bot do
   @impl true
   def init(_init_args) do
     children = [
-      HomeBot.Bot.MainHandler
+      HomeBot.Bot.MessageConsumer
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

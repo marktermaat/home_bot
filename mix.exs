@@ -22,7 +22,9 @@ defmodule HomeBot.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nostrum, "~> 0.4"}
+      {:nostrum, "~> 0.4"},
+      {:httpoison, "~> 1.7"},
+      {:jason, "~> 1.2"}
     ]
   end
 end

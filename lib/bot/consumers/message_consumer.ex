@@ -22,6 +22,14 @@ defmodule HomeBot.Bot.MessageConsumer do
       "restart nginx" ->
         HomeBot.Bot.Host.HostCommandHandler.handle(:restart_nginx, msg)
 
+      "help" ->
+        Api.create_message(msg.channel_id, """
+        - version
+        - time to work
+        - time to home
+        - restart nginx
+        """)
+
       _ ->
         :ignore
     end

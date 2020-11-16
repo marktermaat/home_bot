@@ -1,9 +1,12 @@
 defmodule HomeBot.Bot.RouteHandler do
+  @behaviour HomeBot.Bot.CommandHandler
+
   alias Nostrum.Api
 
   @home_address Application.fetch_env!(:home_bot, :home_address)
   @work_address Application.fetch_env!(:home_bot, :work_address)
 
+  @impl HomeBot.Bot.CommandHandler
   def handle(:time_to_work, msg) do
     seconds = HomeBot.Bot.Routes.GoogleMapsApi.get_trip_duration(@home_address, @work_address)
 
@@ -13,6 +16,7 @@ defmodule HomeBot.Bot.RouteHandler do
     )
   end
 
+  @impl HomeBot.Bot.CommandHandler
   def handle(:time_to_home, msg) do
     seconds = HomeBot.Bot.Routes.GoogleMapsApi.get_trip_duration(@work_address, @home_address)
 

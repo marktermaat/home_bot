@@ -19,6 +19,9 @@ defmodule HomeBot.Bot.MessageConsumer do
       "time to home" ->
         RouteHandler.handle(:time_to_home, msg)
 
+      "restart nginx" ->
+        HomeBot.Bot.Host.HostCommandHandler.handle(:restart_nginx, msg)
+
       _ ->
         :ignore
     end

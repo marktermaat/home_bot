@@ -6,11 +6,19 @@ defmodule HomeBot.Bot.RouteHandler do
 
   def handle(:time_to_work, msg) do
     seconds = HomeBot.Bot.Routes.GoogleMapsApi.get_trip_duration(@home_address, @work_address)
-    Api.create_message(msg.channel_id, "Time to work right now is #{seconds / 60} minutes")
+
+    Api.create_message(
+      msg.channel_id,
+      "Time to work right now is #{Float.round(seconds / 60, 1)} minutes"
+    )
   end
 
   def handle(:time_to_home, msg) do
     seconds = HomeBot.Bot.Routes.GoogleMapsApi.get_trip_duration(@work_address, @home_address)
-    Api.create_message(msg.channel_id, "Time to home right now is #{seconds / 60} minutes")
+
+    Api.create_message(
+      msg.channel_id,
+      "Time to home right now is #{Float.round(seconds / 60, 1)} minutes"
+    )
   end
 end

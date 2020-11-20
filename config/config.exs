@@ -1,5 +1,16 @@
 import Config
 
+# Logging
+config :logger,
+  backends: [:console, {LoggerFileBackend, :error_log}]
+
+config :logger, :console, level: :all
+
+config :logger, :error_log,
+  level: :error,
+  path: "#{System.get_env("LOG_PATH") || "log"}/error.log"
+
+# App
 config :nostrum, token: "FILL_IN"
 
 config :home_bot,

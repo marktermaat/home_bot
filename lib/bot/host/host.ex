@@ -1,15 +1,15 @@
 defmodule HomeBot.Bot.Host do
-  @ssh_host Application.fetch_env!(:home_bot, :ssh_host)
-  @ssh_username Application.fetch_env!(:home_bot, :ssh_username)
-  @ssh_password Application.fetch_env!(:home_bot, :ssh_password)
-
   def execute(command) do
     :ssh.start()
 
+    IO.puts(@ssh_host)
+    IO.puts(@ssh_username)
+    IO.puts(@ssh_password)
+
     {:ok, conn} =
-      :ssh.connect(to_charlist(@ssh_host), 22,
-        user: to_charlist(@ssh_username),
-        password: to_charlist(@ssh_password),
+      :ssh.connect(to_charlist(ssh_host()), 22,
+        user: to_charlist(ssh_username()),
+        password: to_charlist(ssh_password()),
         user_interaction: false,
         silently_accept_hosts: true
       )
@@ -27,5 +27,17 @@ defmodule HomeBot.Bot.Host do
       {:ssh_cm, _, {:exit_status, _, _}} -> receive_results(results)
       {:ssh_cm, _, {:closed, _}} -> results
     end
+  end
+
+  defp ssh_host() do
+    Application.fetch_env!(:home_bot, :ssh_host)
+  end
+
+  defp ssh_username() do
+    Application.fetch_env!(:home_bot, :ssh_username)
+  end
+
+  defp ssh_password() do
+    Application.fetch_env!(:home_bot, :ssh_password)
   end
 end

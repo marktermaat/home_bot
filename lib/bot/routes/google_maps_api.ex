@@ -1,6 +1,4 @@
 defmodule HomeBot.Bot.Routes.GoogleMapsApi do
-  @google_maps_key Application.fetch_env!(:home_bot, :google_maps_key)
-
   def get_trip_duration(origin, destination) do
     HTTPoison.start()
 
@@ -8,7 +6,7 @@ defmodule HomeBot.Bot.Routes.GoogleMapsApi do
       HTTPoison.get!(
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=#{
           safe(origin)
-        }&destinations=#{safe(destination)}&key=#{@google_maps_key}"
+        }&destinations=#{safe(destination)}&key=#{google_maps_key()}"
       )
 
     Jason.decode!(body)
@@ -22,5 +20,9 @@ defmodule HomeBot.Bot.Routes.GoogleMapsApi do
 
   defp safe(str) do
     String.replace(str, " ", "%20")
+  end
+
+  defp google_maps_key() do
+    Application.fetch_env!(:home_bot, :google_maps_key)
   end
 end

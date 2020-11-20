@@ -24,7 +24,8 @@ defmodule HomeBot.MixProject do
     [
       {:nostrum, "~> 0.4"},
       {:httpoison, "~> 1.7"},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
+      {:logger_file_backend, "~> 0.0.11"}
     ]
   end
 end

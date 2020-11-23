@@ -9,23 +9,25 @@ defmodule HomeBot.Bot.MessageConsumer do
   end
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
-    case msg.content do
-      "version" ->
+    message = String.downcase(msg)
+
+    cond do
+      String.starts_with?(message, "version") ->
         HomeBot.Bot.VersionHandler.handle(:version, msg)
 
-      "time to work" ->
+      String.starts_with?(message, "time to work") ->
         RouteHandler.handle(:time_to_work, msg)
 
-      "time to home" ->
+      String.starts_with?(message, "time to home") ->
         RouteHandler.handle(:time_to_home, msg)
 
-      "restart nginx" ->
+      String.starts_with?(message, "restart nginx") ->
         HomeBot.Bot.Host.HostCommandHandler.handle(:restart_nginx, msg)
 
-      "speedtest" ->
+      String.starts_with?(message, "speedtest") ->
         HomeBot.Bot.Host.HostCommandHandler.handle(:speedtest, msg)
 
-      "help" ->
+      String.starts_with?(message, "help") ->
         Api.create_message(msg.channel_id, """
         - version
         - time to work
@@ -34,7 +36,7 @@ defmodule HomeBot.Bot.MessageConsumer do
         - speedtest
         """)
 
-      _ ->
+      true ->
         :ignore
     end
   end

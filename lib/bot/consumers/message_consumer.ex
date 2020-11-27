@@ -5,11 +5,12 @@ defmodule HomeBot.Bot.MessageConsumer do
   alias HomeBot.Bot.RouteHandler
 
   def start_link do
+    IO.puts("Starting new Message Consumer")
     Consumer.start_link(__MODULE__)
   end
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
-    message = String.downcase(msg)
+    message = String.downcase(msg.content)
 
     cond do
       String.starts_with?(message, "version") ->

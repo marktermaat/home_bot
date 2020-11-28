@@ -6,7 +6,13 @@ defmodule HomeBot.Bot.MessageConsumer do
 
   def start_link do
     IO.puts("Starting new Message Consumer")
+    notify("HomeBot started")
     Consumer.start_link(__MODULE__)
+  end
+
+  def notify(msg) do
+    HomeBot.DataStore.get_subscribers()
+    |> Enum.each(fn channel_id -> Api.create_message(channel_id, msg) end)
   end
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
@@ -27,6 +33,9 @@ defmodule HomeBot.Bot.MessageConsumer do
 
       String.starts_with?(message, "speedtest") ->
         HomeBot.Bot.Host.HostCommandHandler.handle(:speedtest, msg)
+
+      String.starts_with?(message, "register") ->
+        HomeBot.Bot.Monitoring.MonitoringCommandHandler.handle(:register, msg)
 
       String.starts_with?(message, "help") ->
         Api.create_message(msg.channel_id, """

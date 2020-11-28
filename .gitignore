@@ -33,4 +33,5 @@ home_bot-*.tar
 # Application stuff
 /config/*.secret.exs
 /log
+/data
 docker-compose.yml

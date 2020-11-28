@@ -14,6 +14,7 @@ config :logger, :error_log,
 config :nostrum, token: "FILL_IN"
 
 config :home_bot,
+  data_path: "./data",
   google_maps_key: "FILL IN",
   home_address: "FILL IN",
   work_address: "FILL IN",

@@ -20,7 +20,13 @@ config :home_bot,
   work_address: "FILL IN",
   ssh_host: "FILL IN",
   ssh_username: "FILL IN",
-  ssh_password: "FILL IN"
+  ssh_password: "FILL IN",
+  meteostat_api_key: "FILL IN"
+
+config :home_bot, HomeBot.Scheduler,
+  jobs: [
+    {"* * * * *", {HomeBot.Weather.TemperatureLogger, :run, []}}
+  ]
 
 import_config "#{Mix.env()}.exs"
 import_config "#{Mix.env()}.secret.exs"

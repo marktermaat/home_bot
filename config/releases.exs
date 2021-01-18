@@ -8,4 +8,5 @@ config :home_bot,
   work_address: System.fetch_env!("HOME_BOT_WORK_ADDRESS"),
   ssh_host: System.fetch_env!("HOME_BOT_SERVER_SSH_HOST"),
   ssh_username: System.fetch_env!("HOME_BOT_SERVER_SSH_USERNAME"),
-  ssh_password: System.fetch_env!("HOME_BOT_SERVER_SSH_PASSWORD")
+  ssh_password: System.fetch_env!("HOME_BOT_SERVER_SSH_PASSWORD"),
+  meteostat_api_key: System.fetch_env!("HOME_BOT_METEOSTAT_API_KEY")

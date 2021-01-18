@@ -7,7 +7,8 @@ defmodule HomeBot.MixProject do
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      elixirc_options: [warnings_as_errors: true]
     ]
   end
 
@@ -25,7 +26,8 @@ defmodule HomeBot.MixProject do
       {:nostrum, "~> 0.4"},
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"},
-      {:logger_file_backend, "~> 0.0.11"}
+      {:logger_file_backend, "~> 0.0.11"},
+      {:quantum, "~> 3.3"}
     ]
   end
 end

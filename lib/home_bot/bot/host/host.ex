@@ -2,10 +2,6 @@ defmodule HomeBot.Bot.Host do
   def execute(command) do
     :ssh.start()
 
-    IO.puts(@ssh_host)
-    IO.puts(@ssh_username)
-    IO.puts(@ssh_password)
-
     {:ok, conn} =
       :ssh.connect(to_charlist(ssh_host()), 22,
         user: to_charlist(ssh_username()),

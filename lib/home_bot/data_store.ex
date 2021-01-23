@@ -6,4 +6,12 @@ defmodule HomeBot.DataStore do
   def get_subscribers() do
     HomeBot.DataStore.ChannelStore.get_subscribers()
   end
+
+  def create_temperature_database_if_not_exists() do
+    HomeBot.DataStore.TemperatureStore.create_database_if_not_exists()
+  end
+
+  def write_temperature_data(data) do
+    HomeBot.DataStore.TemperatureStore.write_temperature_data(data)
+  end
 end

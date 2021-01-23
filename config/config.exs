@@ -21,12 +21,17 @@ config :home_bot,
   ssh_host: "FILL IN",
   ssh_username: "FILL IN",
   ssh_password: "FILL IN",
-  meteostat_api_key: "FILL IN"
+  meteostat_api_key: "FILL IN",
+  influxdb_host: "FILL IN",
+  influxdb_port: 1
 
 config :home_bot, HomeBot.Scheduler,
   jobs: [
-    {"* * * * *", {HomeBot.Weather.TemperatureLogger, :run, []}}
+    {"0 * * * *", {HomeBot.Weather, :log_temperature_data, []}}
   ]
 
+config :home_bot, HomeBot.DataStore.InfluxConnection,
+  host: "localhost",
+  port: 8086
+
 import_config "#{Mix.env()}.exs"
-import_config "#{Mix.env()}.secret.exs"

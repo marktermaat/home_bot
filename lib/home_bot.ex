@@ -4,7 +4,8 @@ defmodule HomeBot do
   def start(_type, _args) do
     children = [
       HomeBot.Bot,
-      HomeBot.Scheduler
+      HomeBot.Scheduler,
+      HomeBot.DataStore.InfluxConnection
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)

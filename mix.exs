@@ -27,7 +27,8 @@ defmodule HomeBot.MixProject do
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"},
       {:logger_file_backend, "~> 0.0.11"},
-      {:quantum, "~> 3.3"}
+      {:quantum, "~> 3.3"},
+      {:instream, "~> 1.0"}
     ]
   end
 end

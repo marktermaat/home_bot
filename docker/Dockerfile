@@ -2,6 +2,9 @@
 FROM elixir:1.11-alpine as builder
 ENV MIX_ENV=prod
 
+# Install GIT for dependencies straight from git
+RUN apk add --no-cache git
+
 # Copy code
 COPY lib ./lib
 COPY config ./config

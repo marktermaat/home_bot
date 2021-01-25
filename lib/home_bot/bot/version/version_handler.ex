@@ -5,6 +5,6 @@ defmodule HomeBot.Bot.VersionHandler do
 
   @impl HomeBot.Bot.CommandHandler
   def handle(:version, msg) do
-    Api.create_message(msg.channel_id, "0.1.1")
+    Api.create_message(msg.channel_id, "0.2.0")
   end
 end

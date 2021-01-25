@@ -32,7 +32,7 @@ defmodule HomeBot.Weather.TemperatureLogger do
   end
 
   defp process_hour_record(record) do
-    [date, time] = String.split(record["time"], " ")
+    [date, time] = String.split(record["time_local"], " ")
     {:ok, timestamp} = DateTime.new(Date.from_iso8601!(date), Time.from_iso8601!(time))
     [timestamp: timestamp, temperature: record["temp"]]
   end

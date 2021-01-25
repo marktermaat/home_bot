@@ -6,7 +6,7 @@ defmodule HomeBot.Bot.MessageConsumer do
 
   def start_link do
     IO.puts("Starting new Message Consumer")
-    notify("HomeBot started [#{Mix.env}]")
+    notify("HomeBot started [#{Application.get_env(:home_bot, :env)}]")
     Consumer.start_link(__MODULE__)
   end
 

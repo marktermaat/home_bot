@@ -2,7 +2,11 @@ import Config
 
 # Logging
 config :logger,
-  backends: [:console, {LoggerFileBackend, :error_log}]
+  backends: [
+    :console,
+    {LoggerFileBackend, :error_log},
+    {HomeBot.Bot.NotifierLogBackend, :notifier_log_backend}
+  ]
 
 config :logger, :console, level: :all
 

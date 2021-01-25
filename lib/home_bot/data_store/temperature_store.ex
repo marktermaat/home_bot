@@ -22,7 +22,7 @@ defmodule HomeBot.DataStore.TemperatureStore do
     %{
       database: "energy",
       measurement: "temperature",
-      fields: %{temperature: record[:temperature] / 1},
+      fields: %{temperature: record[:temperature] / 1}, # Dividing by 1 to cast integer to float
       timestamp: DateTime.to_unix(record[:timestamp], :nanosecond)
     }
   end

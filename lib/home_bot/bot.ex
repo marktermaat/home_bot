@@ -13,4 +13,8 @@ defmodule HomeBot.Bot do
 
     Supervisor.init(children, strategy: :one_for_all)
   end
+
+  def notify_users(message) do
+    HomeBot.Bot.MessageConsumer.notify(message)
+  end
 end

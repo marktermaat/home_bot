@@ -2,8 +2,6 @@ defmodule HomeBot.Weather.TemperatureLogger do
   @station_id "06290"
 
   def run() do
-    IO.puts("Downloading temperature: #{meteostats_api_key()}")
-
     body = get_hourly_meteo_data()
 
     HomeBot.DataStore.create_temperature_database_if_not_exists()

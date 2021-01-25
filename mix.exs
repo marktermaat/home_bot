@@ -27,7 +27,7 @@ defmodule HomeBot.MixProject do
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"},
       {:logger_file_backend, "~> 0.0.11"},
-      {:quantum, "~> 3.3"},
+      {:quantum, git: "https://github.com/quantum-elixir/quantum-core.git"},
       {:instream, "~> 1.0"}
     ]
   end

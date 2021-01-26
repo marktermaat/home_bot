@@ -32,7 +32,7 @@ config :home_bot,
 
 config :home_bot, HomeBot.Scheduler,
   jobs: [
-    {"0 * * * *", {HomeBot.Weather, :log_temperature_data, []}}
+    {"* * * * *", {HomeBot.Weather, :log_temperature_data, []}}
   ]
 
 config :home_bot, HomeBot.DataStore.InfluxConnection,

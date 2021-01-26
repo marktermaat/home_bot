@@ -12,7 +12,10 @@ defmodule HomeBot.Bot.MessageConsumer do
 
   def notify(msg) do
     HomeBot.DataStore.get_subscribers()
-    |> Enum.each(fn channel_id -> Api.create_message(channel_id, msg) end)
+    |> Enum.each(fn channel_id ->
+      IO.puts "Sending message to #{channel_id}"
+      Api.create_message(channel_id, msg)
+    end)
   end
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do

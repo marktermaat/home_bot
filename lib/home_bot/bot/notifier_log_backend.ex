@@ -13,8 +13,8 @@ defmodule HomeBot.Bot.NotifierLogBackend do
 
   def handle_event({level, _group_leader, {Logger, message, _timestamp, _metadata}}, %{level: min_level}=state) do
     if right_log_level?(min_level, level) do
-      [error_message | [error_location | _ ]] = String.split(message, "\n")
-      HomeBot.Bot.notify_users("[**#{Atom.to_string(level)}**] #{error_message}\n#{error_location}")
+      [error_message | stack_trace] = String.split(message, "\n")
+      HomeBot.Bot.notify_users("[**#{Atom.to_string(level)}**] #{error_message}\n#{stack_trace}")
     end
     {:ok, state}
   end

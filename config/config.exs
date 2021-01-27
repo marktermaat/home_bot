@@ -33,7 +33,7 @@ config :home_bot,
 # Quantum schedules
 config :home_bot, HomeBot.Scheduler,
   jobs: [
-    {"* * * * *", {HomeBot.Weather, :log_temperature_data, []}}
+    {"0 * * * *", {HomeBot.Weather, :log_temperature_data, []}}
   ]
 
 # InfluxDB

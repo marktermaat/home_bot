@@ -3,6 +3,7 @@ import Config
 config :nostrum, token: System.fetch_env!("HOME_BOT_DISCORD_TOKEN")
 
 config :home_bot,
+  data_path: System.fetch_env!("DATA_PATH"),
   google_maps_key: System.fetch_env!("HOME_BOT_GOOGLE_MAPS_KEY"),
   home_address: System.fetch_env!("HOME_BOT_HOME_ADDRESS"),
   work_address: System.fetch_env!("HOME_BOT_WORK_ADDRESS"),

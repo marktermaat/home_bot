@@ -30,13 +30,14 @@ config :home_bot,
   influxdb_host: "FILL IN",
   influxdb_port: 1
 
+# Quantum schedules
 config :home_bot, HomeBot.Scheduler,
   jobs: [
     {"* * * * *", {HomeBot.Weather, :log_temperature_data, []}}
   ]
 
+# InfluxDB
 config :home_bot, HomeBot.DataStore.InfluxConnection,
-  host: "localhost",
-  port: 8086
+  init: {HomeBot.DataStore.InfluxInit, :initialize_influx}
 
 import_config "#{Mix.env()}.exs"

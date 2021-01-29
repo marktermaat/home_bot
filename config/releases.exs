@@ -6,7 +6,7 @@ config :home_bot, HomeWeb.Endpoint,
   url: [
     host: System.fetch_env!("HOME_WEB_HOST")
   ],
-  http: [port: 4000],
+  http: [port: 4001],
   secret_key_base: System.fetch_env!("HOME_WEB_SECRET_KEY_BASE"),
   server: true
 

@@ -6,6 +6,7 @@ defmodule HomeBot do
       HomeBot.Bot,
       HomeBot.Scheduler,
       HomeBot.DataStore.InfluxConnection,
+      {Phoenix.PubSub, [name: HomeWeb.PubSub, adapter: Phoenix.PubSub.PG2]},
       HomeWeb.Endpoint
     ]
 

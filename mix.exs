@@ -33,7 +33,8 @@ defmodule HomeBot.MixProject do
       {:phoenix, "~> 1.5"},
       {:cowlib, "~> 2.9", override: true},
       {:plug_cowboy, "~> 2.4"},
-      {:phoenix_html, "~> 2.14"}
+      {:phoenix_html, "~> 2.14"},
+      {:phoenix_live_reload, "~> 1.2"}
     ]
   end
 end

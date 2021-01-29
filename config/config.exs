@@ -43,9 +43,4 @@ config :home_bot, HomeBot.DataStore.InfluxConnection,
 # Phoenix
 config :phoenix, :json_library, Jason
 
-config :home_bot, HomeWeb.Endpoint,
-  url: [host: "localhost"],
-  http: [port: 4000],
-  secret_key_base: 'to_override_in_prod'
-
 import_config "#{Mix.env()}.exs"

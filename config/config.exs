@@ -40,4 +40,12 @@ config :home_bot, HomeBot.Scheduler,
 config :home_bot, HomeBot.DataStore.InfluxConnection,
   init: {HomeBot.DataStore.InfluxInit, :initialize_influx}
 
+# Phoenix
+config :phoenix, :json_library, Jason
+
+config :home_bot, HomeWeb.Endpoint,
+  url: [host: "localhost"],
+  http: [port: 4000],
+  secret_key_base: 'to_override_in_prod'
+
 import_config "#{Mix.env()}.exs"

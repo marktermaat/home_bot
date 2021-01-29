@@ -2,6 +2,14 @@ import Config
 
 config :nostrum, token: System.fetch_env!("HOME_BOT_DISCORD_TOKEN")
 
+config :home_bot, HomeWeb.Endpoint,
+  url: [
+    host: System.fetch_env!("HOME_WEB_HOST")
+  ],
+  http: [port: 4000],
+  secret_key_base: System.fetch_env!("HOME_WEB_SECRET_KEY_BASE"),
+  server: true
+
 config :home_bot,
   data_path: System.fetch_env!("DATA_PATH"),
   google_maps_key: System.fetch_env!("HOME_BOT_GOOGLE_MAPS_KEY"),

@@ -8,6 +8,16 @@ defmodule HomeWeb.Endpoint do
     signing_salt: System.get_env("HOME_WEB_SIGNING_SALT") || "wJ2D06w5"
   ]
 
+  # Serve at "/" the static files from "priv/static" directory.
+  #
+  # You should set gzip to true if you are running phx.digest
+  # when deploying your static files in production.
+  plug Plug.Static,
+    at: "/",
+    from: :home_bot,
+    gzip: false,
+    only: ~w(css fonts images js favicon.ico robots.txt)
+
   if code_reloading? do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.CodeReloader

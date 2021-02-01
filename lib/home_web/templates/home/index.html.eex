@@ -1,3 +1,5 @@
 <h1 class="text-red-500 text-5xl font-bold">Home</h1>
 
 I'm home!
+
+<%= live_render(@conn, HomeWeb.TemperatureLive) %>

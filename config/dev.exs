@@ -3,7 +3,8 @@ import Config
 config :home_bot, HomeWeb.Endpoint,
   url: [host: "localhost"],
   http: [port: 4000],
-  secret_key_base: 'to_override_in_prod',
+  secret_key_base: "to_override_in_prod",
+  live_view: [signing_salt: "SECRET_SALT"],
   code_reloader: true,
   pubsub_server: HomeWeb.PubSub,
   live_reload: [

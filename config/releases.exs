@@ -8,6 +8,7 @@ config :home_bot, HomeWeb.Endpoint,
   ],
   http: [port: 4001],
   secret_key_base: System.fetch_env!("HOME_WEB_SECRET_KEY_BASE"),
+  live_view: [signing_salt: System.fetch_env!("HOME_WEB_SECRET_KEY_BASE")]
   server: true
 
 config :home_bot,

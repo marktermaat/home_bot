@@ -3,6 +3,8 @@ defmodule HomeWeb do
     quote do
       use Phoenix.Controller, namespace: HomeWeb
       alias HomeWeb.Router.Helpers, as: Routes
+
+      import Phoenix.LiveView.Controller
     end
   end
 
@@ -14,6 +16,7 @@ defmodule HomeWeb do
 
       use Phoenix.HTML
       import Phoenix.View
+      import Phoenix.LiveView.Helpers
       alias HomeWeb.Router.Helpers, as: Routes
     end
   end

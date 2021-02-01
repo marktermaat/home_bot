@@ -24,6 +24,9 @@ defmodule HomeWeb.Endpoint do
     plug Phoenix.LiveReloader
   end
 
+  socket "/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]]
+
   plug(Plug.Parsers, parsers: [:urlencoded])
   plug(Plug.Session, @session_options)
   plug(HomeWeb.Router)

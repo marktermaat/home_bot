@@ -3,3 +3,7 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.menu-item {
+  @apply m-2
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-blue-200 bg-opacity-25">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -8,7 +8,20 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
-      <%= @inner_content %>
+  <body class="">
+    <div id="header" class="bg-black h-8">
+    </div>
+
+    <div class="flex flex-row">
+      <div id="menu" class="flex-none w-60 p-4">
+        <div class="menu-item">Link 1</div>
+        <div class="menu-item">Link 2</div>
+        <div class="menu-item">Link 3</div>
+      </div>
+
+      <div id="content" class="p-4">
+        <%= @inner_content %>
+      </div>
+    </div>
   </body>
 </html>

@@ -8,7 +8,7 @@ RUN apk add --no-cache git
 # Copy code
 COPY lib ./lib
 COPY config ./config
-COPY test ./test
+COPY priv ./priv
 COPY mix.exs ./mix.exs
 COPY mix.lock ./mix.lock
 
@@ -16,6 +16,7 @@ COPY mix.lock ./mix.lock
 RUN mix local.rebar --force && \
   mix local.hex --force && \
   mix deps.get && \
+  mix phx.digest && \
   mix release
 
 # ===== Deployment phase

@@ -6,7 +6,6 @@ config :home_bot, HomeWeb.Endpoint,
   secret_key_base: "to_override_in_prod",
   live_view: [signing_salt: "SECRET_SALT"],
   code_reloader: true,
-  pubsub_server: HomeWeb.PubSub,
   live_reload: [
     interval: 100,
     patterns: [

@@ -17,6 +17,7 @@ config :logger, :error_log,
 # App
 config :nostrum, token: "FILL_IN"
 
+# HomeBot configuration
 config :home_bot,
   env: Mix.env(),
   data_path: "./data",
@@ -42,5 +43,8 @@ config :home_bot, HomeBot.DataStore.InfluxConnection,
 
 # Phoenix
 config :phoenix, :json_library, Jason
+
+config :home_bot, HomeWeb.Endpoint,
+  pubsub_server: HomeWeb.PubSub
 
 import_config "#{Mix.env()}.exs"

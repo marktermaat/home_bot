@@ -3,7 +3,7 @@ defmodule HomeWeb.TemperatureLive do
 
   def render(assigns) do
     ~L"""
-    Temperature: <%= assigns[:temperature] %>
+    <%= assigns[:temperature] %>
     """
   end
 
@@ -19,6 +19,9 @@ defmodule HomeWeb.TemperatureLive do
   end
 
   defp get_temperature() do
-    Enum.random(0..35)
+    latest = HomeBot.DataStore.get_latest_temperature()
+    {:ok, temperature} = NaiveDateTime.from_iso8601(latest["time"])
+
+    "#{temperature}: #{latest["temperature"]}°C"
   end
 end

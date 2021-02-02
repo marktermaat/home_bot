@@ -18,6 +18,17 @@ defmodule HomeBot.DataStore.TemperatureStore do
     })
   end
 
+  def get_latest_temperature() do
+    %{results: results} = HomeBot.DataStore.InfluxConnection.query(
+      "SELECT * FROM temperature GROUP BY * ORDER BY DESC LIMIT 1",
+      database: "energy"
+    )
+
+    %{series: [result]} = List.first(results)
+    zipped = Enum.zip(result.columns, List.first(result.values))
+    Enum.into(zipped, %{})
+  end
+
   defp to_datapoint(record) do
     %{
       database: "energy",

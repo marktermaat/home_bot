@@ -12,9 +12,20 @@ defmodule HomeWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
+  pipeline :authenticated do
+    plug(HomeWeb.Plugs.AuthPlug)
+  end
+
   scope "/", HomeWeb do
-    pipe_through(:browser)
+    pipe_through [:browser, :authenticated]
 
     get("/", HomeController, :index)
+  end
+
+  scope "/", HomeWeb do
+    pipe_through [:browser]
+
+    get("/login", LoginController, :index)
+    post("/login", LoginController, :login)
   end
 end

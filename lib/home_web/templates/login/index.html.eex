@@ -1,0 +1,12 @@
+<div class="w-96 max-w-screen-lg mx-auto align-middle flex h-screen">
+  <div class="m-auto border-2 border-blue-200 p-6">
+    <p><%= get_flash(@conn, :error) %></p>
+    <%= form_for @conn, Routes.login_path(@conn, :login), [as: :login, class: "form-signin"], fn f -> %>
+    <div class="my-2">
+      <%= password_input f, :password, class: "", placeholder: "", required: true %>
+    </div>
+
+    <%= submit "Sign in", class: "button my-2" %>
+  <% end %>
+  </div>
+</div>

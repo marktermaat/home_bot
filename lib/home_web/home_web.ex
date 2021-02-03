@@ -15,6 +15,7 @@ defmodule HomeWeb do
         namespace: HomeWeb
 
       use Phoenix.HTML
+      import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import Phoenix.View
       import Phoenix.LiveView.Helpers
       alias HomeWeb.Router.Helpers, as: Routes

@@ -35,7 +35,8 @@ defmodule HomeBot.MixProject do
       {:plug_cowboy, "~> 2.4"},
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.15.4"}
+      {:phoenix_live_view, "~> 0.15.4"},
+      {:argon2_elixir, "~> 2.4"}
     ]
   end
 end

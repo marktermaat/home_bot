@@ -21,4 +21,5 @@ config :home_bot,
   ssh_password: System.fetch_env!("HOME_BOT_SERVER_SSH_PASSWORD"),
   meteostat_api_key: System.fetch_env!("HOME_BOT_METEOSTAT_API_KEY"),
   influxdb_host: System.fetch_env!("HOME_BOT_INFLUXDB_HOST"),
-  influxdb_port: System.fetch_env!("HOME_BOT_INFLUXDB_PORT")
+  influxdb_port: System.fetch_env!("HOME_BOT_INFLUXDB_PORT"),
+  hashed_password: System.fetch_env!("HOME_BOT_HASHED_PASSWORD")

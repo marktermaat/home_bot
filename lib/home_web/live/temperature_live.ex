@@ -1,10 +1,8 @@
 defmodule HomeWeb.TemperatureLive do
-  use Phoenix.LiveView
+  use HomeWeb, :live_view
 
   def render(assigns) do
-    ~L"""
-    <%= assigns[:temperature] %>
-    """
+    render(HomeWeb.WidgetView, "widget.html", assigns)
   end
 
   def mount(_params, _session, socket) do

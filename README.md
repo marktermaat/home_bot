@@ -18,5 +18,7 @@ npm run watch
 ### Password
 To generate a password, open an iex shell:
 ```elixir
-Argon2.Base.hash_password(to_string("password"),Argon2.gen_salt(), [{:argon2_type, 2}])
+Bcrypt.hash_pwd_salt("password")
 ```
+
+When putting this password in the docker-compose.yml file, make sure to add a $ for every existing $ sign.

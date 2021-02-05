@@ -25,6 +25,6 @@ defmodule HomeWeb.LoginController do
 
   defp is_valid(password) do
     stored_hash = Application.fetch_env!(:home_bot, :hashed_password)
-    Argon2.verify_pass(password, stored_hash)
+    Bcrypt.verify_pass(password, stored_hash)
   end
 end

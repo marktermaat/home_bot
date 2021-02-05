@@ -5,6 +5,9 @@ ENV MIX_ENV=prod
 # Install GIT for dependencies straight from git
 RUN apk add --no-cache git
 
+# Install gcc to build elixir_
+RUN apk add --no-cache make gcc libc-dev
+
 # Copy code
 COPY lib ./lib
 COPY config ./config

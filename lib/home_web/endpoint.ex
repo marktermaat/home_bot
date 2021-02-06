@@ -4,6 +4,7 @@ defmodule HomeWeb.Endpoint do
 
   @session_options [
     store: :cookie,
+    max_age: 60*60*24*365,
     key: "ter_maat_session_key",
     signing_salt: System.get_env("HOME_WEB_SIGNING_SALT") || "wJ2D06w5"
   ]

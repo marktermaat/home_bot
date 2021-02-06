@@ -8,7 +8,14 @@ defmodule HomeWeb.TemperatureLive do
   def mount(_params, _session, socket) do
     if connected?(socket), do: Process.send_after(self(), :update, 10000)
 
-    {:ok, assign(socket, :temperature, get_temperature())}
+    {timestamp, temperature} = get_temperature()
+
+    socket = socket
+      |> assign(:timestamp, timestamp)
+      |> assign(:value, temperature)
+      |> assign(:unit, " °C")
+
+    {:ok, socket}
   end
 
   def handle_info(:update, socket) do
@@ -18,8 +25,8 @@ defmodule HomeWeb.TemperatureLive do
 
   defp get_temperature() do
     latest = HomeBot.DataStore.get_latest_temperature()
-    {:ok, temperature} = NaiveDateTime.from_iso8601(latest["time"])
+    {:ok, timestamp} = NaiveDateTime.from_iso8601(latest["time"])
 
-    "#{temperature}: #{latest["temperature"]}°C"
+    {timestamp, latest["temperature"]}
   end
 end

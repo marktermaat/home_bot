@@ -18,7 +18,7 @@ defmodule HomeBot.DataStore.TemperatureStore do
     })
   end
 
-  def get_latest_temperature() do
+  def get_latest_weather_data() do
     %{results: results} = HomeBot.DataStore.InfluxConnection.query(
       "SELECT * FROM temperature GROUP BY * ORDER BY DESC LIMIT 1",
       database: "energy"
@@ -33,7 +33,13 @@ defmodule HomeBot.DataStore.TemperatureStore do
     %{
       database: "energy",
       measurement: "temperature",
-      fields: %{temperature: record[:temperature] / 1}, # Dividing by 1 to cast integer to float
+      fields: %{
+        temperature: record[:temperature] / 1, # Dividing by 1 to cast integer to float
+        humidity: record[:humidity],
+        precipitation: (record[:precipitation] || 0) / 1,
+        wind_direction: record[:wind_direction],
+        wind_speed: record[:wind_speed] / 1
+      },
       timestamp: DateTime.to_unix(record[:timestamp], :nanosecond)
     }
   end

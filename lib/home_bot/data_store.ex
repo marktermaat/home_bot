@@ -15,8 +15,8 @@ defmodule HomeBot.DataStore do
     HomeBot.DataStore.TemperatureStore.write_temperature_data(data)
   end
 
-  def get_latest_temperature() do
-    HomeBot.DataStore.TemperatureStore.get_latest_temperature()
+  def get_latest_weather_data() do
+    HomeBot.DataStore.TemperatureStore.get_latest_weather_data()
   end
 
   def get_latest_energy_measurement() do

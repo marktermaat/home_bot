@@ -1,4 +1,4 @@
-defmodule HomeWeb.TemperatureLive do
+defmodule HomeWeb.WindspeedLive do
   use HomeWeb, :live_view
 
   @one_minute_in_ms 60000
@@ -18,16 +18,16 @@ defmodule HomeWeb.TemperatureLive do
   end
 
   defp update_socket(socket) do
-    temperature = get_temperature()
+    wind_speed = get_wind_speed()
 
     socket
-      |> assign(:value, temperature)
-      |> assign(:unit, " °C")
+      |> assign(:value, wind_speed)
+      |> assign(:unit, " km/h")
   end
 
-  defp get_temperature() do
+  defp get_wind_speed() do
     latest = HomeBot.DataStore.get_latest_weather_data()
 
-    latest["temperature"]
+    latest["wind_speed"]
   end
 end

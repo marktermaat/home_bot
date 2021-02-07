@@ -18,4 +18,8 @@ defmodule HomeBot.DataStore do
   def get_latest_temperature() do
     HomeBot.DataStore.TemperatureStore.get_latest_temperature()
   end
+
+  def get_latest_energy_measurement() do
+    HomeBot.DataStore.EnergyStore.get_latest_measurement()
+  end
 end

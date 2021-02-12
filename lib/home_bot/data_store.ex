@@ -32,4 +32,8 @@ defmodule HomeBot.DataStore do
   def get_gas_usage_per_hour do
     EnergyStore.get_gas_usage_per_hour()
   end
+
+  def get_gas_usage_per_day do
+    EnergyStore.get_gas_usage_per_day()
+  end
 end

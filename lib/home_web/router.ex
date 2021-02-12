@@ -30,6 +30,7 @@ defmodule HomeWeb.Router do
     pipe_through [:api]
 
     get("/hourly_gas_usage", EnergyController, :hourly_gas_usage)
+    get("/daily_gas_usage", EnergyController, :daily_gas_usage)
   end
 
   scope "/", HomeWeb do

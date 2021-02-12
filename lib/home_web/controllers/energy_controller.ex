@@ -2,6 +2,23 @@ defmodule HomeWeb.EnergyController do
   use HomeWeb, :controller
 
   def hourly_gas_usage(conn, _params) do
+    result = HomeBot.DataStore.get_gas_usage_per_hour()
+    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
+    values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
+
+    data = %{
+      title: "Hourly gas usage",
+      labels: labels,
+      datasets: [%{
+        name: "Gas",
+        data: values
+      }]
+    }
+
+    json(conn, data)
+  end
+
+  def example_data(conn, _params) do
     data = %{
       title: "Test",
       labels: [1, 2, 3, 4, 5],

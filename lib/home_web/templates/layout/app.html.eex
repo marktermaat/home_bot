@@ -8,6 +8,7 @@
     <%= csrf_meta_tag() %>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   </head>
   <body class="">
     <div id="header" class="bg-indigo-700 h-16">
@@ -26,7 +27,7 @@
         <div class="menu-item"><a href="https://ter-maat.com/torrent/">Torrents</a></div>
       </div>
 
-      <div id="content" class="p-4">
+      <div id="content" class="p-4 w-full h-full">
         <%= @inner_content %>
       </div>
     </div>

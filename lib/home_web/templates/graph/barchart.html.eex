@@ -1,0 +1,64 @@
+<% chart_id = Enum.random(1..1_000_000) %>
+
+<canvas id="barChart_<%= chart_id %>" style=""></canvas>
+
+<script>
+  function getColor(index, alpha) {
+    switch(index) {
+      case 0: return `rgba(67, 56, 202, ${alpha})`;
+      case 1: return `rgba(219, 39, 119, ${alpha})`;
+      case 2: return `rgba(52, 211, 153, ${alpha})`;
+      case 3: return `rgba(252, 211, 77, ${alpha})`;
+      case 4: return `rgba(217, 119, 6, ${alpha})`;
+      default: return `rgba(67, 56, 202, ${alpha})`;
+    }
+  }
+
+  fetch('<%= assigns[:url] %>')
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      var ctx = document.getElementById("barChart_<%= chart_id %>").getContext("2d");
+      <%# var datasets =  %>
+      var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          //we make sure of the following variable to available in the template that uses this JS file and it act as X-Axis
+          labels: data.labels,
+          datasets: data.datasets.map((ds, index) => {
+            return {
+              label: ds.name,
+
+              // Adjust the colors and Background here if you need
+              backgroundColor: getColor(index, 0.8),
+
+              //we make sure of the following variable to available in the template that uses this JS
+              data: ds.data
+            }
+          }),
+        },
+        options: {
+          title: {
+            display: true,
+            text: data.title
+          },
+          responsive: true,
+          animation: {
+            duration: 200
+          },
+          scales: {
+            xAxes: [{
+              stacked: true
+            }],
+            yAxes: [{
+              stacked: true,
+              ticks: {
+                beginAtZero: true,
+              },
+              }],
+          },
+        },
+      });
+    })
+</script>

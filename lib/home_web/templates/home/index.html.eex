@@ -1,3 +1,11 @@
 <h1 class="text-5xl font-bold">Home</h1>
 
 I'm home!
+
+<div class="w-4/12">
+  <%= render(HomeWeb.GraphView, "linegraph.html", url: "http://localhost:4000/api/hourly_gas_usage") %>
+</div>
+
+<div class="w-4/12">
+  <%= render(HomeWeb.GraphView, "barchart.html", url: "http://localhost:4000/api/hourly_gas_usage") %>
+</div>

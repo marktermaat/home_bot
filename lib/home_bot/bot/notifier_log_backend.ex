@@ -1,4 +1,7 @@
 defmodule HomeBot.Bot.NotifierLogBackend do
+  @moduledoc """
+  Notifier backend
+  """
   def init({__MODULE__, name}) do
     {:ok, %{name: name, level: :error}}
   end

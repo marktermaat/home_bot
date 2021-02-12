@@ -12,6 +12,10 @@ defmodule HomeWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
+  pipeline :api do
+    plug(:accepts, ["json"])
+  end
+
   pipeline :authenticated do
     plug(HomeWeb.Plugs.AuthPlug)
   end
@@ -20,6 +24,12 @@ defmodule HomeWeb.Router do
     pipe_through [:browser, :authenticated]
 
     get("/", HomeController, :index)
+  end
+
+  scope "/api", HomeWeb do
+    pipe_through [:api]
+
+    get("/hourly_gas_usage", EnergyController, :hourly_gas_usage)
   end
 
   scope "/", HomeWeb do

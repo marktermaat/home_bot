@@ -36,7 +36,8 @@ defmodule HomeBot.MixProject do
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.4"},
-      {:bcrypt_elixir, "~> 2.3"}
+      {:bcrypt_elixir, "~> 2.3"},
+      {:credo, "~> 1.5", only: :dev}
     ]
   end
 end

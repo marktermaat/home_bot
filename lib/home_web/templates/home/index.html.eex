@@ -2,10 +2,16 @@
 
 I'm home!
 
-<div class="w-4/12">
-  <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
-</div>
+<div class="flex flex-row flex-wrap">
+  <div class="chart">
+    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
+  </div>
 
-<div class="w-4/12">
-  <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
+  <div class="chart">
+    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
+  </div>
+
+  <div class="chart">
+    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
+  </div>
 </div>

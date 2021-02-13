@@ -6,7 +6,11 @@
 
 @layer base {
   .menu-item {
-    @apply m-2
+    @apply m-4
+  }
+
+  .hidden-left {
+    left: -500px;
   }
 
   .button {

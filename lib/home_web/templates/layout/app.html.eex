@@ -9,9 +9,42 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
+
+    <style>
+      #menu-toggle:checked+#menu {
+        transition: all 300ms ease-in-out;
+        transform: translate(500px, 0);
+      }
+
+      #menu-toggle:not(:checked)+#menu {
+        transition: all 300ms ease-in-out;
+        transform: translate(-500px, 0);
+      }
+    </style>
   </head>
+
   <body class="">
     <div id="header" class="bg-indigo-700 h-16">
+      <div>
+        <label for="menu-toggle" class="cursor-pointer block absolute m-4">
+          <svg class="fill-current text-gray-900" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
+           <title>menu</title>
+           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+            </svg>
+        </label>
+        <input class="hidden" type="checkbox" id="menu-toggle" />
+
+        <div class="hidden-left absolute mt-16 bg-gray-200 h-full" id="menu">
+          <nav>
+            <ul class="">
+              <li class="menu-item"><a href="https://ter-maat.com/graphs">Graphs</a></li>
+              <li class="menu-item"><a href="https://ter-maat.com/torrent/">Torrents</a></li>
+              <li class="menu-item"><a href="https://ter-maat.com/torrent/">Energy dashboard</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
       <div id="widgets" class="flex h-full flex-col justify-center">
         <div class="flex flex-row-reverse">
           <%= live_render(@conn, HomeWeb.TemperatureLive) %>
@@ -21,16 +54,9 @@
       </div>
     </div>
 
-    <div class="flex flex-row">
-      <div id="menu" class="flex-none w-32 p-4">
-        <div class="menu-item"><a href="https://ter-maat.com/graphs">Graphs</a></div>
-        <div class="menu-item"><a href="https://ter-maat.com/torrent/">Torrents</a></div>
-      </div>
-
-      <div id="content" class="p-4 w-full h-full">
-        <%= @inner_content %>
-      </div>
+    <div id="content" class="p-4 w-full h-full">
+      <%= @inner_content %>
     </div>
-    <p class="absolute right-0 bottom-0">0.2.1</p>
+    <p class="absolute right-0 bottom-0">0.2.2</p>
   </body>
 </html>

@@ -39,13 +39,18 @@
             duration: 200
           },
           scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
               },
-            ],
+            }],
+            xAxes: [{
+              type: 'time',
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 5
+              }
+            }]
           },
         },
       });

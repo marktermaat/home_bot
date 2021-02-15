@@ -46,6 +46,13 @@
                 beginAtZero: true,
               },
               }],
+            xAxes: [{
+              type: 'time',
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 5
+              }
+            }]
           },
         },
       });

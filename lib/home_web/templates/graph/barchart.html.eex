@@ -48,6 +48,11 @@
               }],
             xAxes: [{
               type: 'time',
+              time: {
+                displayFormats: {
+                  hour: 'H:mm'
+                }
+              },
               ticks: {
                 autoSkip: true,
                 maxTicksLimit: 12

@@ -4,7 +4,7 @@ defmodule HomeBot.MixProject do
   def project do
     [
       app: :home_bot,
-      version: "0.1.0",
+      version: get_version(),
       elixir: "~> 1.11",
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -39,5 +39,16 @@ defmodule HomeBot.MixProject do
       {:bcrypt_elixir, "~> 2.3"},
       {:credo, "~> 1.5", only: :dev}
     ]
+  end
+
+  defp get_version do
+    version = case System.cmd("git", ~w[rev-list --count main]) do
+      {version, 0} -> version |> String.trim
+      _ -> "0"
+    end
+
+    "0.#{version}.0"
+      |> Version.parse!()
+      |> to_string()
   end
 end

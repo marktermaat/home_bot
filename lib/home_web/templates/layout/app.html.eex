@@ -57,6 +57,11 @@
     <div id="content" class="p-4 w-full h-full">
       <%= @inner_content %>
     </div>
-    <p class="absolute right-0 bottom-0">0.2.2</p>
+    <p class="absolute right-0 bottom-0">
+    <%=
+      {:ok, version} = :application.get_key(:home_bot, :vsn)
+      version
+    %>
+    </p>
   </body>
 </html>

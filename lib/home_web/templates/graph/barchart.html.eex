@@ -50,7 +50,7 @@
               type: 'time',
               ticks: {
                 autoSkip: true,
-                maxTicksLimit: 5
+                maxTicksLimit: 12
               }
             }]
           },

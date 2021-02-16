@@ -14,6 +14,7 @@ COPY config ./config
 COPY priv ./priv
 COPY mix.exs ./mix.exs
 COPY mix.lock ./mix.lock
+COPY .version ./.version
 
 # Build release
 RUN mix local.rebar --force && \

@@ -4,7 +4,7 @@ defmodule HomeBot.MixProject do
   def project do
     [
       app: :home_bot,
-      version: get_version(),
+      version: get_and_update_version!(),
       elixir: "~> 1.11",
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -41,14 +41,29 @@ defmodule HomeBot.MixProject do
     ]
   end
 
-  defp get_version do
-    version = case System.cmd("git", ~w[rev-list --count main]) do
-      {version, 0} -> version |> String.trim
-      _ -> "0"
+  defp get_and_update_version! do
+    case System.cmd("git", ~w[rev-list --count main]) do
+      {version, 0} -> create_version_from_git_commits(version)
+      _ -> read_version_from_file()
     end
+  end
 
-    "0.#{version}.0"
+  defp create_version_from_git_commits(number_of_commits) do
+    version_number = String.trim(number_of_commits)
+
+    version = "0.#{version_number}.0"
       |> Version.parse!()
       |> to_string()
+
+    :ok = File.write(".version", version)
+
+    version
+  end
+
+  defp read_version_from_file do
+    case File.read(".version") do
+      {:ok, version} -> version
+      _ -> "0.0.0"
+    end
   end
 end

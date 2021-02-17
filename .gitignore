@@ -37,6 +37,7 @@ home_bot-*.tar
 /priv/static
 
 # Application stuff
+.version
 /config/*.secret.exs
 /log
 /data

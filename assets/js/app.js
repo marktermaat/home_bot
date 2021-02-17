@@ -13,6 +13,7 @@ import "../css/app.scss"
 //     import socket from "./socket"
 //
 import "phoenix_html"
+import "./charts"
 
 // LiveView
 import { Socket } from "phoenix"
@@ -29,14 +30,3 @@ liveSocket.connect()
 // Call disableLatencySim() to disable:
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
-window.getColor = function(index, alpha) {
-  switch (index) {
-    case 0: return `rgba(67, 56, 202, ${alpha})`;
-    case 1: return `rgba(219, 39, 119, ${alpha})`;
-    case 2: return `rgba(52, 211, 153, ${alpha})`;
-    case 3: return `rgba(252, 211, 77, ${alpha})`;
-    case 4: return `rgba(217, 119, 6, ${alpha})`;
-    default: return `rgba(67, 56, 202, ${alpha})`;
-  }
-}

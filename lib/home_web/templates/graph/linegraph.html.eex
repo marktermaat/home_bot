@@ -29,35 +29,7 @@
             }
           }),
         },
-        options: {
-          title: {
-            display: true,
-            text: data.title
-          },
-          responsive: true,
-          animation: {
-            duration: 200
-          },
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true,
-              },
-            }],
-            xAxes: [{
-              type: 'time',
-              time: {
-                displayFormats: {
-                  hour: 'H:mm'
-                }
-              },
-              ticks: {
-                autoSkip: true,
-                maxTicksLimit: 12
-              }
-            }]
-          },
-        },
+        options: chartOptions(data.title),
       });
     })
 </script>

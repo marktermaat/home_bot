@@ -39,6 +39,36 @@ defmodule HomeWeb.EnergyController do
     json(conn, data)
   end
 
+  def daily_gas_and_temp(conn, _params) do
+    gas_usage = HomeBot.DataStore.get_gas_usage_per_day()
+    temps = HomeBot.DataStore.get_average_temperature_per_day()
+
+    labels = gas_usage
+    |> Enum.map(&(Map.fetch!(&1, "time")))
+    |> Enum.map(&DateTime.from_iso8601/1) # TODO: Time is in UTC, convert to Europe/Amsterdam
+    |> Enum.map(fn {:ok, dt, _} -> DateTime.to_date(dt) end)
+
+    gas_values = gas_usage |> Enum.map(&(Map.fetch!(&1, "usage")))
+    temperature_values = temps |> Enum.map(&(Map.fetch!(&1, "temperature")))
+
+    data = %{
+      title: "Daily gas usage",
+      labels: labels,
+      datasets: [
+        %{
+          name: "Gas (m3)",
+          data: gas_values
+        },
+        %{
+          name: "Temperature (°C)",
+          data: temperature_values
+        }
+      ]
+    }
+
+    json(conn, data)
+  end
+
   def example_data(conn, _params) do
     data = %{
       title: "Test",

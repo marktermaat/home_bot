@@ -31,6 +31,7 @@ defmodule HomeWeb.Router do
 
     get("/hourly_gas_usage", EnergyController, :hourly_gas_usage)
     get("/daily_gas_usage", EnergyController, :daily_gas_usage)
+    get("/daily_gas_and_temp", EnergyController, :daily_gas_and_temp)
   end
 
   scope "/", HomeWeb do

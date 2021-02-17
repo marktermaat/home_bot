@@ -1,6 +1,10 @@
 defmodule HomeBot.DataStore.TemperatureStore do
-  def create_database_if_not_exists() do
-    HomeBot.DataStore.InfluxConnection.query(
+  @moduledoc "The datastore for weather data"
+
+  alias HomeBot.DataStore.InfluxConnection
+
+  def create_database_if_not_exists do
+    InfluxConnection.query(
       "CREATE DATABASE energy",
       method: :post
     )
@@ -12,14 +16,14 @@ defmodule HomeBot.DataStore.TemperatureStore do
       |> Enum.map(&to_datapoint/1)
       |> Enum.to_list()
 
-    :ok = HomeBot.DataStore.InfluxConnection.write(%{
+    :ok = InfluxConnection.write(%{
       points: datapoints,
       database: "energy"
     })
   end
 
-  def get_latest_weather_data() do
-    %{results: results} = HomeBot.DataStore.InfluxConnection.query(
+  def get_latest_weather_data do
+    %{results: results} = InfluxConnection.query(
       "SELECT * FROM temperature GROUP BY * ORDER BY DESC LIMIT 1",
       database: "energy"
     )
@@ -27,6 +31,12 @@ defmodule HomeBot.DataStore.TemperatureStore do
     %{series: [result]} = List.first(results)
     zipped = Enum.zip(result.columns, List.first(result.values))
     Enum.into(zipped, %{})
+  end
+
+  def get_average_temperature_per_day do
+    InfluxConnection.get_list(
+      "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= now() -28d GROUP BY time(1d)",
+      "energy")
   end
 
   defp to_datapoint(record) do

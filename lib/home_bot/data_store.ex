@@ -25,6 +25,10 @@ defmodule HomeBot.DataStore do
     TemperatureStore.get_latest_weather_data()
   end
 
+  def get_average_temperature_per_day do
+    TemperatureStore.get_average_temperature_per_day()
+  end
+
   def get_latest_energy_measurement do
     EnergyStore.get_latest_measurement()
   end

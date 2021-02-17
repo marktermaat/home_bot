@@ -1,0 +1,96 @@
+<% chart_id = Enum.random(1..1_000_000) %>
+
+<canvas id="barChart_<%= chart_id %>" style=""></canvas>
+
+<script>
+  fetch('<%= assigns[:url] %>')
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      var ctx = document.getElementById("barChart_<%= chart_id %>").getContext("2d");
+      var barData = data.datasets[0];
+      var lineData = data.datasets[1];
+
+      <%# var datasets =  %>
+      var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          //we make sure of the following variable to available in the template that uses this JS file and it act as X-Axis
+          labels: data.labels,
+          datasets: [
+            {
+              type: "bar",
+              label: barData.name,
+
+              backgroundColor: getColor(0, 0.8),
+
+              data: barData.data,
+
+              yAxisID: 'y-axis-1',
+            },
+            {
+              type: "line",
+              label: lineData.name,
+
+              fill: false,
+              borderColor: getColor(1, 1.0),
+              pointBackgroundColor: getColor(1, 1.0),
+
+              data: lineData.data,
+
+              yAxisID: 'y-axis-2'
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: data.title
+          },
+          responsive: true,
+          animation: {
+            duration: 200
+          },
+          scales: {
+            xAxes: [{
+              stacked: true
+            }],
+            yAxes: [
+              {
+                id: 'y-axis-1',
+                position: 'left',
+                stacked: true,
+                ticks: {
+                  beginAtZero: true,
+                }
+              },
+              {
+                id: 'y-axis-2',
+                position: 'right',
+                stacked: true,
+                ticks: {
+                  beginAtZero: true,
+                },
+                gridLines: {
+                  drawOnChartArea: false, // only want the grid lines for one axis to show up
+                }
+              }
+            ],
+            xAxes: [{
+              type: 'time',
+              time: {
+                displayFormats: {
+                  hour: 'H:mm'
+                }
+              },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 12
+              }
+            }]
+          },
+        }
+      });
+    })
+</script>

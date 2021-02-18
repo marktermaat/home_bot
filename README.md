@@ -29,3 +29,5 @@ When putting this password in the docker-compose.yml file, make sure to add a $ 
 - A graph that normalizes gas usage against temperature (gas usage per day / temperature), showing that for a given period, or perhaps also with 1 line per year
 - A page to show energy usage for a given period
 - A page to compare energy usage of 2 given periods
+- Use apparent temperature (in combination with wind speed)
+- Show night and day in the hour graphs (using this plugin: https://github.com/chartjs/chartjs-plugin-annotation#box-annotations)

@@ -33,9 +33,9 @@ defmodule HomeBot.DataStore.TemperatureStore do
     Enum.into(zipped, %{})
   end
 
-  def get_average_temperature_per_day do
+  def get_average_temperature_per_day(days) do
     InfluxConnection.get_list(
-      "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= now() -28d GROUP BY time(1d)",
+      "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= now() -#{days}d GROUP BY time(1d)",
       "energy")
   end
 
@@ -48,7 +48,7 @@ defmodule HomeBot.DataStore.TemperatureStore do
         humidity: record[:humidity],
         precipitation: (record[:precipitation] || 0) / 1,
         wind_direction: record[:wind_direction],
-        wind_speed: record[:wind_speed] / 1
+        wind_speed: (record[:wind_speed] || 0) / 1
       },
       timestamp: DateTime.to_unix(record[:timestamp], :nanosecond)
     }

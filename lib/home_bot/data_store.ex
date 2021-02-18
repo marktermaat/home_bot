@@ -25,19 +25,19 @@ defmodule HomeBot.DataStore do
     TemperatureStore.get_latest_weather_data()
   end
 
-  def get_average_temperature_per_day do
-    TemperatureStore.get_average_temperature_per_day()
+  def get_average_temperature_per_day(days \\ 48) do
+    TemperatureStore.get_average_temperature_per_day(days)
   end
 
   def get_latest_energy_measurement do
     EnergyStore.get_latest_measurement()
   end
 
-  def get_gas_usage_per_hour do
-    EnergyStore.get_gas_usage_per_hour()
+  def get_gas_usage_per_hour(days \\ 48) do
+    EnergyStore.get_gas_usage_per_hour(days)
   end
 
-  def get_gas_usage_per_day do
-    EnergyStore.get_gas_usage_per_day()
+  def get_gas_usage_per_day(days \\ 48) do
+    EnergyStore.get_gas_usage_per_day(days)
   end
 end

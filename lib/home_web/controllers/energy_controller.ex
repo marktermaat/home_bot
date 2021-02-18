@@ -2,7 +2,7 @@ defmodule HomeWeb.EnergyController do
   use HomeWeb, :controller
 
   def hourly_gas_usage(conn, _params) do
-    result = HomeBot.DataStore.get_gas_usage_per_hour()
+    result = HomeBot.DataStore.get_gas_usage_per_hour(3)
     labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
     values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
 
@@ -19,7 +19,7 @@ defmodule HomeWeb.EnergyController do
   end
 
   def daily_gas_usage(conn, _params) do
-    result = HomeBot.DataStore.get_gas_usage_per_day()
+    result = HomeBot.DataStore.get_gas_usage_per_day(48)
     labels = result
     |> Enum.map(&(Map.fetch!(&1, "time")))
     |> Enum.map(&DateTime.from_iso8601/1) # TODO: Time is in UTC, convert to Europe/Amsterdam
@@ -40,8 +40,8 @@ defmodule HomeWeb.EnergyController do
   end
 
   def daily_gas_and_temp(conn, _params) do
-    gas_usage = HomeBot.DataStore.get_gas_usage_per_day()
-    temps = HomeBot.DataStore.get_average_temperature_per_day()
+    gas_usage = HomeBot.DataStore.get_gas_usage_per_day(48)
+    temps = HomeBot.DataStore.get_average_temperature_per_day(48)
 
     labels = gas_usage
     |> Enum.map(&(Map.fetch!(&1, "time")))

@@ -18,4 +18,8 @@ I'm home!
   <div class="chart">
     <%= render(HomeWeb.GraphView, "bar_and_line_chart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :daily_gas_and_temp)) %>
   </div>
+
+  <div class="chart">
+    <%= render(HomeWeb.GraphView, "linegraph.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :gas_usage_per_temperature)) %>
+  </div>
 </div>

@@ -1,6 +1,8 @@
 defmodule HomeWeb.EnergyController do
   use HomeWeb, :controller
 
+  import HomeBot.Tools
+
   def hourly_gas_usage(conn, _params) do
     result = HomeBot.DataStore.get_gas_usage_per_hour(3)
     labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
@@ -64,6 +66,27 @@ defmodule HomeWeb.EnergyController do
           data: temperature_values
         }
       ]
+    }
+
+    json(conn, data)
+  end
+
+  def gas_usage_per_temperature(conn, _params) do
+    daily_temperatures = HomeBot.DataStore.get_average_temperature_per_day(:all)
+    daily_gas_usage = HomeBot.DataStore.get_gas_usage_per_day(:all)
+
+    raw_data = join_on_key(daily_temperatures, daily_gas_usage, "time")
+      |> Enum.group_by(fn record -> round(record["temperature"]) end)
+      |> Enum.map(fn {temperature, records} -> [temperature, mean_for_key(records, "usage")] end)
+      |> Enum.sort_by(fn [temperature, _gas_usage] -> temperature end)
+
+    data = %{
+      title: "Gas usage per temperature",
+      labels: Enum.map(raw_data, fn [temperature, _gas_usage] -> temperature end),
+      datasets: [%{
+        name: "Gas",
+        data: Enum.map(raw_data, fn [_temperature, gas_usage] -> gas_usage end)
+      }]
     }
 
     json(conn, data)

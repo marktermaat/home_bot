@@ -18,6 +18,8 @@ defmodule HomeBot.Tools do
   @doc """
   Calculates a mean value for a list of maps for a given map-key
   """
+  def mean_for_key([], _key), do: 0
+
   @spec mean_for_key(list(map), String.t()) :: float()
   def mean_for_key(list, key) do
     Enum.reduce(list, 0, fn item, acc -> acc + item[key] end) / length(list)

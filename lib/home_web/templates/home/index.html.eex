@@ -22,4 +22,8 @@ I'm home!
   <div class="chart">
     <%= render(HomeWeb.GraphView, "linegraph.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :gas_usage_per_temperature)) %>
   </div>
+
+  <div class="chart">
+    <%= render(HomeWeb.GraphView, "linegraph.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :gas_usage_per_temperature_per_year)) %>
+  </div>
 </div>

@@ -42,7 +42,6 @@
               stacked: true
             }],
             yAxes: [{
-              stacked: true,
               ticks: {
                 beginAtZero: true,
               },

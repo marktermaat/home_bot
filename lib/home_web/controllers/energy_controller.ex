@@ -92,6 +92,46 @@ defmodule HomeWeb.EnergyController do
     json(conn, data)
   end
 
+  def gas_usage_per_temperature_per_year(conn, _params) do
+    daily_temperatures = HomeBot.DataStore.get_average_temperature_per_day(:all)
+    daily_gas_usage = HomeBot.DataStore.get_gas_usage_per_day(:all)
+
+    {%{"temperature" => _min_temp}, %{"temperature" => max_temp}} = Enum.min_max_by(daily_temperatures, fn record -> record["temperature"] end)
+    temp_range = 0..round(max_temp) |> Enum.to_list()
+
+    raw_data = join_on_key(daily_temperatures, daily_gas_usage, "time")
+      |> Enum.group_by(fn record -> get_year(record["time"]) end)
+      |> Enum.map(fn {year, records} -> [year, to_gas_usage_per_temp(records, temp_range)] end)
+
+    dataset_data = raw_data
+      |> Enum.map(fn [year, records] ->
+        %{
+          name: year,
+          data: Enum.map(records, fn [_temperature, gas_usage] -> gas_usage end)
+        }
+      end)
+
+    data = %{
+      title: "Gas usage per temperature per year",
+      labels: temp_range,
+      datasets: dataset_data
+    }
+
+    json(conn, data)
+  end
+
+  defp to_gas_usage_per_temp(records, temp_range) do
+    grouped_records = records  |> Enum.group_by(fn record -> round(record["temperature"]) end)
+    temp_range
+      |> Enum.map(fn temperature -> [temperature, mean_for_key(Map.get(grouped_records, temperature, []), "usage")] end)
+      |> Enum.sort_by(fn [temperature, _gas_usage] -> temperature end)
+  end
+
+  defp get_year(datetime) do
+    {:ok, dt, _} = DateTime.from_iso8601(datetime)
+    DateTime.to_date(dt).year
+  end
+
   def example_data(conn, _params) do
     data = %{
       title: "Test",

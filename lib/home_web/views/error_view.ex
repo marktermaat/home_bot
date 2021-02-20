@@ -12,4 +12,8 @@ defmodule HomeWeb.ErrorView do
   def render("500.html", _assigns) do
     "Server-side error"
   end
+
+  def render("500.json", _assigns) do
+    "{\"error\": true}"
+  end
 end

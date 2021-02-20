@@ -33,6 +33,12 @@ defmodule HomeBot.DataStore.TemperatureStore do
     Enum.into(zipped, %{})
   end
 
+  def get_average_temperature_per_day(:all) do
+    InfluxConnection.get_list(
+      "SELECT MEAN(temperature) as temperature FROM temperature GROUP BY time(1d)",
+      "energy")
+  end
+
   def get_average_temperature_per_day(days) do
     InfluxConnection.get_list(
       "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= now() -#{days}d GROUP BY time(1d)",

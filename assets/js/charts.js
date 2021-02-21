@@ -20,9 +20,6 @@ window.chartOptions = function(title) {
       duration: 200
     },
     scales: {
-      xAxes: [{
-        stacked: true
-      }],
       yAxes: [{
         stacked: true,
         ticks: {
@@ -30,6 +27,7 @@ window.chartOptions = function(title) {
         },
       }],
       xAxes: [{
+        stacked: true,
         type: 'time',
         time: {
           displayFormats: {

@@ -35,4 +35,22 @@ defmodule HomeBot.DataStore.EnergyStore do
       "SELECT DIFFERENCE(MAX(current_gas_usage)) as usage FROM smart_meter WHERE time >= now() -#{days}d GROUP BY time(1d)",
       "energy")
   end
+
+  def get_electricity_usage_per_hour(days) do
+    InfluxConnection.get_list(
+      "SELECT DIFFERENCE(MAX(meter_total_tariff)) as usage FROM smart_meter WHERE time >= now() -#{days}d GROUP BY time(1h)",
+      "energy")
+  end
+
+  def get_electricity_usage_per_day(days) do
+    InfluxConnection.get_list(
+      "SELECT DIFFERENCE(MAX(meter_low_tariff)) as low_tariff_usage, DIFFERENCE(MAX(meter_normal_tariff)) as normal_tariff_usage FROM smart_meter WHERE time >= now() -#{days}d GROUP BY time(1d)",
+      "energy")
+  end
+
+  def get_electricity_usage(minutes) do
+    InfluxConnection.get_list(
+      "SELECT current_energy_usage as usage FROM smart_meter WHERE time >= now() -#{minutes}m",
+      "energy")
+  end
 end

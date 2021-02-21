@@ -22,10 +22,7 @@ defmodule HomeWeb.EnergyController do
 
   def daily_gas_usage(conn, _params) do
     result = HomeBot.DataStore.get_gas_usage_per_day(48)
-    labels = result
-    |> Enum.map(&(Map.fetch!(&1, "time")))
-    |> Enum.map(&DateTime.from_iso8601/1) # TODO: Time is in UTC, convert to Europe/Amsterdam
-    |> Enum.map(fn {:ok, dt, _} -> DateTime.to_date(dt) end)
+    labels = get_labels(result)
 
     values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
 
@@ -45,10 +42,7 @@ defmodule HomeWeb.EnergyController do
     gas_usage = HomeBot.DataStore.get_gas_usage_per_day(48)
     temps = HomeBot.DataStore.get_average_temperature_per_day(48)
 
-    labels = gas_usage
-    |> Enum.map(&(Map.fetch!(&1, "time")))
-    |> Enum.map(&DateTime.from_iso8601/1) # TODO: Time is in UTC, convert to Europe/Amsterdam
-    |> Enum.map(fn {:ok, dt, _} -> DateTime.to_date(dt) end)
+    labels = get_labels(gas_usage)
 
     gas_values = gas_usage |> Enum.map(&(Map.fetch!(&1, "usage")))
     temperature_values = temps |> Enum.map(&(Map.fetch!(&1, "temperature")))
@@ -120,6 +114,64 @@ defmodule HomeWeb.EnergyController do
     json(conn, data)
   end
 
+  def daily_electricity_usage(conn, _params) do
+    result = HomeBot.DataStore.get_electricity_usage_per_day(48)
+    labels = get_labels(result)
+
+    data = %{
+      title: "Daily electricity usage",
+      labels: labels,
+      datasets: [
+        %{
+          name: "Low tariff (kWh)",
+          data: Enum.map(result, &(Map.fetch!(&1, "low_tariff_usage")))
+        },
+        %{
+          name: "Normal tariff (kWh)",
+          data: Enum.map(result, &(Map.fetch!(&1, "normal_tariff_usage")))
+        }
+      ]
+    }
+
+    json(conn, data)
+  end
+
+  def hourly_electricity_usage(conn, _params) do
+    result = HomeBot.DataStore.get_electricity_usage_per_hour(3)
+    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
+
+    data = %{
+      title: "Hourly electricity usage",
+      labels: labels,
+      datasets: [
+        %{
+          name: "Electricity (kWh)",
+          data: Enum.map(result, &(Map.fetch!(&1, "usage")))
+        },
+      ]
+    }
+
+    json(conn, data)
+  end
+
+  def current_electricity_usage(conn, _params) do
+    result = HomeBot.DataStore.get_electricity_usage(5)
+    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
+
+    data = %{
+      title: "Electricity usage",
+      labels: labels,
+      datasets: [
+        %{
+          name: "Electricity (kWh)",
+          data: Enum.map(result, &(Map.fetch!(&1, "usage")))
+        },
+      ]
+    }
+
+    json(conn, data)
+  end
+
   defp to_gas_usage_per_temp(records, temp_range) do
     grouped_records = records  |> Enum.group_by(fn record -> round(record["temperature"]) end)
     temp_range
@@ -132,34 +184,10 @@ defmodule HomeWeb.EnergyController do
     DateTime.to_date(dt).year
   end
 
-  def example_data(conn, _params) do
-    data = %{
-      title: "Test",
-      labels: [1, 2, 3, 4, 5],
-      datasets: [
-        %{
-          name: "Hourly gas usage",
-          data: [1, 3, 5, 3, 1]
-        },
-        %{
-          name: "Hourly energy usage",
-          data: [5, 4, 3, 2, 1]
-        },
-        %{
-          name: "Hourly energy usage",
-          data: [1, 2, 3, 4, 5]
-        },
-        %{
-          name: "Hourly energy usage",
-          data: [2, 2, 2, 2, 2,]
-        },
-        %{
-          name: "Hourly energy usage",
-          data: [2, 4, 6, 7, 8]
-        }
-      ]
-    }
-
-    json(conn, data)
+  defp get_labels(records) do
+    records
+    |> Enum.map(&(Map.fetch!(&1, "time")))
+    |> Enum.map(&DateTime.from_iso8601/1) # TODO: Time is in UTC, convert to Europe/Amsterdam
+    |> Enum.map(fn {:ok, dt, _} -> DateTime.to_date(dt) end)
   end
 end

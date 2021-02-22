@@ -24,7 +24,10 @@ defmodule HomeWeb.Router do
     pipe_through [:browser, :authenticated]
 
     get("/", HomeController, :index)
-    get("/energy", EnergyController, :index)
+    get("/energy/gas", EnergyController, :gas)
+    get("/energy/electricity", EnergyController, :electricity)
+    get("/energy/show", EnergyController, :show)
+    get("/energy/compare", EnergyController, :compare)
   end
 
   scope "/api", HomeWeb do

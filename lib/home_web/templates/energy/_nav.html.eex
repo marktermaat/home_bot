@@ -1,0 +1,6 @@
+<div class="w-full bg-indigo-400 flex flex-horizontal flex-wrap">
+  <div class="p-1 m-1 <%= if assigns[:page] == :gas, do: "text-gray-300" %>"><a href="<%= Routes.energy_path(HomeWeb.Endpoint, :gas) %>">Gas</a></div>
+  <div class="p-1 m-1 <%= if assigns[:page] == :electricity, do: "text-gray-300" %>"><a href="<%= Routes.energy_path(HomeWeb.Endpoint, :electricity) %>">Electricity</a></div>
+  <div class="p-1 m-1 <%= if assigns[:page] == :show, do: "text-gray-300" %>"><a href="<%= Routes.energy_path(HomeWeb.Endpoint, :show) %>">Show</a></div>
+  <div class="p-1 m-1 <%= if assigns[:page] == :compare, do: "text-gray-300" %>"><a href="<%= Routes.energy_path(HomeWeb.Endpoint, :compare) %>">Compare</a></div>
+</div>

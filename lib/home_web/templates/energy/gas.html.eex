@@ -1,4 +1,4 @@
-<h1 class="text-5xl font-bold">Energy dashboard</h1>
+<%= render HomeWeb.EnergyView, "_nav.html", page: :gas %>
 
 <div class="flex flex-row flex-wrap">
   <div class="chart">
@@ -23,17 +23,5 @@
 
   <div class="chart">
     <%= render(HomeWeb.GraphView, "linegraph.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :gas_usage_per_temperature_per_year)) %>
-  </div>
-
-  <div class="chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :daily_electricity_usage)) %>
-  </div>
-
-  <div class="chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :hourly_electricity_usage)) %>
-  </div>
-
-  <div class="chart">
-    <%= render(HomeWeb.GraphView, "time_graph.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :current_electricity_usage)) %>
   </div>
 </div>

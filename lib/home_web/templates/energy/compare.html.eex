@@ -1,0 +1,3 @@
+<%= render HomeWeb.EnergyView, "_nav.html", page: :compare %>
+
+todo

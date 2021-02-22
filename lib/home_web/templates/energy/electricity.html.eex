@@ -1,6 +1,8 @@
+<%= render HomeWeb.EnergyView, "_nav.html", page: :electricity %>
+
 <div class="flex flex-row flex-wrap">
   <div class="chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
+    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :daily_electricity_usage)) %>
   </div>
 
   <div class="chart">

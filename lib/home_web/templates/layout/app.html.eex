@@ -37,9 +37,10 @@
         <div class="hidden-left absolute mt-16 bg-gray-200 h-full" id="menu">
           <nav>
             <ul class="">
+              <li class="menu-item"><a href="<%= Routes.home_path(@conn, :index) %>">Dashboard</a></li>
               <li class="menu-item"><a href="https://ter-maat.com/graphs">Graphs</a></li>
               <li class="menu-item"><a href="https://ter-maat.com/torrent/">Torrents</a></li>
-              <li class="menu-item"><a href="https://ter-maat.com/torrent/">Energy dashboard</a></li>
+              <li class="menu-item"><a href="<%= Routes.energy_path(@conn, :index) %>">Energy</a></li>
             </ul>
           </nav>
         </div>

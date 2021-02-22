@@ -24,20 +24,21 @@ defmodule HomeWeb.Router do
     pipe_through [:browser, :authenticated]
 
     get("/", HomeController, :index)
+    get("/energy", EnergyController, :index)
   end
 
   scope "/api", HomeWeb do
     pipe_through [:api]
 
-    get("/hourly_gas_usage", EnergyController, :hourly_gas_usage)
-    get("/daily_gas_usage", EnergyController, :daily_gas_usage)
-    get("/daily_gas_and_temp", EnergyController, :daily_gas_and_temp)
-    get("/gas_usage_per_temperature", EnergyController, :gas_usage_per_temperature)
-    get("/gas_usage_per_temperature_per_year", EnergyController, :gas_usage_per_temperature_per_year)
+    get("/energy/hourly_gas_usage", EnergyController, :hourly_gas_usage)
+    get("/energy/daily_gas_usage", EnergyController, :daily_gas_usage)
+    get("/energy/daily_gas_and_temp", EnergyController, :daily_gas_and_temp)
+    get("/energy/gas_usage_per_temperature", EnergyController, :gas_usage_per_temperature)
+    get("/energy/gas_usage_per_temperature_per_year", EnergyController, :gas_usage_per_temperature_per_year)
 
-    get("/daily_electricity_usage", EnergyController, :daily_electricity_usage)
-    get("/hourly_electricity_usage", EnergyController, :hourly_electricity_usage)
-    get("/current_electricity_usage", EnergyController, :current_electricity_usage)
+    get("/energy/daily_electricity_usage", EnergyController, :daily_electricity_usage)
+    get("/energy/hourly_electricity_usage", EnergyController, :hourly_electricity_usage)
+    get("/energy/current_electricity_usage", EnergyController, :current_electricity_usage)
   end
 
   scope "/", HomeWeb do

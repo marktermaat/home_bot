@@ -3,6 +3,10 @@ defmodule HomeWeb.EnergyController do
 
   import HomeBot.Tools
 
+  def index(conn, _params) do
+    render(conn, "index.html")
+  end
+
   def hourly_gas_usage(conn, _params) do
     result = HomeBot.DataStore.get_gas_usage_per_hour(3)
     labels = result |> Enum.map(&(Map.fetch!(&1, "time")))

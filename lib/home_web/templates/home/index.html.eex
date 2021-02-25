@@ -1,13 +1,13 @@
 <div class="flex flex-row flex-wrap">
   <div class="chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
+    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
   </div>
 
   <div class="chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :hourly_electricity_usage)) %>
+    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_electricity_usage)) %>
   </div>
 
   <div class="chart">
-    <%= render(HomeWeb.GraphView, "time_graph.html", url: HomeWeb.Router.Helpers.energy_path(HomeWeb.Endpoint, :current_electricity_usage)) %>
+    <%= render(HomeWeb.GraphView, "time_graph.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :current_electricity_usage)) %>
   </div>
 </div>

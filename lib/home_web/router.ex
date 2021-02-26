@@ -28,17 +28,20 @@ defmodule HomeWeb.Router do
     get("/energy/electricity", EnergyController, :electricity)
     get("/energy/show", EnergyController, :show)
     get("/energy/compare", EnergyController, :compare)
+    post("/energy/show", EnergyController, :show_graph)
   end
 
   scope "/api", HomeWeb do
     pipe_through [:api]
 
+    get("/energy/gas_usage", ApiEnergyController, :gas_usage)
     get("/energy/hourly_gas_usage", ApiEnergyController, :hourly_gas_usage)
     get("/energy/daily_gas_usage", ApiEnergyController, :daily_gas_usage)
     get("/energy/daily_gas_and_temp", ApiEnergyController, :daily_gas_and_temp)
     get("/energy/gas_usage_per_temperature", ApiEnergyController, :gas_usage_per_temperature)
     get("/energy/gas_usage_per_temperature_per_year", ApiEnergyController, :gas_usage_per_temperature_per_year)
 
+    get("/energy/electricity_usage", ApiEnergyController, :electricity_usage)
     get("/energy/daily_electricity_usage", ApiEnergyController, :daily_electricity_usage)
     get("/energy/hourly_electricity_usage", ApiEnergyController, :hourly_electricity_usage)
     get("/energy/current_electricity_usage", ApiEnergyController, :current_electricity_usage)

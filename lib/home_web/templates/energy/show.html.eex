@@ -1,3 +1,25 @@
 <%= render HomeWeb.EnergyView, "_nav.html", page: :show %>
 
-todo
+<div class="p-2">
+  <%= form_for :energy, Routes.energy_path(HomeWeb.Endpoint, :show_graph), fn f -> %>
+    <%= label :graph_type, "Show" %>
+    <%= select f, :graph_type, ["Gas usage": "gas_usage", "Electricity usage": "electricity_usage"], selected: assigns[:graph_type], class: "bg-indigo-100 p-2 mr-4" %>
+
+    <%= label :group_by, "Per" %>
+    <%= select f, :group_by, ["Minute": "1m", "Quarter": "15m", "Hour": "1h", "6 hours": "6h", "Day": "1d", "Week": "7d"], selected: assigns[:group], class: "bg-indigo-100 p-2 mr-4" %>
+
+    <%= label :start, "Period start" %>
+    <%= text_input f, :start, value: assigns[:start], class: "bg-indigo-100 p-2 mr-4" %>
+
+    <%= label :end, "Period end" %>
+    <%= text_input f, :end, value: assigns[:end], class: "bg-indigo-100 p-2 mr-4" %>
+
+    <%= submit "Show", class: "bg-indigo-300 p-2" %>
+  <% end %>
+</div>
+
+<div class="chart w-full">
+  <%= if assigns[:chart_name] != nil && assigns[:uri] != nil do %>
+    <%= render(HomeWeb.GraphView, assigns[:chart_name], url: raw(assigns[:uri])) %>
+  <% end %>
+</div>

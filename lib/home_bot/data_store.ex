@@ -33,12 +33,20 @@ defmodule HomeBot.DataStore do
     EnergyStore.get_latest_measurement()
   end
 
+  def get_gas_usage(group, start_time, end_time) do
+    EnergyStore.get_gas_usage(group, start_time, end_time)
+  end
+
   def get_gas_usage_per_hour(days \\ 48) do
     EnergyStore.get_gas_usage_per_hour(days)
   end
 
   def get_gas_usage_per_day(days \\ 48) do
     EnergyStore.get_gas_usage_per_day(days)
+  end
+
+  def get_electricity_usage(group, start_time, end_time) do
+    EnergyStore.get_electricity_usage(group, start_time, end_time)
   end
 
   def get_electricity_usage_per_hour(days \\ 3) do

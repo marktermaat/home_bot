@@ -14,13 +14,14 @@ defmodule HomeWeb.ApiEnergyController do
   end
 
   def hourly_gas_usage(conn, _params) do
-    data = GraphModel.hourly_gas_usage_data()
+    data = GraphModel.gas_usage_data("1h", days_ago(3), now())
 
     json(conn, data)
   end
 
+  @spec daily_gas_usage(Plug.Conn.t(), any) :: Plug.Conn.t()
   def daily_gas_usage(conn, _params) do
-    data = GraphModel.daily_gas_usage_data()
+    data = GraphModel.gas_usage_data("1d", days_ago(48), now())
 
     json(conn, data)
   end
@@ -54,7 +55,7 @@ defmodule HomeWeb.ApiEnergyController do
   end
 
   def daily_electricity_usage(conn, _params) do
-    data = GraphModel.daily_electricity_usage_data()
+    data = GraphModel.electricity_usage_data("1d", days_ago(48), now())
 
     json(conn, data)
   end
@@ -69,6 +70,14 @@ defmodule HomeWeb.ApiEnergyController do
     data = GraphModel.current_electricity_usage_data()
 
     json(conn, data)
+  end
+
+  defp days_ago(days) do
+    DateTime.now!("Etc/UTC") |> DateTime.add(-days * 24 * 60 * 60, :second) |> DateTime.to_iso8601()
+  end
+
+  defp now do
+    DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
   end
 
   defp validate_group(group) do

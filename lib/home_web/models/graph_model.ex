@@ -41,37 +41,6 @@ defmodule HomeWeb.Models.GraphModel do
     }
   end
 
-  def hourly_gas_usage_data do
-    result = DataStore.get_gas_usage_per_hour(3)
-
-    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
-    values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
-
-    %{
-      title: "Hourly gas usage",
-      labels: labels,
-      datasets: [%{
-        name: "Gas",
-        data: values
-      }]
-    }
-  end
-
-  def daily_gas_usage_data do
-    result = DataStore.get_gas_usage_per_day(48)
-    labels = get_labels(result)
-
-    values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
-
-    %{
-      title: "Daily gas usage",
-      labels: labels,
-      datasets: [%{
-        name: "Gas",
-        data: values
-      }]
-    }
-  end
 
   def daily_gas_and_temperature_data do
     gas_usage = DataStore.get_gas_usage_per_day(48)
@@ -140,26 +109,6 @@ defmodule HomeWeb.Models.GraphModel do
       title: "Gas usage per temperature per year",
       labels: temp_range,
       datasets: dataset_data
-    }
-  end
-
-  def daily_electricity_usage_data do
-    result = DataStore.get_electricity_usage_per_day(48)
-    labels = get_labels(result)
-
-    %{
-      title: "Daily electricity usage",
-      labels: labels,
-      datasets: [
-        %{
-          name: "Low tariff (kWh)",
-          data: Enum.map(result, &(Map.fetch!(&1, "low_tariff_usage")))
-        },
-        %{
-          name: "Normal tariff (kWh)",
-          data: Enum.map(result, &(Map.fetch!(&1, "normal_tariff_usage")))
-        }
-      ]
     }
   end
 

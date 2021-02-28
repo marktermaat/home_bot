@@ -18,7 +18,7 @@
   <% end %>
 </div>
 
-<div class="chart w-full">
+<div class="flex_chart w-full">
   <%= if assigns[:chart_name] != nil && assigns[:uri] != nil do %>
     <%= render(HomeWeb.GraphView, assigns[:chart_name], url: raw(assigns[:uri])) %>
   <% end %>

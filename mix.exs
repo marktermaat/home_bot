@@ -37,7 +37,8 @@ defmodule HomeBot.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.4"},
       {:bcrypt_elixir, "~> 2.3"},
-      {:credo, "~> 1.5", only: :dev}
+      {:credo, "~> 1.5", only: :dev},
+      {:contex, git: "https://github.com/mindok/contex.git"}
     ]
   end
 

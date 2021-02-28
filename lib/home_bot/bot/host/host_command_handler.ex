@@ -1,4 +1,6 @@
 defmodule HomeBot.Bot.Host.HostCommandHandler do
+  @moduledoc "A command handler for shell commands on the host"
+
   @behaviour HomeBot.Bot.CommandHandler
 
   alias Nostrum.Api

@@ -17,7 +17,13 @@
     @apply bg-transparent hover:bg-blue-400 text-blue-900 font-semibold hover:text-white py-2 px-4 border border-blue-400 hover:border-transparent
   }
 
-  .chart {
+  .flex_chart {
     @apply w-full 2xl:w-4/12 lg:w-6/12 p-2
+  }
+
+  .exc-tick text {
+    font-family: "Helvetica";
+    font-size: 13px;
+    font-weight: 100;
   }
 }

@@ -1,15 +1,15 @@
 <%= render HomeWeb.EnergyView, "_nav.html", page: :electricity %>
 
 <div class="flex flex-row flex-wrap">
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :daily_electricity_usage)) %>
   </div>
 
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_electricity_usage)) %>
   </div>
 
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "time_graph.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :current_electricity_usage)) %>
   </div>
 </div>

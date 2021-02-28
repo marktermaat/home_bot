@@ -1,27 +1,23 @@
 <%= render HomeWeb.EnergyView, "_nav.html", page: :gas %>
 
 <div class="flex flex-row flex-wrap">
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
   </div>
 
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
   </div>
 
-  <div class="chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
-  </div>
-
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "bar_and_line_chart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :daily_gas_and_temp)) %>
   </div>
 
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "linegraph.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :gas_usage_per_temperature)) %>
   </div>
 
-  <div class="chart">
+  <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "linegraph.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :gas_usage_per_temperature_per_year)) %>
   </div>
 </div>

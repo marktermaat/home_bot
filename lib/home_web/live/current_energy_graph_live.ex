@@ -23,6 +23,6 @@ defmodule HomeWeb.CurrentEnergyGraphLive do
     |> Enum.map(fn record -> [DateTime.from_iso8601(record["time"]), record["usage"]] end)
     |> Enum.map(fn [{:ok, datetime, _}, usage] -> [datetime, usage] end)
     ds = Contex.Dataset.new(data, ["x", "y"])
-    Contex.Plot.new(ds, Contex.LinePlot, 640, 320, title: "Current electricity usage", colour_palette: ["645ad3"]) |> Contex.Plot.to_svg
+    Contex.Plot.new(ds, Contex.LinePlot, 640, 320, title: "Current electricity usage (kW)", colour_palette: ["645ad3"]) |> Contex.Plot.to_svg
   end
 end

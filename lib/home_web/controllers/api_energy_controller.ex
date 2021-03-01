@@ -14,14 +14,14 @@ defmodule HomeWeb.ApiEnergyController do
   end
 
   def hourly_gas_usage(conn, _params) do
-    data = GraphModel.gas_usage_data("1h", days_ago(3), now())
+    data = GraphModel.gas_usage_data("1h", days_ago(3), now(), "Hourly gas usage")
 
     json(conn, data)
   end
 
   @spec daily_gas_usage(Plug.Conn.t(), any) :: Plug.Conn.t()
   def daily_gas_usage(conn, _params) do
-    data = GraphModel.gas_usage_data("1d", days_ago(48), now())
+    data = GraphModel.gas_usage_data("1d", days_ago(48), now(), "Daily gas usage")
 
     json(conn, data)
   end
@@ -55,7 +55,7 @@ defmodule HomeWeb.ApiEnergyController do
   end
 
   def daily_electricity_usage(conn, _params) do
-    data = GraphModel.electricity_usage_data("1d", days_ago(48), now())
+    data = GraphModel.electricity_usage_data("1d", days_ago(48), now(), "Daily electricity usage")
 
     json(conn, data)
   end

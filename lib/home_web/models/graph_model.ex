@@ -5,14 +5,14 @@ defmodule HomeWeb.Models.GraphModel do
 
   alias HomeBot.DataStore
 
-  def gas_usage_data(group, start_time, end_time) do
+  def gas_usage_data(group, start_time, end_time, title \\ "Gas usage") do
     result = DataStore.get_gas_usage(group, start_time, end_time)
 
     labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
     values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
 
     %{
-      title: "Gas usage",
+      title: title,
       labels: labels,
       datasets: [%{
         name: "Gas",
@@ -21,12 +21,12 @@ defmodule HomeWeb.Models.GraphModel do
     }
   end
 
-  def electricity_usage_data(group, start_time, end_time) do
+  def electricity_usage_data(group, start_time, end_time, title \\ "Electricity usage") do
     result = DataStore.get_electricity_usage(group, start_time, end_time)
     labels = get_labels(result)
 
     %{
-      title: "Daily electricity usage",
+      title: title,
       labels: labels,
       datasets: [
         %{
@@ -137,7 +137,7 @@ defmodule HomeWeb.Models.GraphModel do
       labels: labels,
       datasets: [
         %{
-          name: "Electricity (kWh)",
+          name: "Electricity (kW)",
           data: Enum.map(result, &(Map.fetch!(&1, "usage")))
         },
       ]

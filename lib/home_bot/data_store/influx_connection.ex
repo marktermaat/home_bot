@@ -12,8 +12,10 @@ defmodule HomeBot.DataStore.InfluxConnection do
   def get_list(query, database) do
     %{results: results} = query(query, database: database)
 
-    %{series: [result]} = List.first(results)
-    Enum.map(result.values, &(Enum.zip(result.columns, &1)))
-    |> Enum.map(&(Enum.into(&1, %{})))
+    case List.first(results) do
+      %{series: [result]} -> Enum.map(result.values, &(Enum.zip(result.columns, &1)))
+                                  |> Enum.map(&(Enum.into(&1, %{})))
+      _ -> []
+    end
   end
 end

@@ -72,6 +72,40 @@ defmodule HomeWeb.ApiEnergyController do
     json(conn, data)
   end
 
+  def compare_gas_usage(conn, %{"p1start" => p1_start, "p1end" => p1_end, "p2start" => p2_start, "p2end" => p2_end, "ticks" => ticks}) do
+    {p1_mean, p1_sd} = GraphModel.get_gas_mean_and_sd_of_period(p1_start, p1_end, ticks)
+    {p2_mean, p2_sd} = GraphModel.get_gas_mean_and_sd_of_period(p2_start, p2_end, ticks)
+
+    data = %{
+      title: "Gas hourly usage comparison",
+      labels: ["Period 1 mean", "Period 1 SD", "Period 2 mean", "Period 2 SD"],
+      datasets: [
+        %{
+          data: [p1_mean, p1_sd, p2_mean, p2_sd]
+        },
+      ]
+    }
+
+    json(conn, data)
+  end
+
+  def compare_electricity_usage(conn, %{"p1start" => p1_start, "p1end" => p1_end, "p2start" => p2_start, "p2end" => p2_end, "ticks" => ticks}) do
+    {p1_mean, p1_sd} = GraphModel.get_electricity_mean_and_sd_of_period(p1_start, p1_end, ticks)
+    {p2_mean, p2_sd} = GraphModel.get_electricity_mean_and_sd_of_period(p2_start, p2_end, ticks)
+
+    data = %{
+      title: "Electricity hourly usage comparison",
+      labels: ["Period 1 mean", "Period 1 SD", "Period 2 mean", "Period 2 SD"],
+      datasets: [
+        %{
+          data: [p1_mean, p1_sd, p2_mean, p2_sd]
+        },
+      ]
+    }
+
+    json(conn, data)
+  end
+
   defp days_ago(days) do
     DateTime.now!("Etc/UTC") |> DateTime.add(-days * 24 * 60 * 60, :second) |> DateTime.to_iso8601()
   end

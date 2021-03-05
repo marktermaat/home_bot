@@ -1,3 +1,55 @@
 <%= render HomeWeb.EnergyView, "_nav.html", page: :compare %>
 
-todo
+<div class="p-2">
+  <%= form_for :energy, Routes.energy_path(HomeWeb.Endpoint, :compare_graph), [class: "flex flex-horizontal flex-wrap"], fn f -> %>
+    <div class="w-6/12">
+      <div>
+      <%= label :graph_type, "Compare" %>
+      <%= select f, :graph_type, ["Gas usage": "gas_usage", "Electricity usage": "electricity_usage"], selected: assigns[:input]["graph_type"], class: "bg-indigo-100 p-2 mr-4" %>
+      </div>
+
+      <div class="flex flex-horizontal flex-wrap m-1">
+        <div>
+        <%= label :period1_start, "Period 1 Start date" %>
+        <%= text_input f, :period1_start, value: assigns[:input]["period1_start"], class: "bg-indigo-100 p-2 mr-4" %>
+        </div>
+
+        <div>
+        <%= label :period1_end, "Period 1 End date" %>
+        <%= text_input f, :period1_end, value: assigns[:input]["period1_end"], class: "bg-indigo-100 p-2 mr-4" %>
+        </div>
+      </div>
+
+      <div class="flex flex-horizontal flex-wrap">
+        <div>
+        <%= label :period2_start, "Period 2 Start date" %>
+        <%= text_input f, :period2_start, value: assigns[:input]["period2_start"], class: "bg-indigo-100 p-2 mr-4" %>
+        </div>
+
+        <div>
+        <%= label :period2_end, "Period 2 End date" %>
+        <%= text_input f, :period2_end, value: assigns[:input]["period2_end"], class: "bg-indigo-100 p-2 mr-4" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-6/12">
+      <div class="flex flex-horizontal flex-wrap">
+      <%= for i <- 1..24 do %>
+        <div>
+        <%= label "hours_#{i}", "#{i}" %>
+        <%= checkbox f, "hours_#{i}", class: "bg-indigo-100 p-2 mr-4", checked: true %>
+        </div>
+      <% end %>
+      </div>
+
+      <%= submit "Show", class: "bg-indigo-300 p-2 m-5" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="flex_chart w-full">
+  <%= if assigns[:chart_name] != nil && assigns[:uri] != nil do %>
+    <%= render(HomeWeb.GraphView, assigns[:chart_name], url: raw(assigns[:uri])) %>
+  <% end %>
+</div>

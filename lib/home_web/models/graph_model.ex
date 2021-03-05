@@ -5,6 +5,8 @@ defmodule HomeWeb.Models.GraphModel do
 
   alias HomeBot.DataStore
 
+  use Timex
+
   def gas_usage_data(group, start_time, end_time, title \\ "Gas usage") do
     result = DataStore.get_gas_usage(group, start_time, end_time)
 
@@ -144,11 +146,54 @@ defmodule HomeWeb.Models.GraphModel do
     }
   end
 
+  def get_gas_mean_and_sd_of_period(period_start, period_end, ticks_string) do
+    data = DataStore.get_gas_usage("1h", period_start, period_end)
+    get_mean_and_sd_of_period(data, ticks_string)
+  end
+
+  def get_electricity_mean_and_sd_of_period(period_start, period_end, ticks_string) do
+    data = DataStore.get_electricity_usage("1h", period_start, period_end)
+    |> Enum.map(fn record -> %{"time" => record["time"], "usage" => record["low_tariff_usage"] + record["normal_tariff_usage"]} end)
+    get_mean_and_sd_of_period(data, ticks_string)
+  end
+
+  defp get_mean_and_sd_of_period(data, ticks_string) do
+    ticks = String.split(ticks_string, ",")
+    |> Enum.map(&String.to_integer/1)
+
+    values = data
+    |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end)
+    |> Enum.map(fn %{"usage" => usage} -> usage end)
+
+    IO.inspect(data |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end))
+
+    mean = mean(values)
+    sd = sd(values, mean)
+
+    {mean, sd}
+  end
+
+  defp mean(values) do
+    Enum.sum(values) / length(values)
+  end
+
+  defp sd(values, mean) do
+    variance = values
+    |> Enum.map(fn x -> :math.pow(mean - x, 2) end)
+    |> Enum.sum()
+    :math.sqrt(variance / (length(values) - 1))
+  end
+
   defp to_gas_usage_per_temp(records, temp_range) do
     grouped_records = records  |> Enum.group_by(fn record -> round(record["temperature"]) end)
     temp_range
       |> Enum.map(fn temperature -> [temperature, mean_for_key(Map.get(grouped_records, temperature, []), "usage")] end)
       |> Enum.sort_by(fn [temperature, _gas_usage] -> temperature end)
+  end
+
+  def get_hour(datetime) do
+    {:ok, dt, _} = DateTime.from_iso8601(datetime)
+    Timezone.convert(dt, "Europe/Amsterdam").hour
   end
 
   defp get_year(datetime) do

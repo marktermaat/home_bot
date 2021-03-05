@@ -29,6 +29,7 @@ defmodule HomeWeb.Router do
     get("/energy/show", EnergyController, :show)
     get("/energy/compare", EnergyController, :compare)
     post("/energy/show", EnergyController, :show_graph)
+    post("/energy/compare", EnergyController, :compare_graph)
   end
 
   scope "/api", HomeWeb do
@@ -45,6 +46,9 @@ defmodule HomeWeb.Router do
     get("/energy/daily_electricity_usage", ApiEnergyController, :daily_electricity_usage)
     get("/energy/hourly_electricity_usage", ApiEnergyController, :hourly_electricity_usage)
     get("/energy/current_electricity_usage", ApiEnergyController, :current_electricity_usage)
+
+    get("/energy/compare_gas_usage", ApiEnergyController, :compare_gas_usage)
+    get("/energy/compare_electricity_usage", ApiEnergyController, :compare_electricity_usage)
   end
 
   scope "/", HomeWeb do

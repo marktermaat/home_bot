@@ -2,11 +2,11 @@
 
 <div class="flex flex-row flex-wrap">
   <div class="flex_chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
+    <%= render(HomeWeb.GraphView, "time_barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
   </div>
 
   <div class="flex_chart">
-    <%= render(HomeWeb.GraphView, "barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
+    <%= render(HomeWeb.GraphView, "time_barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :daily_gas_usage)) %>
   </div>
 
   <div class="flex_chart">

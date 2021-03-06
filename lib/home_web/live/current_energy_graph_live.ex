@@ -1,10 +1,12 @@
 defmodule HomeWeb.CurrentEnergyGraphLive do
+  @moduledoc "Shows and updates the current energy usage of the last 5 minutes"
+
   use HomeWeb, :live_view
 
   @ten_seconds_in_ms 10_000
 
   def render(assigns) do
-    render(HomeWeb.WidgetView, "line_plot.html", assigns)
+    render(HomeWeb.WidgetView, "svg_plot.html", assigns)
   end
 
   def mount(_params, _session, socket) do
@@ -22,7 +24,6 @@ defmodule HomeWeb.CurrentEnergyGraphLive do
     data = HomeBot.DataStore.get_electricity_usage(5)
     |> Enum.map(fn record -> [DateTime.from_iso8601(record["time"]), record["usage"]] end)
     |> Enum.map(fn [{:ok, datetime, _}, usage] -> [datetime, usage] end)
-    IO.inspect(data)
     ds = Contex.Dataset.new(data, ["x", "y"])
     Contex.Plot.new(ds, Contex.LinePlot, 640, 320, title: "Current electricity usage (kW)", colour_palette: ["645ad3"]) |> Contex.Plot.to_svg
   end

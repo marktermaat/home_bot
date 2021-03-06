@@ -165,8 +165,6 @@ defmodule HomeWeb.Models.GraphModel do
     |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end)
     |> Enum.map(fn %{"usage" => usage} -> usage end)
 
-    IO.inspect(data |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end))
-
     mean = mean(values)
     sd = sd(values, mean)
 

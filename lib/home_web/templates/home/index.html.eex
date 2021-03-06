@@ -1,4 +1,17 @@
 <div class="flex flex-row flex-wrap">
+
+  <div class="flex_chart">
+    <%= live_render(@conn, HomeWeb.GasTodayVsAverageLive) %>
+  </div>
+
+  <div class="flex_chart">
+    <%= live_render(@conn, HomeWeb.ElectricityTodayVsAverageLive) %>
+  </div>
+
+  <div class="flex_chart">
+    <%= live_render(@conn, HomeWeb.CurrentEnergyGraphLive) %>
+  </div>
+
   <div class="flex_chart">
     <%= render(HomeWeb.GraphView, "time_barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
   </div>
@@ -7,7 +20,4 @@
     <%= render(HomeWeb.GraphView, "time_barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_electricity_usage)) %>
   </div>
 
-  <div class="flex_chart">
-    <%= live_render(@conn, HomeWeb.CurrentEnergyGraphLive) %>
-  </div>
 </div>

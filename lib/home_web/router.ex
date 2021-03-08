@@ -13,6 +13,7 @@ defmodule HomeWeb.Router do
   end
 
   pipeline :api do
+    plug(:fetch_session)
     plug(:accepts, ["json"])
   end
 
@@ -33,7 +34,7 @@ defmodule HomeWeb.Router do
   end
 
   scope "/api", HomeWeb do
-    pipe_through [:api]
+    pipe_through [:api, :authenticated]
 
     get("/energy/gas_usage", ApiEnergyController, :gas_usage)
     get("/energy/hourly_gas_usage", ApiEnergyController, :hourly_gas_usage)

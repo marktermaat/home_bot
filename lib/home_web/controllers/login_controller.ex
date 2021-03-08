@@ -8,7 +8,6 @@ defmodule HomeWeb.LoginController do
   end
 
   def login(conn, %{"login" => %{"password" => password}}) do
-    IO.puts("Password: #{password}")
     case is_valid(password) do
       true ->
         conn

@@ -38,7 +38,7 @@ config :home_bot,
 config :home_bot, HomeBot.Scheduler,
   jobs: [
     {"*/30 * * * *", {HomeBot.Weather, :log_temperature_data, []}},
-    {"* * * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}}
+    {"0 */4 * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}}
   ]
 
 # InfluxDB

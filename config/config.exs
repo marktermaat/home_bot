@@ -30,12 +30,15 @@ config :home_bot,
   meteostat_api_key: "FILL IN",
   influxdb_host: "FILL IN",
   influxdb_port: 1,
-  hashed_password: "FILL IN"
+  hashed_password: "FILL IN",
+  rss_router_host: "FILL IN",
+  rss_router_api_token: "SECRET"
 
 # Quantum schedules
 config :home_bot, HomeBot.Scheduler,
   jobs: [
-    {"*/30 * * * *", {HomeBot.Weather, :log_temperature_data, []}}
+    {"*/30 * * * *", {HomeBot.Weather, :log_temperature_data, []}},
+    {"* * * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}}
   ]
 
 # InfluxDB

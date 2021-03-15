@@ -4,6 +4,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
   def run do
     check_feeds()
     check_smart_meter()
+    check_weather_data()
   end
 
   defp check_feeds do
@@ -29,6 +30,15 @@ defmodule HomeBot.Monitoring.MonitoringJob do
 
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now, minutes: -5)) do
       HomeBot.Bot.notify_users("Smart meter data not received since #{latest_timestamp}")
+    end
+  end
+
+  defp check_weather_data do
+    %{"time" => time} = HomeBot.DataStore.get_latest_weather_data()
+    {:ok, latest_timestamp, _} = DateTime.from_iso8601(time)
+
+    if Timex.before?(latest_timestamp, Timex.shift(Timex.now, hours: -4)) do
+      HomeBot.Bot.notify_users("Weather data not received since #{latest_timestamp}")
     end
   end
 end

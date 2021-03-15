@@ -5,6 +5,8 @@ defmodule HomeBot.Monitoring.MonitoringJob do
     check_feeds()
     check_smart_meter()
     check_weather_data()
+
+    notify_healthchecks()
   end
 
   defp check_feeds do
@@ -40,5 +42,15 @@ defmodule HomeBot.Monitoring.MonitoringJob do
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now, hours: -4)) do
       HomeBot.Bot.notify_users("Weather data not received since #{latest_timestamp}")
     end
+  end
+
+  defp notify_healthchecks do
+    HTTPoison.start()
+
+    %HTTPoison.Response{status_code: 200} = HTTPoison.get!(healthchecks_host())
+  end
+
+  defp healthchecks_host do
+    Application.fetch_env!(:home_bot, :healthchecks_host)
   end
 end

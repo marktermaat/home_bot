@@ -32,7 +32,8 @@ config :home_bot,
   influxdb_port: 1,
   hashed_password: "FILL IN",
   rss_router_host: "FILL IN",
-  rss_router_api_token: "SECRET"
+  rss_router_api_token: "SECRET",
+  healthchecks_host: "FILL IN"
 
 # Quantum schedules
 config :home_bot, HomeBot.Scheduler,

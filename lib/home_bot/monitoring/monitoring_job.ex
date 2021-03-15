@@ -3,6 +3,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
 
   def run do
     check_feeds()
+    check_smart_meter()
   end
 
   defp check_feeds do
@@ -20,5 +21,14 @@ defmodule HomeBot.Monitoring.MonitoringJob do
     feeds
     |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -7)) end)
     |> Enum.each(fn {feed, dt} -> HomeBot.Bot.notify_users("#{feed} has not been updated since #{dt}") end)
+  end
+
+  defp check_smart_meter do
+    %{"time" => time} = HomeBot.DataStore.get_latest_energy_measurement()
+    {:ok, latest_timestamp, _} = DateTime.from_iso8601(time)
+
+    if Timex.before?(latest_timestamp, Timex.shift(Timex.now, minutes: -5)) do
+      HomeBot.Bot.notify_users("Smart meter data not received since #{latest_timestamp}")
+    end
   end
 end

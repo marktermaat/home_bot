@@ -166,20 +166,9 @@ defmodule HomeWeb.Models.GraphModel do
     |> Enum.map(fn %{"usage" => usage} -> usage end)
 
     mean = mean(values)
-    sd = sd(values, mean)
+    sd = standard_deviation(values, mean)
 
     {mean, sd}
-  end
-
-  defp mean(values) do
-    Enum.sum(values) / length(values)
-  end
-
-  defp sd(values, mean) do
-    variance = values
-    |> Enum.map(fn x -> :math.pow(mean - x, 2) end)
-    |> Enum.sum()
-    :math.sqrt(variance / (length(values) - 1))
   end
 
   defp to_gas_usage_per_temp(records, temp_range) do

@@ -24,4 +24,17 @@ defmodule HomeBot.Tools do
   def mean_for_key(list, key) do
     Enum.reduce(list, 0, fn item, acc -> acc + item[key] end) / length(list)
   end
+
+  @spec mean(list) :: float()
+  def mean(values) do
+    Enum.sum(values) / length(values)
+  end
+
+  @spec standard_deviation(list, float()) :: float()
+  def standard_deviation(values, mean) do
+    variance = values
+    |> Enum.map(fn x -> :math.pow(mean - x, 2) end)
+    |> Enum.sum()
+    :math.sqrt(variance / (length(values) - 1))
+  end
 end

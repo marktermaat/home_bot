@@ -45,6 +45,12 @@ defmodule HomeBot.DataStore.TemperatureStore do
       "energy")
   end
 
+  def get_average_temperature(start_time, end_time) do
+    InfluxConnection.get_single(
+      "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= '#{start_time}' AND time < '#{end_time}'",
+      "energy")
+  end
+
   defp to_datapoint(record) do
     %{
       database: "energy",

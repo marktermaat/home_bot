@@ -31,24 +31,28 @@ defmodule HomeBot.DataStore.TemperatureStore do
     %{series: [result]} = List.first(results)
     zipped = Enum.zip(result.columns, List.first(result.values))
     Enum.into(zipped, %{})
+    |> Map.update!("time", &to_timezone/1)
   end
 
   def get_average_temperature_per_day(:all) do
     InfluxConnection.get_list(
       "SELECT MEAN(temperature) as temperature FROM temperature GROUP BY time(1d)",
       "energy")
+    |> fix_timezone()
   end
 
   def get_average_temperature_per_day(days) do
     InfluxConnection.get_list(
       "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= now() -#{days}d GROUP BY time(1d)",
       "energy")
+    |> fix_timezone()
   end
 
   def get_average_temperature(start_time, end_time) do
     InfluxConnection.get_single(
       "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= '#{start_time}' AND time < '#{end_time}'",
       "energy")
+    |> fix_timezone()
   end
 
   defp to_datapoint(record) do
@@ -64,5 +68,17 @@ defmodule HomeBot.DataStore.TemperatureStore do
       },
       timestamp: DateTime.to_unix(record[:timestamp], :nanosecond)
     }
+  end
+
+  defp fix_timezone(records) do
+    Enum.map(records, fn record ->
+      Map.update!(record, "time", &to_timezone/1)
+    end)
+  end
+
+  defp to_timezone(time) do
+    {:ok, dt} = NaiveDateTime.from_iso8601(time)
+    Timex.to_datetime(dt, "Europe/Amsterdam")
+    |> DateTime.to_iso8601()
   end
 end

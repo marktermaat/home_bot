@@ -10,7 +10,7 @@ defmodule HomeBot.DataStore.InfluxConnection do
   end
 
   def get_list(query, database) do
-    %{results: results} = query(query, database: database)
+    %{results: results} = query(query, database: database, timeout: 60_000)
 
     case List.first(results) do
       %{series: [result]} -> Enum.map(result.values, &(Enum.zip(result.columns, &1)))

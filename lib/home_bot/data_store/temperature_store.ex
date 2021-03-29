@@ -52,7 +52,7 @@ defmodule HomeBot.DataStore.TemperatureStore do
     InfluxConnection.get_single(
       "SELECT MEAN(temperature) as temperature FROM temperature WHERE time >= '#{start_time}' AND time < '#{end_time}'",
       "energy")
-    |> fix_timezone()
+    |> Map.update!("time", &to_timezone/1)
   end
 
   defp to_datapoint(record) do

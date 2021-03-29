@@ -10,7 +10,7 @@ defmodule HomeBot.Weather.TemperatureLogger do
 
     datapoints =
       Jason.decode!(body)
-      |> Map.get("data")
+      |> Map.get("data", [])
       |> Enum.map(&process_hour_record/1)
 
     HomeBot.DataStore.write_temperature_data(datapoints)

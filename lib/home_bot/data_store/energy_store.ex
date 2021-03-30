@@ -9,6 +9,12 @@ defmodule HomeBot.DataStore.EnergyStore do
       "energy")
   end
 
+  def get_measurements_since(datetime) do
+    InfluxConnection.get_list(
+      "SELECT * FROM smart_meter where time > '#{DateTime.to_iso8601(datetime)}' ORDER BY ASC tz('Europe/Amsterdam')",
+      "energy")
+  end
+
   def get_gas_usage(group, start_time, end_time) do
     InfluxConnection.get_list(
       "SELECT DIFFERENCE(MAX(current_gas_usage)) as usage FROM smart_meter WHERE time >= '#{start_time}' AND time < '#{end_time}' GROUP BY time(#{group}) tz('Europe/Amsterdam')",

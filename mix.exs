@@ -24,7 +24,7 @@ defmodule HomeBot.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nostrum, "~> 0.4"},
+      {:nostrum, "~> 0.4.6"},
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"},
       {:logger_file_backend, "~> 0.0.11"},
@@ -39,7 +39,8 @@ defmodule HomeBot.MixProject do
       {:bcrypt_elixir, "~> 2.3"},
       {:credo, "~> 1.5", only: :dev},
       {:contex, git: "https://github.com/mindok/contex.git"},
-      {:timex, "~> 3.6"}
+      {:timex, "~> 3.6"},
+      {:gen_stage, "~> 1.1"}
     ]
   end
 

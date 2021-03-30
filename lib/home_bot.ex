@@ -7,7 +7,8 @@ defmodule HomeBot do
       HomeBot.Scheduler,
       HomeBot.DataStore.InfluxConnection,
       {Phoenix.PubSub, [name: HomeWeb.PubSub, adapter: Phoenix.PubSub.PG2]},
-      HomeWeb.Endpoint
+      HomeWeb.Endpoint,
+      HomeBot.EnergyStream.Supervisor
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)

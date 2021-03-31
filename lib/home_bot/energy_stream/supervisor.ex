@@ -3,7 +3,7 @@ defmodule HomeBot.EnergyStream.Supervisor do
   use Supervisor
 
   alias HomeBot.EnergyStream.Producer.EnergyProducer
-  alias HomeBot.EnergyStream.WatercookerDetector
+  alias HomeBot.EnergyStream.Watercooker.WatercookerDetector
 
   def start_link(_) do
     Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)

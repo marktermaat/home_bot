@@ -60,6 +60,9 @@ defmodule HomeBot.EnergyStream.Watercooker.WatercookerDetector do
 
         %{state | previous_usage: event["current_energy_usage"], active_since: nil, usage: 0}
 
+      detection_active?(state) && event["current_energy_usage"] < 2 ->
+        %{state | previous_usage: event["current_energy_usage"], active_since: nil, usage: 0}
+
       true ->
         %{state | previous_usage: event["current_energy_usage"]}
     end

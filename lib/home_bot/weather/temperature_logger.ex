@@ -27,7 +27,8 @@ defmodule HomeBot.Weather.TemperatureLogger do
         "https://api.meteostat.net/v2/stations/hourly?station=#{@station_id}&start=#{yesterday}&end=#{
           today
         }&tz=Europe/Amsterdam",
-        "x-api-key": meteostats_api_key()
+        %{"x-api-key": meteostats_api_key()},
+        recv_timeout: 30_000
       )
 
     body

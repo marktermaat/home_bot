@@ -15,10 +15,9 @@ config :home_bot, HomeWeb.Endpoint,
     ]
   ]
 
-# config :home_bot, HomeBot.Scheduler,
-#   jobs: [
-#     {"* * * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}}
-#   ]
+config :home_bot, HomeBot.Scheduler,
+  jobs: [
+  ]
 
 
 import_config "dev.secret.exs"

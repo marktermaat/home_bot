@@ -52,12 +52,6 @@ defmodule HomeBot.EnergyStream.Watercooker.WatercookerDetector do
 
       detection_active?(state) && watercooker_off?(energy_difference) &&
           !active_long_enough?(state.active_since, now) ->
-        HomeBot.Bot.notify_users(
-          "Watercooker NOT used. Start time at #{in_timezone(state.active_since)} for #{
-            seconds_active(state.active_since, now)
-          } seconds with usage: #{state.usage}"
-        )
-
         %{state | previous_usage: event["current_energy_usage"], active_since: nil, usage: 0}
 
       detection_active?(state) && event["current_energy_usage"] < 2 ->
@@ -68,8 +62,8 @@ defmodule HomeBot.EnergyStream.Watercooker.WatercookerDetector do
     end
   end
 
-  defp watercooker_on?(energy_difference), do: energy_difference > 2 && energy_difference < 2.5
-  defp watercooker_off?(energy_difference), do: energy_difference < -2 && energy_difference > -2.5
+  defp watercooker_on?(energy_difference), do: energy_difference >= 2.1 && energy_difference <= 2.3
+  defp watercooker_off?(energy_difference), do: energy_difference <= -2.1 && energy_difference >= -2.3
 
   defp detection_inactive?(state), do: state.active_since == nil
   defp detection_active?(state), do: state.active_since != nil
@@ -78,7 +72,7 @@ defmodule HomeBot.EnergyStream.Watercooker.WatercookerDetector do
 
   defp active_long_enough?(start_time, end_time) do
     seconds = seconds_active(start_time, end_time)
-    seconds > 1.5 * 60 && seconds < 4 * 60
+    seconds >= 60 && seconds <= 5 * 60
   end
 
   defp in_timezone(time) do

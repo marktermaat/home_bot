@@ -78,7 +78,7 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
   defp get_mean_std_gas_usage_for_temperature(temperature) do
     days_with_same_temperature =
       HomeBot.DataStore.get_average_temperature_per_day(:all)
-      |> Enum.filter(fn %{"temperature" => temp} -> round(temp) == temperature end)
+      |> Enum.filter(fn %{"temperature" => temp} -> temp != nil && round(temp) == temperature end)
       |> Enum.map(fn %{"time" => time} -> time end)
 
     previous_usage =

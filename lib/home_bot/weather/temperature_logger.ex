@@ -11,6 +11,7 @@ defmodule HomeBot.Weather.TemperatureLogger do
     datapoints =
       Jason.decode!(body)
       |> Map.get("data", [])
+      |> convert_nil_to_empty_array()
       |> Enum.map(&process_hour_record/1)
 
     HomeBot.DataStore.write_temperature_data(datapoints)
@@ -50,5 +51,9 @@ defmodule HomeBot.Weather.TemperatureLogger do
       wind_direction: record["wdir"],
       wind_speed: record["wspd"]
     ]
+  end
+
+  defp convert_nil_to_empty_array(data) do
+    data || []
   end
 end

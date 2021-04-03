@@ -16,7 +16,7 @@ defmodule HomeBot.EnergyStream.Supervisor do
       {WatercookerDetector, []}
     ]
 
-    if Mix.env() == :dev do
+    if Application.fetch_env!(:home_bot, :env) == :dev do
       Supervisor.init([], strategy: :rest_for_one)
     else
       Supervisor.init(children, strategy: :rest_for_one)

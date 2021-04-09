@@ -4,9 +4,7 @@ defmodule HomeBot.DataStore.InfluxConnection do
   def get_single(query, database) do
     %{results: results} = query(query, database: database)
 
-    %{series: [result]} = List.first(results)
-    zipped = Enum.zip(result.columns, List.first(result.values))
-    Enum.into(zipped, %{})
+    get_first_result(results)
   end
 
   def get_list(query, database) do
@@ -18,4 +16,12 @@ defmodule HomeBot.DataStore.InfluxConnection do
       _ -> []
     end
   end
+
+  defp get_first_result(results) when is_list(results) do
+    %{series: [result]} = List.first(results)
+    zipped = Enum.zip(result.columns, List.first(result.values))
+    Enum.into(zipped, %{})
+  end
+
+  defp get_first_result(_results), do: %{}
 end

@@ -29,7 +29,8 @@ defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
       HTTPoison.get!(
         "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{
           timestamp
-        }&appid=#{api_key()}&units=metric"
+        }&appid=#{api_key()}&units=metric",
+        recv_timeout: 30_000
       )
 
     body

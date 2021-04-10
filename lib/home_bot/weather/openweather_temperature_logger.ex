@@ -22,18 +22,25 @@ defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
     HomeBot.DataStore.write_temperature_data(datapoints)
   end
 
-  defp get_hourly_weather_data(timestamp) do
+  defp get_hourly_weather_data(timestamp, retry \\ 3, _ \\ nil)
+  defp get_hourly_weather_data(_, _retry = 0, error) do
+    raise "Unexpected response from OpenWeather API: #{inspect(error)}"
+  end
+
+  defp get_hourly_weather_data(timestamp, retry, _) do
     HTTPoison.start()
 
-    %HTTPoison.Response{status_code: 200, body: body} =
+    result =
       HTTPoison.get!(
         "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{
           timestamp
         }&appid=#{api_key()}&units=metric",
         recv_timeout: 30_000
       )
-
-    body
+    case result do
+      %HTTPoison.Response{status_code: 200, body: body} -> body
+      response -> get_hourly_weather_data(timestamp, retry - 1, response)
+    end
   end
 
   defp process_hour_record(record) do

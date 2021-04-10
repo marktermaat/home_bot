@@ -43,7 +43,7 @@ defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
       timestamp: timestamp,
       temperature: record["temp"],
       humidity: record["humidity"],
-      precipitation: record["rain"] || 0,
+      precipitation: get_in(record, ["rain", "1h"]) || 0,
       wind_direction: record["wind_deg"],
       wind_speed: record["wind_speed"]
     ]

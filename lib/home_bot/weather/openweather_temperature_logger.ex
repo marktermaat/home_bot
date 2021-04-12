@@ -40,7 +40,7 @@ defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
 
       body
     rescue
-      e -> get_hourly_weather_data(timestamp, retry - 1, e.message)
+      e -> get_hourly_weather_data(timestamp, retry - 1, inspect(e))
     end
   end
 

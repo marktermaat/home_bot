@@ -30,16 +30,17 @@ defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
   defp get_hourly_weather_data(timestamp, retry, _) do
     HTTPoison.start()
 
-    result =
-      HTTPoison.get!(
+    try do
+      %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(
         "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{
           timestamp
         }&appid=#{api_key()}&units=metric",
         recv_timeout: 30_000
       )
-    case result do
-      %HTTPoison.Response{status_code: 200, body: body} -> body
-      response -> get_hourly_weather_data(timestamp, retry - 1, response)
+
+      body
+    rescue
+      e -> get_hourly_weather_data(timestamp, retry - 1, e.message)
     end
   end
 

@@ -22,7 +22,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
 
     # Check specific feeds
     feeds
-    |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -7)) end)
+    |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -30)) end)
     |> Enum.each(fn {feed, dt} -> HomeBot.Bot.notify_users("#{feed} has not been updated since #{dt}") end)
   end
 

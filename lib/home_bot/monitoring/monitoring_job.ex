@@ -15,7 +15,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
     |> Enum.map(fn {feed, {:ok, dt, _}} -> {feed, dt} end)
 
     # Check RssRouter in general
-    {_feed, latest_timestamp} = feeds |> Enum.max_by(fn {_feed, dt} -> dt end)
+    {_feed, latest_timestamp} = feeds |> Enum.max_by(fn {_feed, dt} -> DateTime.to_unix(dt) end)
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now, hours: -6)) do
       HomeBot.Bot.notify_users("RssRouter has not been updated since #{latest_timestamp}")
     end

@@ -21,9 +21,9 @@ defmodule HomeBot.Monitoring.MonitoringJob do
     end
 
     # Check specific feeds
-    feeds
-    |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -30)) end)
-    |> Enum.each(fn {feed, dt} -> HomeBot.Bot.notify_users("#{feed} has not been updated since #{dt}") end)
+    # feeds
+    # |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -30)) end)
+    # |> Enum.each(fn {feed, dt} -> HomeBot.Bot.notify_users("#{feed} has not been updated since #{dt}") end)
   end
 
   defp check_smart_meter do

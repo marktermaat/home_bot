@@ -92,7 +92,10 @@ defmodule HomeWeb.Models.GraphModel do
     daily_temperatures = DataStore.get_average_temperature_per_day(:all)
     daily_gas_usage = DataStore.get_gas_usage_per_day(:all)
 
-    {%{"temperature" => _min_temp}, %{"temperature" => max_temp}} = Enum.min_max_by(daily_temperatures, fn record -> record["temperature"] end)
+    {%{"temperature" => _min_temp}, %{"temperature" => max_temp}} = Enum
+      .filtere(fn record -> record["temperature"] != nil)
+      .min_max_by(daily_temperatures, fn record -> record["temperature"] end)
+
     temp_range = 0..round(max_temp) |> Enum.to_list()
 
     raw_data = join_on_key(daily_temperatures, daily_gas_usage, "time")

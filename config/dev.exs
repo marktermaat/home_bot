@@ -19,5 +19,7 @@ config :home_bot, HomeBot.Scheduler,
   jobs: [
   ]
 
+config :home_bot, Finance.Repo,
+  database: "database.db"
 
 import_config "dev.secret.exs"

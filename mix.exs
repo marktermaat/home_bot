@@ -16,7 +16,7 @@ defmodule HomeBot.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :ssh],
+      extra_applications: [:logger, :ssh, :phoenix_ecto],
       mod: {HomeBot, []}
     ]
   end
@@ -30,7 +30,10 @@ defmodule HomeBot.MixProject do
       {:logger_file_backend, "~> 0.0.11"},
       {:quantum, git: "https://github.com/quantum-elixir/quantum-core.git"},
       {:instream, "~> 1.0"},
-      {:phoenix, "~> 1.5"},
+      {:phoenix, "~> 1.5.9"},
+      {:phoenix_ecto, "~> 4.1"},
+      {:ecto_sql, "~> 3.6"},
+      {:ecto_sqlite3, "~> 0.5.5"},
       {:cowlib, "~> 2.9", override: true},
       {:plug_cowboy, "~> 2.5"},
       {:phoenix_html, "~> 2.14"},

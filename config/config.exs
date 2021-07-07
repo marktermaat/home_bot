@@ -20,6 +20,7 @@ config :nostrum, token: "FILL_IN"
 # HomeBot configuration
 config :home_bot,
   env: Mix.env(),
+  ecto_repos: [Finance.Repo],
   data_path: "./data",
   google_maps_key: "FILL IN",
   home_address: "FILL IN",

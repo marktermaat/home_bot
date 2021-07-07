@@ -1,5 +1,5 @@
 # ===== Build phase
-FROM elixir:1.11-alpine as builder
+FROM elixir:1.12.2-alpine as builder
 ENV MIX_ENV=prod
 
 # Install GIT for dependencies straight from git
@@ -27,7 +27,7 @@ RUN mix local.rebar --force && \
 FROM alpine:3
 
 # Install bash and openssl
-RUN apk add --no-cache --update bash openssl
+RUN apk add --no-cache --update bash openssl libgcc libstdc++ ncurses-libs
 
 # Set environment variables and expose ports
 EXPOSE 4001

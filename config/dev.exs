@@ -20,6 +20,6 @@ config :home_bot, HomeBot.Scheduler,
   ]
 
 config :home_bot, Finance.Repo,
-  database: "database.db"
+  database: "data/database.db"
 
 import_config "dev.secret.exs"

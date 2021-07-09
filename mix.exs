@@ -6,8 +6,10 @@ defmodule HomeBot.MixProject do
       app: :home_bot,
       version: get_and_update_version!(),
       elixir: "~> 1.12",
+      elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps(),
       elixirc_options: [warnings_as_errors: true]
     ]
@@ -21,10 +23,14 @@ defmodule HomeBot.MixProject do
     ]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nostrum, "~> 0.4.6"},
+      {:nostrum, "~> 0.4.6", runtime: Mix.env() != :test},
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"},
       {:logger_file_backend, "~> 0.0.11"},
@@ -71,5 +77,20 @@ defmodule HomeBot.MixProject do
       {:ok, version} -> version
       _ -> "0.0.0"
     end
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+    ]
   end
 end

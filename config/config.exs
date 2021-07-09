@@ -17,6 +17,15 @@ config :logger, :error_log,
 # App
 config :nostrum, token: "FILL_IN"
 
+config :home_bot, :children, [
+      HomeBot.Bot,
+      HomeBot.Scheduler,
+      HomeBot.DataStore.InfluxConnection,
+      {Phoenix.PubSub, [name: HomeWeb.PubSub, adapter: Phoenix.PubSub.PG2]},
+      HomeWeb.Endpoint,
+      Finance.Repo
+    ]
+
 # HomeBot configuration
 config :home_bot,
   env: Mix.env(),

@@ -40,7 +40,7 @@
               <li class="menu-item"><a href="<%= Routes.home_path(@conn, :index) %>">Dashboard</a></li>
               <li class="menu-item"><a href="<%= Routes.energy_path(@conn, :gas) %>">Energy</a></li>
               <li class="menu-item"><a href="<%= Routes.rss_router_path(@conn, :index) %>">Rss</a></li>
-              <li class="menu-item"><a href="<%= Routes.finance_path(@conn, :index) %>">Finance</a></li>
+              <li class="menu-item"><a href="<%= Routes.finance_path(@conn, :transactions) %>">Finance</a></li>
               <li class="menu-item">-----</li>
               <li class="menu-item"><a href="https://ter-maat.com/graphs">Graphs</a></li>
               <li class="menu-item"><a href="https://ter-maat.com/torrent/">Torrents</a></li>

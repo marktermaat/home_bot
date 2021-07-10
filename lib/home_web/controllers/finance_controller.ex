@@ -1,7 +1,10 @@
 defmodule HomeWeb.FinanceController do
   use HomeWeb, :controller
 
-  def index(conn, _params) do
-    render(conn, "index.html")
+  alias Finance.Transactions
+
+  def transactions(conn, _params) do
+    transactions = Transactions.list_transactions()
+    render(conn, "transactions.html", transactions: transactions)
   end
 end

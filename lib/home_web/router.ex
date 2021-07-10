@@ -33,7 +33,7 @@ defmodule HomeWeb.Router do
     post("/energy/compare", EnergyController, :compare_graph)
 
     get("/rss_router", RssRouterController, :index)
-    get("/finance", FinanceController, :index)
+    get("/finance/transactions", FinanceController, :transactions)
   end
 
   scope "/api", HomeWeb do

@@ -1,0 +1,10 @@
+<%= render HomeWeb.FinanceView, "_nav.html", page: :transactions %>
+
+<%= for transaction <- @transactions do %>
+<div class="w-8/12 flex flex-row">
+  <div class="w-80"><%= transaction.timestamp %></div>
+  <div class="w-full"><%= transaction.description %></div>
+  <div class="w-2/12"><%= transaction.account %></div>
+  <div class="w-2/12"><%= if transaction.sign > 0, do: '+', else: '-' %><%= transaction.amount %></div>
+</div>
+<% end %>

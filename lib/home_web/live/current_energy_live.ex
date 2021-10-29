@@ -21,8 +21,8 @@ defmodule HomeWeb.CurrentEnergyLive do
     current_energy_usage = get_current_energy()
 
     socket
-      |> assign(:value, current_energy_usage)
-      |> assign(:unit, " kWh")
+    |> assign(:value, current_energy_usage)
+    |> assign(:unit, " kWh")
   end
 
   defp get_current_energy() do

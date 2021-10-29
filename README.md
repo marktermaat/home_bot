@@ -15,6 +15,11 @@ cd assets
 npm run watch
 ```
 
+To connect to my dev Influx DB, do a port forward:
+```bash
+ssh -L 8086:localhost:8086 home
+```
+
 # Password
 To generate a password, open an iex shell:
 ```elixir

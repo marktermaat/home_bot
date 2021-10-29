@@ -27,3 +27,8 @@ config :home_bot,
   rss_router_host: System.fetch_env!("RSS_ROUTER_HOST"),
   rss_router_api_token: System.fetch_env!("RSS_ROUTER_API_TOKEN"),
   healthchecks_host: System.fetch_env!("HOME_BOT_HEALTHCHECKS_HOST")
+  db_hostname: System.fetch_env!("HOMEBOT_DB_HOST"),
+  db_port: System.fetch_env!("HOMEBOT_DB_PORT"),
+  db_username: System.fetch_env!("HOMEBOT_DB_USERNAME"),
+  db_password: System.fetch_env!("HOMEBOT_DB_PASSWORD"),
+  db_database: System.fetch_env!("HOMEBOT_DB_DATABASE")

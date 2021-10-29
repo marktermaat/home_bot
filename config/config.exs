@@ -36,6 +36,14 @@ config :home_bot,
   rss_router_api_token: "SECRET",
   healthchecks_host: "FILL IN"
 
+# Homebot DB configuration
+config :home_bot,
+  db_hostname: "localhost",
+  db_port: 5432,
+  db_username: "postgres",
+  db_password: "postgres",
+  db_database: "postgres"
+
 # Quantum schedules
 config :home_bot, HomeBot.Scheduler,
   jobs: [

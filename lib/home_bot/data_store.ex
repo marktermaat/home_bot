@@ -68,4 +68,12 @@ defmodule HomeBot.DataStore do
   def get_electricity_usage(minutes \\ 3) do
     EnergyStore.get_electricity_usage(minutes)
   end
+
+  def get_current_home_temperature do
+    HomeBot.DataStore.HomeClimateStore.get_latest_temperature()
+  end
+
+  def get_current_home_humidity do
+    HomeBot.DataStore.HomeClimateStore.get_latest_humidity()
+  end
 end

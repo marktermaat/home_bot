@@ -40,6 +40,7 @@ defmodule HomeBot.MixProject do
       {:credo, "~> 1.5", only: :dev},
       {:contex, git: "https://github.com/mindok/contex.git"},
       {:timex, "~> 3.6"},
+      {:postgrex, "~> 0.15.10"},
       {:gen_stage, "~> 1.1"}
     ]
   end

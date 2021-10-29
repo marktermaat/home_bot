@@ -15,6 +15,10 @@ config :home_bot, HomeWeb.Endpoint,
     ]
   ]
 
+
+config :home_bot,
+  db_database: "event_data"
+
 config :home_bot, HomeBot.Scheduler,
   jobs: [
   ]

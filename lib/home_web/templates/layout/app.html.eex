@@ -53,6 +53,8 @@
           <%= live_render(@conn, HomeWeb.TemperatureLive) %>
           <%= live_render(@conn, HomeWeb.WindspeedLive) %>
           <%= live_render(@conn, HomeWeb.CurrentEnergyLive) %>
+          <%= live_render(@conn, HomeWeb.HomeTemperatureLive) %>
+          <%= live_render(@conn, HomeWeb.HomeHumidityLive) %>
         </div>
       </div>
     </div>

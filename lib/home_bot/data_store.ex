@@ -76,4 +76,8 @@ defmodule HomeBot.DataStore do
   def get_current_home_humidity do
     HomeBot.DataStore.HomeClimateStore.get_latest_humidity()
   end
+
+  def get_recent_home_climate_data do
+    HomeBot.DataStore.HomeClimateStore.get_recent_home_climate_data()
+  end
 end

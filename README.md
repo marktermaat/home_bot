@@ -15,9 +15,10 @@ cd assets
 npm run watch
 ```
 
-To connect to my dev Influx DB, do a port forward:
+To connect to my dev DBs, do a port forward:
 ```bash
 ssh -L 8086:localhost:8086 home
+ssh -L 5510:localhost:5510 home
 ```
 
 # Password

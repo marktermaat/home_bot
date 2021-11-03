@@ -7,7 +7,7 @@ defmodule HomeWeb.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
-    plug :fetch_live_flash
+    plug(:fetch_live_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
   end
@@ -22,7 +22,7 @@ defmodule HomeWeb.Router do
   end
 
   scope "/", HomeWeb do
-    pipe_through [:browser, :authenticated]
+    pipe_through([:browser, :authenticated])
 
     get("/", HomeController, :index)
     get("/energy/gas", EnergyController, :gas)
@@ -33,17 +33,23 @@ defmodule HomeWeb.Router do
     post("/energy/compare", EnergyController, :compare_graph)
 
     get("/rss_router", RssRouterController, :index)
+    get("/home_climate", HomeClimateController, :index)
   end
 
   scope "/api", HomeWeb do
-    pipe_through [:api, :authenticated]
+    pipe_through([:api, :authenticated])
 
     get("/energy/gas_usage", ApiEnergyController, :gas_usage)
     get("/energy/hourly_gas_usage", ApiEnergyController, :hourly_gas_usage)
     get("/energy/daily_gas_usage", ApiEnergyController, :daily_gas_usage)
     get("/energy/daily_gas_and_temp", ApiEnergyController, :daily_gas_and_temp)
     get("/energy/gas_usage_per_temperature", ApiEnergyController, :gas_usage_per_temperature)
-    get("/energy/gas_usage_per_temperature_per_year", ApiEnergyController, :gas_usage_per_temperature_per_year)
+
+    get(
+      "/energy/gas_usage_per_temperature_per_year",
+      ApiEnergyController,
+      :gas_usage_per_temperature_per_year
+    )
 
     get("/energy/electricity_usage", ApiEnergyController, :electricity_usage)
     get("/energy/daily_electricity_usage", ApiEnergyController, :daily_electricity_usage)
@@ -52,10 +58,13 @@ defmodule HomeWeb.Router do
 
     get("/energy/compare_gas_usage", ApiEnergyController, :compare_gas_usage)
     get("/energy/compare_electricity_usage", ApiEnergyController, :compare_electricity_usage)
+
+    get("/home_climate/recent_temperature", ApiHomeClimateController, :recent_temperature)
+    get("/home_climate/recent_humidity", ApiHomeClimateController, :recent_humidity)
   end
 
   scope "/", HomeWeb do
-    pipe_through [:browser]
+    pipe_through([:browser])
 
     get("/login", LoginController, :index)
     post("/login", LoginController, :login)

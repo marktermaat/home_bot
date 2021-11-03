@@ -1,0 +1,17 @@
+<div class="flex flex-row flex-wrap">
+
+<div class="flex flex-row flex-wrap">
+  <div class="flex_chart">
+    <%= render(HomeWeb.GraphView, "time_graph.html", url: HomeWeb.Router.Helpers.api_home_climate_path(HomeWeb.Endpoint, :recent_temperature)) %>
+  </div>
+  
+  <div class="flex_chart">
+    <%= render(HomeWeb.GraphView, "time_graph.html", url: HomeWeb.Router.Helpers.api_home_climate_path(HomeWeb.Endpoint, :recent_humidity)) %>
+  </div>
+
+  <div class="flex_chart">
+    <%= render(HomeWeb.GraphView, "time_barchart.html", url: HomeWeb.Router.Helpers.api_energy_path(HomeWeb.Endpoint, :hourly_gas_usage)) %>
+  </div>
+
+</div>
+

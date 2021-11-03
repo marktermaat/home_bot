@@ -28,4 +28,15 @@ defmodule HomeBot.DataStore.HomeClimateStore do
     |> List.first()
     |> Keyword.get(:humidity, 0)
   end
+
+  def get_recent_home_climate_data(hours \\ 24) do
+    result =
+      Postgrex.query!(
+        HomeBot.DbConnection,
+        "SELECT * FROM home_climate_events WHERE time > (NOW() - interval '#{hours} hours') ORDER BY time DESC",
+        []
+      )
+
+    result_to_map(result)
+  end
 end

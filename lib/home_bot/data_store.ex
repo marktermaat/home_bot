@@ -4,6 +4,7 @@ defmodule HomeBot.DataStore do
   alias HomeBot.DataStore.ChannelStore
   alias HomeBot.DataStore.EnergyStore
   alias HomeBot.DataStore.TemperatureStore
+  alias HomeBot.DataStore.EnergyPostgresStore
 
   def add_subscriber(channel_id) do
     ChannelStore.add_subscriber(channel_id)
@@ -34,7 +35,7 @@ defmodule HomeBot.DataStore do
   end
 
   def get_latest_energy_measurement do
-    EnergyStore.get_latest_measurement()
+    EnergyPostgresStore.get_latest_measurement()
   end
 
   def get_measurements_since(timestamp) do

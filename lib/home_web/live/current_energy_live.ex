@@ -28,6 +28,6 @@ defmodule HomeWeb.CurrentEnergyLive do
   defp get_current_energy() do
     latest = HomeBot.DataStore.get_latest_energy_measurement()
 
-    latest["current_energy_usage"]
+    latest[:current_energy_usage] |> Decimal.to_float()
   end
 end

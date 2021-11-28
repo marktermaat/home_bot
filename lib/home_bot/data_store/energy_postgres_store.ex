@@ -20,9 +20,9 @@ defmodule HomeBot.DataStore.EnergyPostgresStore do
 
   @spec get_energy_usage(NaiveDateTime.t(), NaiveDateTime.t(), integer(), String.t()) ::
           list(map())
-  def get_energy_usage(start_time, end_time, group_unit, group_quantity) do
+  def get_energy_usage(start_time, end_time, group_quantity, group_unit) do
     query = """
-    SELECT time_bucket('#{group_unit} #{group_quantity}'::interval, time) AS bucket, 
+    SELECT time_bucket('#{group_quantity} #{group_unit}'::interval, time) AS bucket, 
       MIN(meter_low_tariff) AS min_meter_low_tariff, 
       MAX(meter_low_tariff) AS meter_low_tariff, 
       MIN(meter_normal_tariff) AS min_meter_normal_tariff, 

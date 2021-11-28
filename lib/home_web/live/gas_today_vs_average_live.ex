@@ -15,9 +15,7 @@ defmodule HomeWeb.GasTodayVsAverageLive do
     {start_timestamp, end_timestamp} = get_range_timestamps()
 
     data = HomeBot.DataStore.get_energy_usage(start_timestamp, end_timestamp, 1, "day")
-    IO.inspect(data)
     {previous_week, [yesterday]} = Enum.split(data, -1)
-    IO.inspect(yesterday)
 
     average = Enum.reduce(previous_week, 0, fn x, acc -> acc + x[:usage_gas_meter] end) / 7
     yesterday_value = yesterday[:usage_gas_meter] || 0

@@ -7,24 +7,32 @@ defmodule HomeWeb.Models.GraphModel do
 
   use Timex
 
-  def gas_usage_data(group, start_time, end_time, title \\ "Gas usage") do
-    result = DataStore.get_gas_usage(group, start_time, end_time)
+  def gas_usage_data(start_time, end_time, group_quantity, group_unit, title \\ "Gas usage") do
+    result = DataStore.get_energy_usage(start_time, end_time, group_quantity, group_unit)
 
-    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
-    values = result |> Enum.map(&(Map.fetch!(&1, "usage")))
+    labels = result |> Enum.map(&Map.fetch!(&1, :time))
+    values = result |> Enum.map(&Map.fetch!(&1, :usage_gas_meter))
 
     %{
       title: title,
       labels: labels,
-      datasets: [%{
-        name: "Gas",
-        data: values
-      }]
+      datasets: [
+        %{
+          name: "Gas",
+          data: values
+        }
+      ]
     }
   end
 
-  def electricity_usage_data(group, start_time, end_time, title \\ "Electricity usage") do
-    result = DataStore.get_electricity_usage(group, start_time, end_time)
+  def electricity_usage_data(
+        start_time,
+        end_time,
+        group_unit,
+        group_quantity,
+        title \\ "Electricity usage"
+      ) do
+    result = DataStore.get_energy_usage(start_time, end_time, group_unit, group_quantity)
     labels = get_labels(result)
 
     %{
@@ -33,16 +41,15 @@ defmodule HomeWeb.Models.GraphModel do
       datasets: [
         %{
           name: "Low tariff (kWh)",
-          data: Enum.map(result, &(Map.fetch!(&1, "low_tariff_usage")))
+          data: Enum.map(result, &Map.fetch!(&1, :usage_low_tariff))
         },
         %{
           name: "Normal tariff (kWh)",
-          data: Enum.map(result, &(Map.fetch!(&1, "normal_tariff_usage")))
+          data: Enum.map(result, &Map.fetch!(&1, :usage_normal_tariff))
         }
       ]
     }
   end
-
 
   def daily_gas_and_temperature_data do
     gas_usage = DataStore.get_gas_usage_per_day(48)
@@ -50,8 +57,8 @@ defmodule HomeWeb.Models.GraphModel do
 
     labels = get_labels(gas_usage)
 
-    gas_values = gas_usage |> Enum.map(&(Map.fetch!(&1, "usage")))
-    temperature_values = temps |> Enum.map(&(Map.fetch!(&1, "temperature")))
+    gas_values = gas_usage |> Enum.map(&Map.fetch!(&1, "usage"))
+    temperature_values = temps |> Enum.map(&Map.fetch!(&1, "temperature"))
 
     %{
       title: "Daily gas usage",
@@ -73,7 +80,8 @@ defmodule HomeWeb.Models.GraphModel do
     daily_temperatures = DataStore.get_average_temperature_per_day(:all)
     daily_gas_usage = DataStore.get_gas_usage_per_day(:all)
 
-    raw_data = join_on_key(daily_temperatures, daily_gas_usage, "time")
+    raw_data =
+      join_on_key(daily_temperatures, daily_gas_usage, "time")
       |> Enum.filter(fn record -> record["temperature"] != nil end)
       |> Enum.group_by(fn record -> round(record["temperature"]) end)
       |> Enum.map(fn {temperature, records} -> [temperature, mean_for_key(records, "usage")] end)
@@ -82,10 +90,12 @@ defmodule HomeWeb.Models.GraphModel do
     %{
       title: "Gas usage per temperature",
       labels: Enum.map(raw_data, fn [temperature, _gas_usage] -> temperature end),
-      datasets: [%{
-        name: "Gas",
-        data: Enum.map(raw_data, fn [_temperature, gas_usage] -> gas_usage end)
-      }]
+      datasets: [
+        %{
+          name: "Gas",
+          data: Enum.map(raw_data, fn [_temperature, gas_usage] -> gas_usage end)
+        }
+      ]
     }
   end
 
@@ -93,17 +103,20 @@ defmodule HomeWeb.Models.GraphModel do
     daily_temperatures = DataStore.get_average_temperature_per_day(:all)
     daily_gas_usage = DataStore.get_gas_usage_per_day(:all)
 
-    {%{"temperature" => _min_temp}, %{"temperature" => max_temp}} = daily_temperatures
+    {%{"temperature" => _min_temp}, %{"temperature" => max_temp}} =
+      daily_temperatures
       |> Enum.filter(fn record -> record["temperature"] != nil end)
       |> Enum.min_max_by(fn record -> record["temperature"] end)
 
     temp_range = 0..round(max_temp) |> Enum.to_list()
 
-    raw_data = join_on_key(daily_temperatures, daily_gas_usage, "time")
+    raw_data =
+      join_on_key(daily_temperatures, daily_gas_usage, "time")
       |> Enum.group_by(fn record -> get_year(record["time"]) end)
       |> Enum.map(fn {year, records} -> [year, to_gas_usage_per_temp(records, temp_range)] end)
 
-    dataset_data = raw_data
+    dataset_data =
+      raw_data
       |> Enum.map(fn [year, records] ->
         %{
           name: year,
@@ -120,7 +133,7 @@ defmodule HomeWeb.Models.GraphModel do
 
   def hourly_electricity_usage_data do
     result = DataStore.get_electricity_usage_per_hour(3)
-    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
+    labels = result |> Enum.map(&Map.fetch!(&1, "time"))
 
     %{
       title: "Hourly electricity usage",
@@ -128,15 +141,15 @@ defmodule HomeWeb.Models.GraphModel do
       datasets: [
         %{
           name: "Electricity (kWh)",
-          data: Enum.map(result, &(Map.fetch!(&1, "usage")))
-        },
+          data: Enum.map(result, &Map.fetch!(&1, "usage"))
+        }
       ]
     }
   end
 
   def current_electricity_usage_data do
     result = DataStore.get_electricity_usage(5)
-    labels = result |> Enum.map(&(Map.fetch!(&1, "time")))
+    labels = result |> Enum.map(&Map.fetch!(&1, "time"))
 
     %{
       title: "Electricity usage",
@@ -144,8 +157,8 @@ defmodule HomeWeb.Models.GraphModel do
       datasets: [
         %{
           name: "Electricity (kW)",
-          data: Enum.map(result, &(Map.fetch!(&1, "usage")))
-        },
+          data: Enum.map(result, &Map.fetch!(&1, "usage"))
+        }
       ]
     }
   end
@@ -156,18 +169,27 @@ defmodule HomeWeb.Models.GraphModel do
   end
 
   def get_electricity_mean_and_sd_of_period(period_start, period_end, ticks_string) do
-    data = DataStore.get_electricity_usage("1h", period_start, period_end)
-    |> Enum.map(fn record -> %{"time" => record["time"], "usage" => record["low_tariff_usage"] + record["normal_tariff_usage"]} end)
+    data =
+      DataStore.get_electricity_usage("1h", period_start, period_end)
+      |> Enum.map(fn record ->
+        %{
+          "time" => record["time"],
+          "usage" => record["low_tariff_usage"] + record["normal_tariff_usage"]
+        }
+      end)
+
     get_mean_and_sd_of_period(data, ticks_string)
   end
 
   defp get_mean_and_sd_of_period(data, ticks_string) do
-    ticks = String.split(ticks_string, ",")
-    |> Enum.map(&String.to_integer/1)
+    ticks =
+      String.split(ticks_string, ",")
+      |> Enum.map(&String.to_integer/1)
 
-    values = data
-    |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end)
-    |> Enum.map(fn %{"usage" => usage} -> usage end)
+    values =
+      data
+      |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end)
+      |> Enum.map(fn %{"usage" => usage} -> usage end)
 
     mean = mean(values)
     sd = standard_deviation(values, mean)
@@ -176,13 +198,16 @@ defmodule HomeWeb.Models.GraphModel do
   end
 
   defp to_gas_usage_per_temp(records, temp_range) do
-    grouped_records = records
+    grouped_records =
+      records
       |> Enum.filter(fn record -> record["temperature"] != nil end)
       |> Enum.group_by(fn record -> round(record["temperature"]) end)
 
     temp_range
-      |> Enum.map(fn temperature -> [temperature, mean_for_key(Map.get(grouped_records, temperature, []), "usage")] end)
-      |> Enum.sort_by(fn [temperature, _gas_usage] -> temperature end)
+    |> Enum.map(fn temperature ->
+      [temperature, mean_for_key(Map.get(grouped_records, temperature, []), "usage")]
+    end)
+    |> Enum.sort_by(fn [temperature, _gas_usage] -> temperature end)
   end
 
   def get_hour(datetime) do
@@ -197,8 +222,8 @@ defmodule HomeWeb.Models.GraphModel do
 
   defp get_labels(records) do
     records
-    |> Enum.map(&(Map.fetch!(&1, "time")))
-    |> Enum.map(&DateTime.from_iso8601/1) # TODO: Time is in UTC, convert to Europe/Amsterdam
-    |> Enum.map(fn {:ok, dt, _} -> DateTime.to_date(dt) end)
+    |> Enum.map(&Map.fetch!(&1, :time))
+
+    # TODO: Time is in UTC, convert to Europe/Amsterdam
   end
 end

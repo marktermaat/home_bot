@@ -13,7 +13,7 @@ defmodule HomeBot.DataStore.HomeClimateStore do
 
     result_to_map(result)
     |> List.first()
-    |> Keyword.get(:temperature, 0)
+    |> Map.get(:temperature, 0)
   end
 
   def get_latest_humidity do
@@ -26,7 +26,7 @@ defmodule HomeBot.DataStore.HomeClimateStore do
 
     result_to_map(result)
     |> List.first()
-    |> Keyword.get(:humidity, 0)
+    |> Map.get(:humidity, 0)
   end
 
   def get_recent_home_climate_data(hours \\ 24) do

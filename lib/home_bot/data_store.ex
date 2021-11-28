@@ -58,6 +58,12 @@ defmodule HomeBot.DataStore do
     EnergyStore.get_electricity_usage(group, start_time, end_time)
   end
 
+  @spec get_energy_usage(NaiveDateTime.t(), NaiveDateTime.t(), integer(), String.t()) ::
+          list(map())
+  def get_energy_usage(start_time, end_time, group_unit, group_quantity) do
+    EnergyPostgresStore.get_energy_usage(start_time, end_time, group_unit, group_quantity)
+  end
+
   def get_electricity_usage_per_hour(days \\ 3) do
     EnergyStore.get_electricity_usage_per_hour(days)
   end
@@ -67,7 +73,7 @@ defmodule HomeBot.DataStore do
   end
 
   def get_electricity_usage(minutes \\ 3) do
-    EnergyStore.get_electricity_usage(minutes)
+    EnergyPostgresStore.get_electricity_usage(minutes)
   end
 
   def get_current_home_temperature do

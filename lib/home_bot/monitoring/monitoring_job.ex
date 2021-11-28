@@ -29,8 +29,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
   end
 
   defp check_smart_meter do
-    latest = HomeBot.DataStore.get_latest_energy_measurement()
-    latest_timestamp = latest[:time]
+    %{time: latest_timestamp} = HomeBot.DataStore.get_latest_energy_measurement()
 
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now(), minutes: -5)) do
       HomeBot.Bot.notify_users("Smart meter data not received since #{latest_timestamp}")

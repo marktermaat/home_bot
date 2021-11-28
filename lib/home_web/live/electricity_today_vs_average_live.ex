@@ -14,17 +14,20 @@ defmodule HomeWeb.ElectricityTodayVsAverageLive do
   defp get_plot do
     {start_timestamp, end_timestamp} = get_range_timestamps()
 
-    data = HomeBot.DataStore.get_electricity_usage("1d", start_timestamp, end_timestamp)
+    data = HomeBot.DataStore.get_energy_usage(start_timestamp, end_timestamp, 1, "day")
+    {previous_week, [yesterday]} = Enum.split(data, -1)
 
-    sum = data
-    |> Enum.take(7)
-    |> Enum.reduce(0, fn x, acc -> acc + x["low_tariff_usage"] + x["normal_tariff_usage"] end)
-    average = sum / 7
+    average = Enum.reduce(previous_week, 0, fn x, acc -> acc + x[:usage_total_tariff] end) / 7
+    yesterday_value = yesterday[:usage_total_tariff] || 0
 
-    yesterday_value = List.last(data)["low_tariff_usage"] + List.last(data)["normal_tariff_usage"]
+    ds =
+      Contex.Dataset.new([{"Week average", average}, {"Yesterday", yesterday_value}], ["x", "y"])
 
-    ds = Contex.Dataset.new([{"Week average", average}, {"Yesterday", yesterday_value}], ["x", "y"])
-    Contex.Plot.new(ds, Contex.BarChart, 400, 200, title: "Electricity", colour_palette: ["645ad3"]) |> Contex.Plot.to_svg
+    Contex.Plot.new(ds, Contex.BarChart, 400, 200,
+      title: "Electricity",
+      colour_palette: ["645ad3"]
+    )
+    |> Contex.Plot.to_svg()
   end
 
   defp get_range_timestamps do
@@ -32,13 +35,13 @@ defmodule HomeWeb.ElectricityTodayVsAverageLive do
     end_timestamp = Timex.beginning_of_day(now)
     start_timestamp = Timex.shift(end_timestamp, days: -8)
 
-    t1 = start_timestamp
-    |> Timex.Timezone.convert("UTC")
-    |> DateTime.to_iso8601
+    t1 =
+      start_timestamp
+      |> Timex.Timezone.convert("UTC")
 
-    t2 = end_timestamp
-    |> Timex.Timezone.convert("UTC")
-    |> DateTime.to_iso8601
+    t2 =
+      end_timestamp
+      |> Timex.Timezone.convert("UTC")
 
     {t1, t2}
   end

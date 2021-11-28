@@ -23,10 +23,7 @@ defmodule HomeWeb.CurrentEnergyGraphLive do
   defp get_plot do
     data =
       HomeBot.DataStore.get_electricity_usage(5)
-      |> Enum.map(fn record -> [DateTime.from_iso8601(record["time"]), record["usage"]] end)
-      |> Enum.map(fn [{:ok, datetime, _}, usage] -> [datetime, usage] end)
-
-    IO.inspect(data)
+      |> Enum.map(fn record -> [record[:time], Decimal.to_float(record[:usage])] end)
 
     ds = Contex.Dataset.new(data, ["x", "y"])
 

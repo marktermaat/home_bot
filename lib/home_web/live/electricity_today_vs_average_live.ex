@@ -17,7 +17,10 @@ defmodule HomeWeb.ElectricityTodayVsAverageLive do
     data = HomeBot.DataStore.get_energy_usage(start_timestamp, end_timestamp, 1, "day")
     {previous_week, [yesterday]} = Enum.split(data, -1)
 
-    average = Enum.reduce(previous_week, 0, fn x, acc -> acc + x[:usage_total_tariff] end) / 7
+    average =
+      Enum.reduce(previous_week, 0, fn x, acc -> acc + x[:usage_total_tariff] end) /
+        Enum.count(previous_week)
+
     yesterday_value = yesterday[:usage_total_tariff] || 0
 
     ds =

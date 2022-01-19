@@ -2,7 +2,7 @@ defmodule HomeBot.DataStore.PostgresStore do
   @moduledoc "Helpers for Postgres data stores"
 
   def query(query, args \\ []) do
-    result = Postgrex.query!(HomeBot.DbConnection, query, args)
+    result = Postgrex.query!(HomeBot.DbConnection, query, args, timeout: 10_000)
 
     result_to_map(result)
   end

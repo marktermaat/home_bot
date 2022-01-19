@@ -30,6 +30,10 @@ defmodule HomeBot.DataStore do
     TemperatureStore.get_average_temperature_per_day(days)
   end
 
+  def get_average_temperature_per_day(start_time, end_time) do
+    TemperatureStore.get_average_temperature_per_day(start_time, end_time)
+  end
+
   def get_average_temperature(start_time, end_time) do
     TemperatureStore.get_average_temperature(start_time, end_time)
   end
@@ -62,6 +66,18 @@ defmodule HomeBot.DataStore do
           list(map())
   def get_energy_usage(start_time, end_time, group_quantity, group_unit) do
     EnergyPostgresStore.get_energy_usage(start_time, end_time, group_quantity, group_unit)
+  end
+
+  def get_energy_usage(group_quantity, group_unit) do
+    start_time = DateTime.from_unix!(0)
+    end_time = DateTime.from_unix!(10_000_000_000)
+    EnergyPostgresStore.get_energy_usage(start_time, end_time, group_quantity, group_unit)
+  end
+
+  def get_daily_energy_usage() do
+    start_time = DateTime.from_unix!(0)
+    end_time = DateTime.from_unix!(10_000_000_000)
+    EnergyPostgresStore.get_daily_energy_usage(start_time, end_time)
   end
 
   def get_electricity_usage_per_hour(days \\ 3) do

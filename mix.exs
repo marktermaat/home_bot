@@ -55,7 +55,8 @@ defmodule HomeBot.MixProject do
   defp create_version_from_git_commits(number_of_commits) do
     version_number = String.trim(number_of_commits)
 
-    version = "0.#{version_number}.0"
+    version =
+      "0.#{version_number}.0"
       |> Version.parse!()
       |> to_string()
 

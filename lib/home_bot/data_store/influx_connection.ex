@@ -11,15 +11,23 @@ defmodule HomeBot.DataStore.InfluxConnection do
     %{results: results} = query(query, database: database, timeout: 60_000)
 
     case List.first(results) do
-      %{series: [result]} -> Enum.map(result.values, &(Enum.zip(result.columns, &1)))
-                                  |> Enum.map(&(Enum.into(&1, %{})))
-      _ -> []
+      %{series: [result]} ->
+        Enum.map(result.values, &Enum.zip(result.columns, &1))
+        |> Enum.map(&Enum.into(&1, %{}))
+
+      _ ->
+        []
     end
   end
 
   defp get_first_result(results) when is_list(results) do
     %{series: [result]} = List.first(results)
-    zipped = Enum.zip(result.columns, List.first(result.values))
+
+    zipped =
+      result.columns
+      |> Enum.map(&String.to_atom/1)
+      |> Enum.zip(List.first(result.values))
+
     Enum.into(zipped, %{})
   end
 

@@ -30,7 +30,7 @@ Bcrypt.hash_pwd_salt("password")
 When putting this password in the docker-compose.yml file, make sure to add a $ for every existing $ sign.
 
 # Ideas
-- A page to show energy usage for a given period
-- A page to compare energy usage of 2 given periods
-- Use apparent temperature (in combination with wind speed)
+- Add graphs with usage per month
+- Add graphs with usage for each month per year (grouped by month)
+- Make graphs that are clickable and zoomable
 - Show night and day in the hour graphs (using this plugin: https://github.com/chartjs/chartjs-plugin-annotation#box-annotations)

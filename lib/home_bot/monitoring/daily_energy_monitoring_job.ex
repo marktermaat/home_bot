@@ -20,17 +20,13 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
 
     if gas_usage_yesterday < mean - 2 * standard_deviation do
       HomeBot.Bot.notify_users(
-        "Gas usage yesterday was lower than expected. Yesterday it was #{gas_usage_yesterday}, normally it is #{
-          mean
-        } for the average temperature of #{temperature_yesterday}"
+        "Gas usage yesterday was lower than expected. Yesterday it was #{gas_usage_yesterday}, normally it is #{mean} for the average temperature of #{temperature_yesterday}"
       )
     end
 
     if gas_usage_yesterday > mean + 2 * standard_deviation do
       HomeBot.Bot.notify_users(
-        "Gas usage yesterday was higher than expected. Yesterday it was #{gas_usage_yesterday}, normally it is #{
-          mean
-        } for the average temperature of #{temperature_yesterday}"
+        "Gas usage yesterday was higher than expected. Yesterday it was #{gas_usage_yesterday}, normally it is #{mean} for the average temperature of #{temperature_yesterday}"
       )
     end
   end
@@ -45,23 +41,19 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
 
     if electricity_usage_yesterday < mean - 2 * standard_deviation do
       HomeBot.Bot.notify_users(
-        "Electricity usage yesterday was lower than expected. Yesterday it was #{
-          electricity_usage_yesterday
-        }, normally it is #{mean} for this day of the week"
+        "Electricity usage yesterday was lower than expected. Yesterday it was #{electricity_usage_yesterday}, normally it is #{mean} for this day of the week"
       )
     end
 
     if electricity_usage_yesterday > mean + 2 * standard_deviation do
       HomeBot.Bot.notify_users(
-        "Electricity usage yesterday was higher than expected. Yesterday it was #{
-          electricity_usage_yesterday
-        }, normally it is #{mean} for this day of the week"
+        "Electricity usage yesterday was higher than expected. Yesterday it was #{electricity_usage_yesterday}, normally it is #{mean} for this day of the week"
       )
     end
   end
 
   defp get_average_temperature(start_time, end_time) do
-    %{"temperature" => temperature} = DataStore.get_average_temperature(start_time, end_time)
+    %{:temperature => temperature} = DataStore.get_average_temperature(start_time, end_time)
     round(temperature)
   end
 

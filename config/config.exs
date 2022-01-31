@@ -34,7 +34,10 @@ config :home_bot,
   hashed_password: "FILL IN",
   rss_router_host: "FILL IN",
   rss_router_api_token: "SECRET",
-  healthchecks_host: "FILL IN"
+  healthchecks_host: "FILL IN",
+  solar_edge_api_key: "FILL IN",
+  mqtt_host: "localhost",
+  mqtt_port: 1883
 
 # Homebot DB configuration
 config :home_bot,
@@ -49,7 +52,8 @@ config :home_bot, HomeBot.Scheduler,
   jobs: [
     {"*/30 * * * *", {HomeBot.Weather, :log_temperature_data, []}},
     {"0 */4 * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}},
-    {"0 5 * * * *", {HomeBot.Monitoring, :run_daily_energy_monitoring, []}}
+    {"0 5 * * * *", {HomeBot.Monitoring, :run_daily_energy_monitoring, []}},
+    {"*/15 * * * *", {HomeJobs.SolarEdge.GetSolarEdgeQuarterDataJob, :run, []}}
   ]
 
 # InfluxDB
@@ -60,7 +64,6 @@ config :home_bot, HomeBot.DataStore.InfluxConnection,
 # Phoenix
 config :phoenix, :json_library, Jason
 
-config :home_bot, HomeWeb.Endpoint,
-  pubsub_server: HomeWeb.PubSub
+config :home_bot, HomeWeb.Endpoint, pubsub_server: HomeWeb.PubSub
 
 import_config "#{Mix.env()}.exs"

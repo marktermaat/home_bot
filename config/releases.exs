@@ -31,4 +31,7 @@ config :home_bot,
   db_port: System.fetch_env!("HOMEBOT_DB_PORT"),
   db_username: System.fetch_env!("HOMEBOT_DB_USERNAME"),
   db_password: System.fetch_env!("HOMEBOT_DB_PASSWORD"),
-  db_database: System.fetch_env!("HOMEBOT_DB_DATABASE")
+  db_database: System.fetch_env!("HOMEBOT_DB_DATABASE"),
+  solar_edge_api_key: System.fetch_env!("SOLAR_EDGE_API_KEY"),
+  mqtt_host: System.fetch_env!("MQTT_HOST"),
+  mqtt_port: System.fetch_env!("MQTT_PORT")

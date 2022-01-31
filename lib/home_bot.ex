@@ -17,13 +17,26 @@ defmodule HomeBot do
       ]
     }
 
+    host = Application.fetch_env!(:home_bot, :mqtt_host)
+    port = String.to_integer("#{Application.fetch_env!(:home_bot, :mqtt_port)}")
+
+    tortoise_spec = {
+      Tortoise.Connection,
+      [
+        client_id: "HomeBot",
+        server: {Tortoise.Transport.Tcp, host: host, port: port},
+        handler: {Tortoise.Handler.Logger, []}
+      ]
+    }
+
     children = [
       HomeBot.Bot,
       HomeBot.Scheduler,
       HomeBot.DataStore.InfluxConnection,
       {Phoenix.PubSub, [name: HomeWeb.PubSub, adapter: Phoenix.PubSub.PG2]},
       HomeWeb.Endpoint,
-      postgres_child_spec
+      postgres_child_spec,
+      tortoise_spec
       # HomeBot.EnergyStream.Supervisor
     ]
 

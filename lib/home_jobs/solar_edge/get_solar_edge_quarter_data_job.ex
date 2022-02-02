@@ -8,6 +8,7 @@ defmodule HomeJobs.SolarEdge.GetSolarEdgeQuarterDataJob do
     yesterday = Date.add(today, -1)
 
     ApiClient.get_quarter_energy_data(yesterday, today)
+    |> Enum.filter(fn value -> value.timestamp < NaiveDateTime.utc_now() end)
     |> then(&MqttPublisher.publish_energy_data/1)
   end
 end

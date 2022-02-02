@@ -17,6 +17,7 @@ config :home_bot, HomeWeb.Endpoint,
 
 config :home_bot,
   db_database: "event_data",
+  mqtt_client_id: "HomeBotDev",
   mqtt_host: "192.168.2.4"
 
 config :home_bot, HomeBot.Scheduler, jobs: []

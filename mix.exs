@@ -16,7 +16,7 @@ defmodule HomeBot.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :ssh],
+      extra_applications: [:logger, :ssh, :retry],
       mod: {HomeBot, []}
     ]
   end
@@ -43,7 +43,7 @@ defmodule HomeBot.MixProject do
       {:postgrex, "~> 0.15.10"},
       {:gen_stage, "~> 1.1"},
       {:tortoise, "~> 0.10.0"},
-      {:dialyxir, "~> 1.1", only: [:dev], runtime: false}
+      {:retry, "~> 0.15.0"}
     ]
   end
 

@@ -36,6 +36,7 @@ config :home_bot,
   rss_router_api_token: "SECRET",
   healthchecks_host: "FILL IN",
   solar_edge_api_key: "FILL IN",
+  mqtt_client_id: "HomeBot",
   mqtt_host: "localhost",
   mqtt_port: 1883
 

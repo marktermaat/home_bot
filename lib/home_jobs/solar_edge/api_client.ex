@@ -1,4 +1,6 @@
 defmodule HomeJobs.SolarEdge.ApiClient do
+  use Retry
+
   alias HomeJobs.SolarEdge.EnergyValue
 
   @spec get_quarter_energy_data(Date.t(), Date.t()) :: [%EnergyValue{}]
@@ -12,7 +14,16 @@ defmodule HomeJobs.SolarEdge.ApiClient do
       timeUnit: "QUARTER_OF_AN_HOUR"
     }
 
-    {:ok, response} = HTTPoison.get(energy_uri(query_params))
+    options = [recv_timeout: 5000]
+
+    {:ok, response} = retry with: constant_backoff(1000) |> Stream.take(10) do
+      HTTPoison.get(energy_uri(query_params), options)
+    after
+      result -> result
+    else
+      error -> error
+    end
+
     data = Jason.decode!(response.body, keys: :atoms)
 
     data[:energy][:values]

@@ -17,13 +17,14 @@ defmodule HomeBot do
       ]
     }
 
+    client_id = Application.fetch_env!(:home_bot, :mqtt_client_id)
     host = Application.fetch_env!(:home_bot, :mqtt_host)
     port = String.to_integer("#{Application.fetch_env!(:home_bot, :mqtt_port)}")
 
     tortoise_spec = {
       Tortoise.Connection,
       [
-        client_id: "HomeBot",
+        client_id: client_id,
         server: {Tortoise.Transport.Tcp, host: host, port: port},
         handler: {Tortoise.Handler.Logger, []}
       ]

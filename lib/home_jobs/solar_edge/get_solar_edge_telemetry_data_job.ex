@@ -6,7 +6,9 @@ defmodule HomeJobs.SolarEdge.GetSolarEdgeTelemetryDataJob do
   def run() do
     today = Date.utc_today() |> Date.to_string()
     start_time = NaiveDateTime.from_iso8601!(today <> " 00:00:00")
-    end_time = NaiveDateTime.add(start_time, 1, :day)
+
+    tomorrow = Date.utc_today() |> Date.add(1) |> Date.to_string()
+    end_time = NaiveDateTime.from_iso8601!(tomorrow <> " 00:00:00")
 
     ApiClient.get_telemetry_data(start_time, end_time)
     |> Enum.filter(fn value -> value.timestamp < NaiveDateTime.utc_now() end)

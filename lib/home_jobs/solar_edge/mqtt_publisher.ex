@@ -8,7 +8,7 @@ defmodule HomeJobs.SolarEdge.MqttPublisher do
     records
     |> Enum.map(&Jason.encode!/1)
     |> Enum.each(fn message ->
-      Tortoise.publish("HomeBot", "data/solar/quarter_energy", message, qos: 1)
+      Tortoise.publish(client_id(), "data/solar/quarter_energy", message, qos: 1)
     end)
   end
 
@@ -17,7 +17,7 @@ defmodule HomeJobs.SolarEdge.MqttPublisher do
     records
     |> Enum.map(&Jason.encode!/1)
     |> Enum.each(fn message ->
-      Tortoise.publish("HomeBot", "data/solar/daily_energy", message, qos: 1)
+      Tortoise.publish(client_id(), "data/solar/daily_energy", message, qos: 1)
     end)
   end
 
@@ -26,7 +26,9 @@ defmodule HomeJobs.SolarEdge.MqttPublisher do
     records
     |> Enum.map(&Jason.encode!/1)
     |> Enum.each(fn message ->
-      Tortoise.publish("HomeBot", "data/solar/telemetry", message, qos: 1)
+      Tortoise.publish(client_id(), "data/solar/telemetry", message, qos: 1)
     end)
   end
+
+  def client_id, do: Application.fetch_env!(:home_bot, :mqtt_client_id)
 end

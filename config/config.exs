@@ -8,7 +8,9 @@ config :logger,
     {HomeBot.Bot.NotifierLogBackend, :notifier_log_backend}
   ]
 
-config :logger, :console, level: :all
+config :logger, :console,
+  level: :all,
+  format: "\n##### $date $time $metadata[$level] $levelpad$message\n"
 
 config :logger, :error_log,
   level: :error,

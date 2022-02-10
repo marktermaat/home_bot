@@ -1,5 +1,6 @@
 defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
   @moduledoc "The task that retrieves weather hourly data and stores it"
+  use Retry
 
   @lat "52.2658"
   @long "6.7931"
@@ -22,26 +23,22 @@ defmodule HomeBot.Weather.OpenweatherTemperatureLogger do
     HomeBot.DataStore.write_temperature_data(datapoints)
   end
 
-  defp get_hourly_weather_data(timestamp, retry \\ 3, _ \\ nil)
-  defp get_hourly_weather_data(_, _retry = 0, error) do
-    raise "Unexpected response from OpenWeather API: #{inspect(error)}"
-  end
-
-  defp get_hourly_weather_data(timestamp, retry, _) do
+  defp get_hourly_weather_data(timestamp) do
     HTTPoison.start()
 
-    try do
-      %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(
-        "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{
-          timestamp
-        }&appid=#{api_key()}&units=metric",
-        recv_timeout: 30_000
-      )
+    %HTTPoison.Response{status_code: 200, body: body} =
+      retry with: constant_backoff(1000) |> Stream.take(10) do
+        HTTPoison.get!(
+          "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{timestamp}&appid=#{api_key()}&units=metric",
+          recv_timeout: 30_000
+        )
+      after
+        result -> result
+      else
+        error -> raise "Unexpected response from OpenWeather API: #{inspect(error)}"
+      end
 
-      body
-    rescue
-      e -> get_hourly_weather_data(timestamp, retry - 1, inspect(e))
-    end
+    body
   end
 
   defp process_hour_record(record) do

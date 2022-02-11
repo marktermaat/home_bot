@@ -1,9 +1,9 @@
-defmodule HomeJobs.SolarEdge.ApiClient do
+defmodule HomeSolar.SolarEdge.ApiClient do
   use Retry
 
-  alias HomeJobs.SolarEdge.EnergyValue
-  alias HomeJobs.SolarEdge.EnergyDayValue
-  alias HomeJobs.SolarEdge.TelemetryValue
+  alias HomeSolar.SolarEdge.EnergyValue
+  alias HomeSolar.SolarEdge.EnergyDayValue
+  alias HomeSolar.SolarEdge.TelemetryValue
 
   @spec get_quarter_energy_data(Date.t(), Date.t()) :: [%EnergyValue{}]
   def get_quarter_energy_data(start_date, end_date) do
@@ -105,7 +105,7 @@ defmodule HomeJobs.SolarEdge.ApiClient do
 
   defp call(uri) do
     retry with: constant_backoff(1000) |> Stream.take(10) do
-      HTTPoison.get(uri, recv_timeout: 5000)
+      HTTPoison.get(uri, recv_timeout: 15000)
     after
       result -> result
     else

@@ -1,6 +1,6 @@
-defmodule HomeJobs.SolarEdge.GetSolarEdgeDailyDataJob do
-  alias HomeJobs.SolarEdge.ApiClient
-  alias HomeJobs.SolarEdge.MqttPublisher
+defmodule HomeSolar.SolarEdge.GetSolarEdgeDailyDataJob do
+  alias HomeSolar.SolarEdge.ApiClient
+  alias HomeSolar.SolarEdge.MqttPublisher
 
   # This job will run every day and retrieve all daily data of the last 2 days
   def run() do

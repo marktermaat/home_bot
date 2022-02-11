@@ -56,9 +56,9 @@ config :home_bot, HomeBot.Scheduler,
     {"*/30 * * * *", {HomeBot.Weather, :log_temperature_data, []}},
     {"0 */4 * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}},
     {"0 5 * * * *", {HomeBot.Monitoring, :run_daily_energy_monitoring, []}},
-    {"*/15 * * * *", {HomeJobs.SolarEdge.GetSolarEdgeQuarterDataJob, :run, []}},
-    {"5 2 * * * *", {HomeJobs.SolarEdge.GetSolarEdgeDailyDataJob, :run, []}},
-    {"0 * * * *", {HomeJobs.SolarEdge.GetSolarEdgeTelemetryDataJob, :run, []}}
+    {"*/15 * * * *", {HomeSolar.SolarEdge.GetSolarEdgeQuarterDataJob, :run, []}},
+    {"5 2 * * * *", {HomeSolar.SolarEdge.GetSolarEdgeDailyDataJob, :run, []}},
+    {"0 * * * *", {HomeSolar.SolarEdge.GetSolarEdgeTelemetryDataJob, :run, []}}
   ]
 
 # InfluxDB

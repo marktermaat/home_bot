@@ -1,7 +1,7 @@
-defmodule HomeJobs.SolarEdge.MqttPublisher do
-  alias HomeJobs.SolarEdge.EnergyValue
-  alias HomeJobs.SolarEdge.EnergyDayValue
-  alias HomeJobs.SolarEdge.TelemetryValue
+defmodule HomeSolar.SolarEdge.MqttPublisher do
+  alias HomeSolar.SolarEdge.EnergyValue
+  alias HomeSolar.SolarEdge.EnergyDayValue
+  alias HomeSolar.SolarEdge.TelemetryValue
 
   @spec publish_quarter_energy_data([%EnergyValue{}]) :: :ok
   def publish_quarter_energy_data(records) do

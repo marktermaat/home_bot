@@ -1,6 +1,6 @@
-defmodule HomeJobs.SolarEdge.GetSolarEdgeTelemetryDataJob do
-  alias HomeJobs.SolarEdge.ApiClient
-  alias HomeJobs.SolarEdge.MqttPublisher
+defmodule HomeSolar.SolarEdge.GetSolarEdgeTelemetryDataJob do
+  alias HomeSolar.SolarEdge.ApiClient
+  alias HomeSolar.SolarEdge.MqttPublisher
 
   # This job will run every hour and retrieve all telemetry data of the current day
   def run() do

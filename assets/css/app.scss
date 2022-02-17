@@ -6,7 +6,7 @@
 
 @layer base {
   .menu-item {
-    @apply m-4
+    @apply m-3
   }
 
   .hidden-left {
@@ -18,6 +18,10 @@
   }
 
   .flex_chart {
+    @apply w-full 2xl:w-4/12 lg:w-6/12 p-2
+  }
+
+  .flex_chart_wide {
     @apply w-full 2xl:w-4/12 lg:w-6/12 p-2
   }
 

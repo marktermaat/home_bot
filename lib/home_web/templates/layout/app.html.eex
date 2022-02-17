@@ -24,17 +24,17 @@
   </head>
 
   <body class="">
-    <div id="header" class="bg-indigo-700 h-16">
+    <div id="header" class="bg-indigo-700 h-12">
       <div>
-        <label for="menu-toggle" class="cursor-pointer block absolute m-4">
-          <svg class="fill-current text-gray-900" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
+        <label for="menu-toggle" class="cursor-pointer block absolute m-3">
+          <svg class="fill-current text-gray-900" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20">
            <title>menu</title>
            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
             </svg>
         </label>
         <input class="hidden" type="checkbox" id="menu-toggle" />
 
-        <div class="hidden-left absolute mt-16 bg-gray-200 h-full" id="menu">
+        <div class="hidden-left absolute mt-12 bg-gray-200 h-full" id="menu">
           <nav>
             <ul class="">
               <li class="menu-item"><a href="<%= Routes.home_path(@conn, :index) %>">Dashboard</a></li>

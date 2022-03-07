@@ -34,6 +34,7 @@ defmodule HomeWeb.Router do
 
     get("/rss_router", RssRouterController, :index)
     get("/home_climate", HomeClimateController, :index)
+    get("/solar", SolarController, :index)
   end
 
   scope "/api", HomeWeb do

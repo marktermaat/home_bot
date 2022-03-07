@@ -4,6 +4,7 @@ defmodule HomeWeb.Models.GraphModel do
   import HomeBot.Tools
 
   alias HomeBot.DataStore
+  alias HomeEnergy.Api
 
   use Timex
 
@@ -156,32 +157,24 @@ defmodule HomeWeb.Models.GraphModel do
   end
 
   def get_gas_mean_and_sd_of_period(period_start, period_end, ticks_string) do
-    data = DataStore.get_gas_usage("1h", period_start, period_end)
-    get_mean_and_sd_of_period(data, ticks_string)
+    data = Api.get_energy_usage(period_start, period_end, 1, "hour")
+    get_mean_and_sd_of_period(data, ticks_string, :usage_gas)
   end
 
   def get_electricity_mean_and_sd_of_period(period_start, period_end, ticks_string) do
-    data =
-      DataStore.get_electricity_usage("1h", period_start, period_end)
-      |> Enum.map(fn record ->
-        %{
-          "time" => record["time"],
-          "usage" => record["low_tariff_usage"] + record["normal_tariff_usage"]
-        }
-      end)
-
-    get_mean_and_sd_of_period(data, ticks_string)
+    data = Api.get_energy_usage(period_start, period_end, 1, "hour")
+    get_mean_and_sd_of_period(data, ticks_string, :usage_total_tariff)
   end
 
-  defp get_mean_and_sd_of_period(data, ticks_string) do
+  defp get_mean_and_sd_of_period(data, ticks_string, field) do
     ticks =
       String.split(ticks_string, ",")
       |> Enum.map(&String.to_integer/1)
 
     values =
       data
-      |> Enum.filter(fn %{"time" => time} -> Enum.member?(ticks, get_hour(time)) end)
-      |> Enum.map(fn %{"usage" => usage} -> usage end)
+      |> Enum.filter(fn period -> Enum.member?(ticks, get_hour(period.start_time)) end)
+      |> Enum.map(fn period -> Map.get(period, field) end)
 
     mean = mean(values)
     sd = standard_deviation(values, mean)

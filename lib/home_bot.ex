@@ -38,7 +38,6 @@ defmodule HomeBot do
       HomeWeb.Endpoint,
       postgres_child_spec,
       tortoise_spec
-      # HomeBot.EnergyStream.Supervisor
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)

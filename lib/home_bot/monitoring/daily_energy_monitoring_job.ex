@@ -3,6 +3,7 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
 
   alias HomeBot.DataStore
   alias HomeBot.Tools
+  alias HomeEnergy.Api
 
   def run do
     check_gas_usage()
@@ -58,13 +59,13 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
   end
 
   defp get_total_gas_usage(start_time, end_time) do
-    DataStore.get_gas_usage("1h", start_time, end_time)
-    |> Enum.reduce(0, fn x, acc -> acc + x["usage"] end)
+    Api.get_energy_usage(start_time, end_time, 1, "hour")
+    |> Enum.reduce(0, fn x, acc -> acc + x.usage_gas end)
   end
 
   defp get_total_electricity_usage(start_time, end_time) do
-    DataStore.get_electricity_usage("1h", start_time, end_time)
-    |> Enum.reduce(0, fn x, acc -> acc + x["low_tariff_usage"] + x["normal_tariff_usage"] end)
+    Api.get_energy_usage(start_time, end_time, 1, "hour")
+    |> Enum.reduce(0, fn x, acc -> acc + x.usage_total_tariff end)
   end
 
   defp get_mean_std_gas_usage_for_temperature(temperature) do
@@ -74,9 +75,9 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
       |> Enum.map(fn %{"time" => time} -> time end)
 
     previous_usage =
-      DataStore.get_gas_usage_per_day(:all)
-      |> Enum.filter(fn %{"time" => time} -> Enum.member?(days_with_same_temperature, time) end)
-      |> Enum.map(fn x -> x["usage"] end)
+      Api.get_energy_usage(~N[2000-01-01 00:00:00], NaiveDateTime.utc_now(), 1, "day")
+      |> Enum.filter(fn period -> Enum.member?(days_with_same_temperature, period.start_time) end)
+      |> Enum.map(fn x -> x.usage_gas end)
 
     mean = Tools.mean(previous_usage)
     standard_deviation = Tools.standard_deviation(previous_usage, mean)
@@ -86,13 +87,9 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
 
   defp get_mean_std_electricity_usage_for_weekday(weekday) do
     historic_usage_values =
-      DataStore.get_electricity_usage(
-        "1d",
-        "2018-01-01T00:00:00Z",
-        "#{DateTime.to_iso8601(Timex.now())}"
-      )
-      |> Enum.filter(fn record -> get_weekday(record["time"]) == weekday end)
-      |> Enum.map(fn x -> x["low_tariff_usage"] + x["normal_tariff_usage"] end)
+      Api.get_energy_usage(~N[2000-01-01 00:00:00], NaiveDateTime.utc_now(), 1, "day")
+      |> Enum.filter(fn record -> get_weekday(record.start_time) == weekday end)
+      |> Enum.map(fn x -> x.usage_total_tariff end)
 
     mean = Tools.mean(historic_usage_values)
     standard_deviation = Tools.standard_deviation(historic_usage_values, mean)

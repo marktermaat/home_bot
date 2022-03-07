@@ -1,0 +1,6 @@
+<div class="flex flex-row flex-wrap">
+
+  <div class="flex_chart_wide">
+    <%= live_render(@conn, HomeWeb.EnergyQuarterGraphLive) %>
+  </div>
+</div>

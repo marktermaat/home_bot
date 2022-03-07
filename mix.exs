@@ -41,9 +41,9 @@ defmodule HomeBot.MixProject do
       {:contex, git: "https://github.com/mindok/contex.git"},
       {:timex, "~> 3.6"},
       {:postgrex, "~> 0.15.10"},
-      {:gen_stage, "~> 1.1"},
       {:tortoise, "~> 0.10.0"},
-      {:retry, "~> 0.15.0"}
+      {:retry, "~> 0.15.0"},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 

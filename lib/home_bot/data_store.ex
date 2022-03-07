@@ -2,7 +2,6 @@ defmodule HomeBot.DataStore do
   @moduledoc "Public interface for Data Stores"
 
   alias HomeBot.DataStore.ChannelStore
-  alias HomeBot.DataStore.EnergyStore
   alias HomeBot.DataStore.TemperatureStore
   alias HomeBot.DataStore.EnergyPostgresStore
 
@@ -42,26 +41,6 @@ defmodule HomeBot.DataStore do
     EnergyPostgresStore.get_latest_measurement()
   end
 
-  def get_measurements_since(timestamp) do
-    EnergyStore.get_measurements_since(timestamp)
-  end
-
-  def get_gas_usage(group, start_time, end_time) do
-    EnergyStore.get_gas_usage(group, start_time, end_time)
-  end
-
-  def get_gas_usage_per_hour(days \\ 48) do
-    EnergyStore.get_gas_usage_per_hour(days)
-  end
-
-  def get_gas_usage_per_day(days \\ 48) do
-    EnergyStore.get_gas_usage_per_day(days)
-  end
-
-  def get_electricity_usage(group, start_time, end_time) do
-    EnergyStore.get_electricity_usage(group, start_time, end_time)
-  end
-
   @spec get_energy_usage(NaiveDateTime.t(), NaiveDateTime.t(), integer(), String.t()) ::
           list(map())
   def get_energy_usage(start_time, end_time, group_quantity, group_unit) do
@@ -78,14 +57,6 @@ defmodule HomeBot.DataStore do
     start_time = DateTime.from_unix!(0)
     end_time = DateTime.from_unix!(10_000_000_000)
     EnergyPostgresStore.get_daily_energy_usage(start_time, end_time)
-  end
-
-  def get_electricity_usage_per_hour(days \\ 3) do
-    EnergyStore.get_electricity_usage_per_hour(days)
-  end
-
-  def get_electricity_usage_per_day(days \\ 48) do
-    EnergyStore.get_electricity_usage_per_day(days)
   end
 
   def get_electricity_usage(minutes \\ 3) do

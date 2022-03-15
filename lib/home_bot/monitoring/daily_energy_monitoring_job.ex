@@ -106,10 +106,10 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
     Timex.now("Europe/Amsterdam")
     |> Timex.beginning_of_day()
     |> Timex.shift(days: -1)
-    |> DateTime.to_iso8601()
+    |> DateTime.to_naive()
   end
 
   defp end_of_yesterday do
-    Timex.now("Europe/Amsterdam") |> Timex.beginning_of_day() |> DateTime.to_iso8601()
+    Timex.now("Europe/Amsterdam") |> Timex.beginning_of_day() |> DateTime.to_naive()
   end
 end

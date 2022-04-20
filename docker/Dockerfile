@@ -1,5 +1,5 @@
 # ===== Build phase
-FROM elixir:1.12.2-alpine as builder
+FROM elixir:1.13.3-alpine as builder
 ENV MIX_ENV=prod
 
 # Install GIT for dependencies straight from git

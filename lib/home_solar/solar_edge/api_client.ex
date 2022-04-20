@@ -73,6 +73,7 @@ defmodule HomeSolar.SolarEdge.ApiClient do
     %TelemetryValue{
       timestamp: convert_timestamp(record[:date]),
       current_power: record[:totalActivePower],
+      ac_voltage: record[:L1Data][:acVoltage],
       inverter_mode: record[:inverterMode]
     }
   end

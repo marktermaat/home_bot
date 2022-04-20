@@ -21,13 +21,11 @@ defmodule HomeWeb.TemperatureLive do
     temperature = get_temperature()
 
     socket
-      |> assign(:value, temperature)
-      |> assign(:unit, " °C")
+    |> assign(:value, temperature)
+    |> assign(:unit, " °C")
   end
 
   defp get_temperature() do
-    latest = HomeBot.DataStore.get_latest_weather_data()
-
-    latest["temperature"]
+    HomeWeather.Api.get_latest_weather_record().temperature
   end
 end

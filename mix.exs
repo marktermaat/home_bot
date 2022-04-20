@@ -5,7 +5,7 @@ defmodule HomeBot.MixProject do
     [
       app: :home_bot,
       version: get_and_update_version!(),
-      elixir: "~> 1.12",
+      elixir: "~> 1.13",
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),

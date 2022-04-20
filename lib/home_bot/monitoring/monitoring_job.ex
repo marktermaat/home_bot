@@ -37,7 +37,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
   end
 
   defp check_weather_data do
-    %{"time" => latest_timestamp} = HomeBot.DataStore.get_latest_weather_data()
+    latest_timestamp = HomeWeather.Api.get_latest_weather_record().timestamp
 
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now(), hours: -4)) do
       HomeBot.Bot.notify_users("Weather data not received since #{latest_timestamp}")

@@ -21,13 +21,11 @@ defmodule HomeWeb.WindspeedLive do
     wind_speed = get_wind_speed()
 
     socket
-      |> assign(:value, wind_speed)
-      |> assign(:unit, " km/h")
+    |> assign(:value, wind_speed)
+    |> assign(:unit, " km/h")
   end
 
   defp get_wind_speed() do
-    latest = HomeBot.DataStore.get_latest_weather_data()
-
-    latest["wind_speed"]
+    HomeWeather.Api.get_latest_weather_record().wind_speed
   end
 end

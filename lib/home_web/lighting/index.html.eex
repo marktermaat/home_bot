@@ -1,0 +1,11 @@
+<div class="flex flex-row flex-wrap">
+
+  <div class="flex_chart_wide">
+    <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel_1"}) %>
+    <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel_2"}) %>
+    <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel_3"}) %>
+    <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel_4"}) %>
+    <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel_5"}) %>
+    <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel"}) %>
+  </div>
+</div>

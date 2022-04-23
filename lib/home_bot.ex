@@ -35,7 +35,7 @@ defmodule HomeBot do
       HomeBot.Scheduler,
       HomeBot.DataStore.InfluxConnection,
       {Phoenix.PubSub, [name: HomeWeb.PubSub, adapter: Phoenix.PubSub.PG2]},
-      {Registry, keys: :unique, name: HomeLight.Controllers},
+      HomeLight.HomeLightSupervisor,
       HomeWeb.Endpoint,
       postgres_child_spec,
       tortoise_spec

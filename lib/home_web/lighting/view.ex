@@ -8,4 +8,15 @@ defmodule HomeWeb.LightingView do
       :disabled -> "grey"
     end
   end
+
+  def vacation_mode_color(state) do
+    case state do
+      true -> "green"
+      false -> "red"
+    end
+  end
+
+  def format_time(time) do
+    Time.to_iso8601(time)
+  end
 end

@@ -8,4 +8,8 @@
     <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel_5"}) %>
     <%= live_render(@conn, HomeWeb.SmartLightToggleLive, session: %{"name" => "Eettafel"}) %>
   </div>
+
+  <div>
+    <%= live_render(@conn, HomeWeb.SmartLightVacationModeLive) %>
+  </div>
 </div>

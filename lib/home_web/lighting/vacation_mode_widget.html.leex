@@ -1,0 +1,13 @@
+<div phx-click="toggle_vacation_mode">
+  <span style="padding: 0px 9px; margin-right: 10px; border-radius: 100%; background-color: <%= vacation_mode_color(assigns.state) %>;"></span>
+  Vacation mode
+
+  <%= if assigns.start_time != nil do %>
+  <br> Lights on: <%= format_time(assigns.start_time) %>
+  <% end %>
+
+  <%= if assigns.end_time != nil do %>
+  <br> Lights off: <%= format_time(assigns.end_time) %>
+  <% end %>
+</div>
+

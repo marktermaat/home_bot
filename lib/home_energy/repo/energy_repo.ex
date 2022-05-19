@@ -30,7 +30,7 @@ defmodule HomeEnergy.Repo.EnergyRepo do
     ORDER BY bucket;
     """
 
-    result = query(query, [start_time, end_time])
+    result = long_running_query(query, [start_time, end_time])
     first = List.first(result)
 
     start_values = %{

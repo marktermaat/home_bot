@@ -1,9 +1,9 @@
 defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
   @moduledoc "This job will run some daily checks"
 
-  alias HomeBot.DataStore
   alias HomeBot.Tools
   alias HomeEnergy.Api
+  alias HomeWeather.Api, as: WeatherApi
 
   def run do
     check_gas_usage()
@@ -54,8 +54,8 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
   end
 
   defp get_average_temperature(start_time, end_time) do
-    %{:temperature => temperature} = DataStore.get_average_temperature(start_time, end_time)
-    round(temperature)
+    WeatherApi.get_average_temperature(start_time, end_time)
+    |> Decimal.round()
   end
 
   defp get_total_gas_usage(start_time, end_time) do
@@ -70,9 +70,12 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
 
   defp get_mean_std_gas_usage_for_temperature(temperature) do
     days_with_same_temperature =
-      HomeBot.DataStore.get_average_temperature_per_day(:all)
-      |> Enum.filter(fn %{"temperature" => temp} -> temp != nil && round(temp) == temperature end)
-      |> Enum.map(fn %{"time" => time} -> time end)
+      WeatherApi.get_average_temperature_per_day()
+      |> Enum.filter(fn record ->
+        record.temperature != nil &&
+          record.temperature |> Decimal.round() |> Decimal.to_integer() == temperature
+      end)
+      |> Enum.map(fn record -> record.day_timestamp end)
 
     previous_usage =
       Api.get_energy_usage(~N[2000-01-01 00:00:00], NaiveDateTime.utc_now(), 1, "day")

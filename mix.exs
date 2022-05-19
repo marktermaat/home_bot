@@ -32,7 +32,7 @@ defmodule HomeBot.MixProject do
       {:instream, "~> 1.0"},
       {:phoenix, "~> 1.5"},
       {:cowlib, "~> 2.9", override: true},
-      {:plug_cowboy, "~> 2.5"},
+      {:plug_cowboy, "~> 2.5"}, 
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.4"},

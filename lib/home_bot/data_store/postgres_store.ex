@@ -7,6 +7,12 @@ defmodule HomeBot.DataStore.PostgresStore do
     result_to_map(result)
   end
 
+  def long_running_query(query, args \\ []) do
+    result = Postgrex.query!(HomeBot.DbConnection, query, args, timeout: 100_000)
+
+    result_to_map(result)
+  end
+
   def result_to_map(%Postgrex.Result{columns: _columns, rows: []}) do
     []
   end

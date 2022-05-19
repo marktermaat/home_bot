@@ -13,7 +13,7 @@ defmodule HomeBot do
         database: Application.fetch_env!(:home_bot, :db_database),
         name: HomeBot.DbConnection,
         show_sensitive_data_on_connection_error: true,
-        pool_size: 4
+        pool_size: 10
       ]
     }
 

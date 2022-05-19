@@ -5,6 +5,8 @@ defmodule HomeWeb.Models.GraphModel do
 
   alias HomeBot.DataStore
   alias HomeEnergy.Api
+  alias HomeWeather.Api, as: WeatherApi
+  alias HomeWeather.Api.WeatherSummary
 
   use Timex
 
@@ -55,16 +57,12 @@ defmodule HomeWeb.Models.GraphModel do
   def daily_gas_and_temperature_data(start_time, end_time) do
     gas_usage = DataStore.get_energy_usage(start_time, end_time, 1, "day")
 
-    temps =
-      DataStore.get_average_temperature_per_day(
-        DateTime.to_iso8601(start_time),
-        DateTime.to_iso8601(end_time)
-      )
+    temperatures = WeatherApi.get_average_temperature_per_day(start_time, end_time)
 
     labels = get_labels(gas_usage)
 
     gas_values = gas_usage |> Enum.map(&Map.fetch!(&1, :usage_gas_meter))
-    temperature_values = temps |> Enum.map(&Map.fetch!(&1, "temperature"))
+    temperature_values = temperatures |> Enum.map(fn record -> record.temperature end)
 
     %{
       title: "Daily gas usage",
@@ -83,14 +81,15 @@ defmodule HomeWeb.Models.GraphModel do
   end
 
   def gas_usage_per_temperature_data do
-    daily_temperatures = get_daily_temperatures()
-    daily_gas_usage = get_daily_gas_usage()
+    daily_temperatures = WeatherApi.get_average_temperature_per_day()
+    daily_gas_usage = DataStore.get_daily_energy_usage()
 
     raw_data =
-      daily_gas_usage
-      |> join_on_key(daily_temperatures, :time, "time")
-      |> Enum.filter(fn record -> record["temperature"] != nil end)
-      |> Enum.group_by(fn record -> round(record["temperature"]) end)
+      daily_temperatures
+      |> Enum.map(&Map.from_struct/1)
+      |> join_on_key(daily_gas_usage, :day_timestamp, :time)
+      |> Enum.filter(fn record -> record[:temperature] != nil end)
+      |> Enum.group_by(&WeatherSummary.temperature_as_int/1)
       |> Enum.map(fn {temperature, records} ->
         [temperature, mean_for_key(records, :usage_gas_meter)]
       end)
@@ -109,19 +108,22 @@ defmodule HomeWeb.Models.GraphModel do
   end
 
   def gas_usage_per_temperature_per_year_data do
-    daily_temperatures = get_daily_temperatures()
-    daily_gas_usage = get_daily_gas_usage()
+    daily_temperatures = WeatherApi.get_average_temperature_per_day()
+    daily_gas_usage = DataStore.get_daily_energy_usage()
 
-    {%{"temperature" => _min_temp}, %{"temperature" => max_temp}} =
+    {_min_summary, max_summary} =
       daily_temperatures
-      |> Enum.filter(fn record -> record["temperature"] != nil end)
-      |> Enum.min_max_by(fn record -> record["temperature"] end)
+      |> Enum.filter(fn record -> record.temperature != nil end)
+      |> Enum.min_max_by(fn record -> record.temperature end)
 
+    max_temp = WeatherSummary.temperature_as_int(max_summary)
     temp_range = 0..round(max_temp) |> Enum.to_list()
 
     raw_data =
-      join_on_key(daily_temperatures, daily_gas_usage, "time", :time)
-      |> Enum.group_by(fn record -> get_year(record["time"]) end)
+      daily_temperatures
+      |> Enum.map(&Map.from_struct/1)
+      |> join_on_key(daily_gas_usage, :day_timestamp, :time)
+      |> Enum.group_by(fn record -> get_year(record[:time]) end)
       |> Enum.map(fn {year, records} -> [year, to_gas_usage_per_temp(records, temp_range)] end)
 
     dataset_data =
@@ -201,8 +203,7 @@ defmodule HomeWeb.Models.GraphModel do
   end
 
   defp get_year(datetime) do
-    dt = NaiveDateTime.from_iso8601!(datetime)
-    NaiveDateTime.to_date(dt).year
+    NaiveDateTime.to_date(datetime).year
   end
 
   defp get_labels(records) do
@@ -211,32 +212,4 @@ defmodule HomeWeb.Models.GraphModel do
 
     # TODO: Time is in UTC, convert to Europe/Amsterdam
   end
-
-  defp get_daily_temperatures do
-    DataStore.get_average_temperature_per_day(:all)
-    |> Enum.map(fn record -> Map.update!(record, "time", &NaiveDateTime.to_iso8601/1) end)
-  end
-
-  defp get_daily_gas_usage do
-    DataStore.get_daily_energy_usage()
-    |> Enum.map(fn record ->
-      Map.update!(record, :time, fn time ->
-        Timex.to_datetime(time, "Europe/Amsterdam")
-        |> Timex.to_naive_datetime()
-        |> NaiveDateTime.truncate(:second)
-        |> NaiveDateTime.to_iso8601()
-      end)
-    end)
-  end
-
-  # defp fix_timezone(record) do
-  #   Map.update!(record, :time, &to_timezone/1)
-  # end
-
-  # defp to_timezone(time) do
-  #   # {:ok, dt} = NaiveDateTime.from_iso8601(time)
-
-  #   Timex.to_datetime(time, "Europe/Amsterdam")
-  #   |> DateTime.to_iso8601()
-  # end
 end

@@ -3,6 +3,10 @@ defmodule HomeWeather.Api.WeatherSummary do
 
   @type t :: %HomeWeather.Api.WeatherSummary{
           day_timestamp: NaiveDateTime.t(),
-          temperature: float()
+          temperature: Decimal.t()
         }
+
+  def temperature_as_int(summary) do
+    summary.temperature |> Decimal.round() |> Decimal.to_integer()
+  end
 end

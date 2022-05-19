@@ -21,18 +21,6 @@ defmodule HomeBot.DataStore do
     TemperatureStore.write_temperature_data(data)
   end
 
-  def get_average_temperature_per_day(days \\ 48) do
-    TemperatureStore.get_average_temperature_per_day(days)
-  end
-
-  def get_average_temperature_per_day(start_time, end_time) do
-    TemperatureStore.get_average_temperature_per_day(start_time, end_time)
-  end
-
-  def get_average_temperature(start_time, end_time) do
-    TemperatureStore.get_average_temperature(start_time, end_time)
-  end
-
   def get_latest_energy_measurement do
     EnergyPostgresStore.get_latest_measurement()
   end

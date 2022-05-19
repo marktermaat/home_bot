@@ -21,9 +21,19 @@ defmodule HomeWeather.Api.Repo do
     }
   end
 
-  @spec get_average_temperature_during_day(DateTime.t(), DateTime.t(), integer(), atom()) ::
-          WeatherSummary.t()
-  def get_average_temperature_during_day(start_time, end_time, aggregation_amount, aggregation_unit) do
+  @spec get_average_temperature_during_day(
+          DateTime.t() | NaiveDateTime.t(),
+          DateTime.t() | NaiveDateTime.t(),
+          integer(),
+          atom()
+        ) ::
+          [WeatherSummary.t()]
+  def get_average_temperature_during_day(
+        start_time,
+        end_time,
+        aggregation_amount,
+        aggregation_unit
+      ) do
     query =
       "SELECT time_bucket('#{aggregation_amount} #{aggregation_unit}'::interval, time) AS bucket, AVG(temperature) FROM weather_hour_events WHERE time >= $1 AND time < $2 AND time::timestamp::time > '05:00:00' AND time::timestamp::time < '20:00:00' GROUP BY bucket ORDER BY bucket"
 
@@ -34,7 +44,23 @@ defmodule HomeWeather.Api.Repo do
       rows
       |> Enum.map(fn row -> Enum.zip(columns, row) end)
       |> Enum.map(fn row -> Enum.into(row, %{}) end)
+      |> Enum.map(fn record ->
+        %WeatherSummary{day_timestamp: record["bucket"], temperature: record["avg"]}
+      end)
 
     result
+  end
+
+  @spec get_average_temperature(
+          DateTime.t() | NaiveDateTime.t(),
+          DateTime.t() | NaiveDateTime.t()
+        ) :: Decimal.t()
+  def get_average_temperature(start_time, end_time) do
+    query = "SELECT avg(temperature) FROM weather_hour_events where time >= $1 AND time < $2"
+
+    %Postgrex.Result{rows: [average_temperature]} =
+      Postgrex.query!(HomeBot.DbConnection, query, [start_time, end_time], timeout: 10_000)
+
+    average_temperature |> List.first()
   end
 end

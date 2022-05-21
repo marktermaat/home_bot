@@ -31,8 +31,6 @@ config :home_bot,
   ssh_password: "FILL IN",
   meteostat_api_key: "FILL IN",
   openweather_api_key: "FILL IN",
-  influxdb_host: "FILL IN",
-  influxdb_port: 1,
   hashed_password: "FILL IN",
   rss_router_host: "FILL IN",
   rss_router_api_token: "SECRET",
@@ -53,7 +51,6 @@ config :home_bot,
 # Quantum schedules
 config :home_bot, HomeBot.Scheduler,
   jobs: [
-    {"*/30 * * * *", {HomeBot.Weather, :log_temperature_data, []}},
     {"0 */4 * * * *", {HomeBot.Monitoring, :run_monitoring_job, []}},
     {"0 5 * * * *", {HomeBot.Monitoring, :run_daily_energy_monitoring, []}},
     {"*/15 * * * *", {HomeSolar.SolarEdge.GetSolarEdgeQuarterDataJob, :run, []}},
@@ -61,11 +58,6 @@ config :home_bot, HomeBot.Scheduler,
     {"0 * * * *", {HomeSolar.SolarEdge.GetSolarEdgeTelemetryDataJob, :run, []}},
     {"*/30 * * * *", {HomeWeather.Jobs, :get_hourly_weather_data, []}}
   ]
-
-# InfluxDB
-config :home_bot, HomeBot.DataStore.InfluxConnection,
-  recv_timeout: 60_000,
-  init: {HomeBot.DataStore.InfluxInit, :initialize_influx}
 
 # Phoenix
 config :phoenix, :json_library, Jason

@@ -29,6 +29,15 @@ Bcrypt.hash_pwd_salt("password")
 
 When putting this password in the docker-compose.yml file, make sure to add a $ for every existing $ sign.
 
+# ToDo
+[X] Check if weather data from influx is used, and if not, completely remove it from the code
+[ ] Fix `gas usage per temperature per year` graph
+[ ] Improve logging and error handling of `event_data_storer`
+[ ] Create solar energy dashboard
+  - Investigate what the meter measures
+  - Graph with panel states
+  - Zoomable graph with retrieved electricity
+
 # Ideas
 - Add graphs with usage per month
 - Add graphs with usage for each month per year (grouped by month)

@@ -29,7 +29,6 @@ defmodule HomeBot.MixProject do
       {:jason, "~> 1.2"},
       {:logger_file_backend, "~> 0.0.11"},
       {:quantum, git: "https://github.com/quantum-elixir/quantum-core.git"},
-      {:instream, "~> 1.0"},
       {:phoenix, "~> 1.5"},
       {:cowlib, "~> 2.9", override: true},
       {:plug_cowboy, "~> 2.5"}, 

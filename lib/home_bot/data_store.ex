@@ -2,7 +2,6 @@ defmodule HomeBot.DataStore do
   @moduledoc "Public interface for Data Stores"
 
   alias HomeBot.DataStore.ChannelStore
-  alias HomeBot.DataStore.TemperatureStore
   alias HomeBot.DataStore.EnergyPostgresStore
 
   def add_subscriber(channel_id) do
@@ -11,14 +10,6 @@ defmodule HomeBot.DataStore do
 
   def get_subscribers do
     ChannelStore.get_subscribers()
-  end
-
-  def create_temperature_database_if_not_exists do
-    TemperatureStore.create_database_if_not_exists()
-  end
-
-  def write_temperature_data(data) do
-    TemperatureStore.write_temperature_data(data)
   end
 
   def get_latest_energy_measurement do

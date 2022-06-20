@@ -48,6 +48,9 @@ defmodule HomeBot.Tools do
   end
 
   @spec mean(list) :: float()
+  def mean(nil), do: 0
+  def mean([]), do: 0
+
   def mean(values) do
     Enum.sum(values) / length(values)
   end

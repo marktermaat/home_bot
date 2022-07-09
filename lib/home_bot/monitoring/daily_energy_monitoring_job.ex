@@ -91,18 +91,13 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
   defp get_mean_std_electricity_usage_for_weekday(weekday) do
     historic_usage_values =
       Api.get_energy_usage(~N[2000-01-01 00:00:00], NaiveDateTime.utc_now(), 1, "day")
-      |> Enum.filter(fn record -> get_weekday(record.start_time) == weekday end)
+      |> Enum.filter(fn record -> Timex.weekday(record.start_time) == weekday end)
       |> Enum.map(fn x -> x.usage_total_tariff end)
 
     mean = Tools.mean(historic_usage_values)
     standard_deviation = Tools.standard_deviation(historic_usage_values, mean)
 
     {mean, standard_deviation}
-  end
-
-  defp get_weekday(time_string) do
-    {:ok, dt, _} = DateTime.from_iso8601(time_string)
-    Timex.weekday(dt)
   end
 
   defp start_of_yesterday do

@@ -73,7 +73,7 @@ defmodule HomeBot.Monitoring.DailyEnergyMonitoring do
       WeatherApi.get_average_temperature_per_day()
       |> Enum.filter(fn record ->
         record.temperature != nil &&
-          record.temperature |> Decimal.round() |> Decimal.to_integer() == temperature
+          record.temperature |> Decimal.round() == temperature
       end)
       |> Enum.map(fn record -> record.day_timestamp end)
 

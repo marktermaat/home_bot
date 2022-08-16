@@ -3,8 +3,10 @@ defmodule HomeBot.Monitoring.MonitoringJob do
 
   def run do
     check_feeds()
-    check_smart_meter()
-    check_weather_data()
+
+    if !check_smart_meter() || !check_weather_data() do
+      HomeBot.Bot.Host.execute("cd /docker/event-data-storer && docker-compose restart")
+    end
 
     notify_healthchecks()
   end
@@ -33,6 +35,9 @@ defmodule HomeBot.Monitoring.MonitoringJob do
 
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now(), minutes: -5)) do
       HomeBot.Bot.notify_users("Smart meter data not received since #{latest_timestamp}")
+      false
+    else
+      true
     end
   end
 
@@ -41,6 +46,9 @@ defmodule HomeBot.Monitoring.MonitoringJob do
 
     if Timex.before?(latest_timestamp, Timex.shift(Timex.now(), hours: -4)) do
       HomeBot.Bot.notify_users("Weather data not received since #{latest_timestamp}")
+      false
+    else
+      true
     end
   end
 

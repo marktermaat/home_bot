@@ -12,6 +12,7 @@ defmodule HomeWeb.LoginController do
       true ->
         conn
         |> put_session(:logged_in, true)
+        |> put_session(:user_id, 1)
         |> redirect(to: Routes.home_path(conn, :index))
 
       false ->

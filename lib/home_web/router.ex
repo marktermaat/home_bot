@@ -32,7 +32,6 @@ defmodule HomeWeb.Router do
     post("/energy/show", EnergyController, :show_graph)
     post("/energy/compare", EnergyController, :compare_graph)
 
-    get("/rss_router", RssRouterController, :index)
     get("/home_climate", HomeClimateController, :index)
     get("/solar", SolarController, :index)
     get("/lighting", LightingController, :index)

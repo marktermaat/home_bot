@@ -2,6 +2,7 @@ defmodule HomeEnergy.Model.EnergyPeriod do
   @derive Jason.Encoder
   @enforce_keys [:start_time]
   defstruct [
+    # The start time of the period in UTC
     :start_time,
     :usage_low_tariff,
     :supplied_low_tariff,

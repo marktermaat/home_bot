@@ -34,13 +34,13 @@ defmodule HomeEnergy.Repo.EnergyRepo do
     first = List.first(result)
 
     start_values = %{
-      meter_low_tariff: first[:min_meter_low_tariff],
-      meter_normal_tariff: first[:min_meter_normal_tariff],
-      meter_supplied_low_tariff: first[:min_meter_supplied_low_tariff],
-      meter_supplied_normal_tariff: first[:min_meter_supplied_normal_tariff],
-      meter_total_tariff: first[:min_meter_total_tariff],
-      meter_supplied_total_tariff: first[:min_meter_supplied_total_tariff],
-      gas_meter: first[:min_gas_meter]
+      max_meter_low_tariff: first[:min_meter_low_tariff],
+      max_meter_normal_tariff: first[:min_meter_normal_tariff],
+      max_meter_supplied_low_tariff: first[:min_meter_supplied_low_tariff],
+      max_meter_supplied_normal_tariff: first[:min_meter_supplied_normal_tariff],
+      max_meter_total_tariff: first[:min_meter_total_tariff],
+      max_meter_supplied_total_tariff: first[:min_meter_supplied_total_tariff],
+      max_gas_meter: first[:min_gas_meter]
     }
 
     {result, _} =

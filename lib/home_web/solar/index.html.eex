@@ -1,3 +1,7 @@
+<div>
+  <%= live_render(@conn, HomeWeb.SolarPageNavigationLive) %>
+</div>
+
 <div class="flex flex-row flex-wrap">
 
   <div class="flex_chart_wide">

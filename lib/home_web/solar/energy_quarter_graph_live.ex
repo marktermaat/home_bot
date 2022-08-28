@@ -19,7 +19,7 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
   end
 
   def handle_info({[:solar_navigation, :time_range], [start_time, end_time, unit]}, socket) do
-    {:noreply, assign(socket, plot: create_plot(start_time, end_time, unit))}
+    {:noreply, assign(socket, plot: create_plot(start_time, end_time, Atom.to_string(unit)))}
   end
 
   def create_plot(start_time_string, end_time_string, unit) do
@@ -29,14 +29,7 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
     energy_data = get_energy_data(start_time, end_time, unit)
     solar_data = get_solar_data(start_time, end_time, unit)
 
-    solar_data =
-      solar_data ++ List.duplicate({0}, Enum.count(energy_data) - Enum.count(solar_data))
-
-    data =
-      List.zip([energy_data, solar_data])
-      |> Enum.map(fn {{date, consumed, supplied}, {produced}} ->
-        {date, consumed, supplied, consumed + produced - supplied, produced}
-      end)
+    data = join_energy_and_solar_data(energy_data, solar_data)
 
     ds =
       Contex.Dataset.new(data, [
@@ -74,7 +67,24 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
   defp get_solar_data(start_time, end_time, unit) do
     HomeSolar.Api.get_power_produced(start_time, end_time, 1, unit)
     |> Enum.map(fn record ->
-      {record.power_produced / 1000.0}
+      {record.timestamp, record.power_produced / 1000.0}
+    end)
+  end
+
+  def join_energy_and_solar_data(energy_data, solar_data) do
+    Enum.map(energy_data, fn {energy_timestamp, consumed, supplied} ->
+      solar_record =
+        Enum.find(solar_data, fn {solar_timestamp, _} ->
+          NaiveDateTime.compare(solar_timestamp, energy_timestamp) == :eq
+        end)
+
+      case solar_record do
+        nil ->
+          {energy_timestamp, consumed, supplied, consumed - supplied, 0}
+
+        {_, produced} ->
+          {energy_timestamp, consumed, supplied, consumed + produced - supplied, produced}
+      end
     end)
   end
 
@@ -85,7 +95,7 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
     x_scale =
       Contex.TimeScale.new()
       |> Contex.TimeScale.domain(min_time, max_time)
-      |> Contex.TimeScale.interval_count(20)
+      |> Contex.TimeScale.interval_count(30)
 
     options = [
       mapping: %{

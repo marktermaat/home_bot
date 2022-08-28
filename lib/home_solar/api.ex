@@ -1,5 +1,6 @@
 defmodule HomeSolar.Api do
   alias HomeSolar.Api.SolarApi
+  alias HomeSolar.Model.SolarPeriod
 
   @spec get_power_produced(NaiveDateTime.t(), NaiveDateTime.t(), integer(), String.t()) ::
           list(SolarPeriod.t())

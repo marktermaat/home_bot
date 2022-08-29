@@ -57,10 +57,24 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
     "#{start_time |> NaiveDateTime.to_time() |> Time.truncate(:second) |> Time.to_string()} - #{end_time |> NaiveDateTime.to_time() |> Time.truncate(:second) |> Time.to_string()}"
   end
 
+  defp get_energy_data(start_time, end_time, unit) when unit in ["minute"] do
+    HomeEnergy.Api.get_energy_usage(start_time, end_time, 15, unit)
+    |> Enum.map(fn record ->
+      {record.start_time, record.usage_total_tariff, record.supplied_total_tariff}
+    end)
+  end
+
   defp get_energy_data(start_time, end_time, unit) do
     HomeEnergy.Api.get_energy_usage(start_time, end_time, 1, unit)
     |> Enum.map(fn record ->
       {record.start_time, record.usage_total_tariff, record.supplied_total_tariff}
+    end)
+  end
+
+  defp get_solar_data(start_time, end_time, unit) when unit in ["minute"] do
+    HomeSolar.Api.get_power_produced(start_time, end_time, 15, unit)
+    |> Enum.map(fn record ->
+      {record.timestamp, record.power_produced / 1000.0}
     end)
   end
 
@@ -95,7 +109,7 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
     x_scale =
       Contex.TimeScale.new()
       |> Contex.TimeScale.domain(min_time, max_time)
-      |> Contex.TimeScale.interval_count(30)
+      |> Contex.TimeScale.interval_count(Enum.count(dataset.data))
 
     options = [
       mapping: %{

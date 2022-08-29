@@ -94,7 +94,7 @@ defmodule HomeWeb.EnergyQuarterGraphLive do
 
       case solar_record do
         nil ->
-          {energy_timestamp, consumed, supplied, consumed - supplied, 0}
+          {energy_timestamp, consumed, supplied, consumed, 0}
 
         {_, produced} ->
           {energy_timestamp, consumed, supplied, consumed + produced - supplied, produced}

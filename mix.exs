@@ -42,6 +42,7 @@ defmodule HomeBot.MixProject do
       {:postgrex, "~> 0.15.10"},
       {:tortoise, "~> 0.10.0"},
       {:retry, "~> 0.15.0"},
+      {:vega_lite, "~> 0.1.6"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end

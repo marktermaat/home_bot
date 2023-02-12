@@ -18,6 +18,11 @@ defmodule HomeSolar.SolarEdge.ApiClient do
 
     {:ok, response} = call(energy_uri(query_params))
 
+    if response.status_code != 200 do
+      HomeBot.Bot.notify_users("Error calling SolarEdge API. Response: ")
+      HomeBot.Bot.notify_users(response.body)
+    end
+
     Jason.decode!(response.body, keys: :atoms)
     |> Map.get(:energy, %{})
     |> Map.get(:values, [])

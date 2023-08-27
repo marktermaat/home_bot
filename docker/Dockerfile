@@ -24,7 +24,7 @@ RUN mix local.rebar --force && \
   mix release
 
 # ===== Deployment phase
-FROM alpine:3
+FROM alpine:3.15.5
 
 # Install bash and openssl
 RUN apk add --no-cache --update bash openssl libgcc libstdc++ ncurses-libs

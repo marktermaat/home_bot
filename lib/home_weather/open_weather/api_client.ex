@@ -15,7 +15,7 @@ defmodule HomeWeather.OpenWeather.ApiClient do
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
       retry with: constant_backoff(1000) |> Stream.take(10) do
         HTTPoison.get(
-          "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{unix_date}&appid=#{api_key()}&units=metric",
+          "https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=#{@lat}&lon=#{@long}&dt=#{unix_date}&appid=#{api_key()}&units=metric",
           recv_timeout: 30_000
         )
       after

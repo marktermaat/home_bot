@@ -26,6 +26,7 @@ defmodule HomeBot.MixProject do
     [
       {:nostrum, "~> 0.4.6"},
       {:httpoison, "~> 1.7"},
+      {:ssl_verify_fun, "~> 1.1.7"},
       {:jason, "~> 1.2"},
       {:logger_file_backend, "~> 0.0.11"},
       {:quantum, git: "https://github.com/quantum-elixir/quantum-core.git"},

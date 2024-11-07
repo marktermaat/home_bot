@@ -1,4 +1,4 @@
-ssh mark@192.168.2.4 << EOF
+ssh mark@192.168.2.8 << EOF
   cd /docker/home_bot
   docker-compose pull
   docker-compose down

@@ -10,6 +10,7 @@ WORKDIR /assets
 RUN npm install && \
     npm run deploy
 
+
 # ===== Build phase
 FROM elixir:1.13.3-alpine as builder
 ENV MIX_ENV=prod
@@ -29,7 +30,7 @@ COPY mix.lock ./mix.lock
 COPY .version ./.version
 
 # Copy built assets from Node.js phase
-COPY --from=node_builder /priv/static ./priv/static
+COPY --from=node_builder /priv/static ./priv
 
 # Build release
 RUN mix local.rebar --force && \

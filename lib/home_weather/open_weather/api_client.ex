@@ -7,9 +7,13 @@ defmodule HomeWeather.OpenWeather.ApiClient do
   @lat "52.2658"
   @long "6.7931"
 
-  @spec get_hourly_weather_data(Date.t()) :: [WeatherValue.t()]
-  def get_hourly_weather_data(date) do
-    unix_date = DateTime.new!(date, ~T[00:00:00]) |> DateTime.to_unix()
+  def get_hourly_weather_data() do
+    get_hourly_weather_data(DateTime.utc_now())
+  end
+
+  @spec get_hourly_weather_data(DateTime.t()) :: [WeatherValue.t()]
+  def get_hourly_weather_data(datetime) do
+    unix_date = datetime |> DateTime.to_unix()
     HTTPoison.start()
 
     IO.puts("Retrieving weather data")
@@ -29,7 +33,7 @@ defmodule HomeWeather.OpenWeather.ApiClient do
 
     body
     |> Jason.decode!(keys: :atoms)
-    |> Map.get(:hourly, [])
+    |> Map.get(:data, [])
     |> Enum.map(&to_energy_value/1)
   end
 

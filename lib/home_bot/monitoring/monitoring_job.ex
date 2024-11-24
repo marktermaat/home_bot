@@ -2,7 +2,7 @@ defmodule HomeBot.Monitoring.MonitoringJob do
   @moduledoc "This job will check if everything is still in order on the server"
 
   def run do
-    check_feeds()
+    # check_feeds()
 
     if !check_smart_meter() || !check_weather_data() || !check_solar_data() do
       HomeBot.Bot.Host.execute("cd /docker/event-data-storer && docker-compose restart")
@@ -11,24 +11,24 @@ defmodule HomeBot.Monitoring.MonitoringJob do
     notify_healthchecks()
   end
 
-  defp check_feeds do
-    feeds =
-      HomeBot.Rss.get_feeds()
-      |> Enum.map(fn {key, value} -> {key, DateTime.from_iso8601(value)} end)
-      |> Enum.map(fn {feed, {:ok, dt, _}} -> {feed, dt} end)
+  # defp check_feeds do
+  #   feeds =
+  #     HomeBot.Rss.get_feeds()
+  #     |> Enum.map(fn {key, value} -> {key, DateTime.from_iso8601(value)} end)
+  #     |> Enum.map(fn {feed, {:ok, dt, _}} -> {feed, dt} end)
 
-    # Check RssRouter in general
-    {_feed, latest_timestamp} = feeds |> Enum.max_by(fn {_feed, dt} -> DateTime.to_unix(dt) end)
+  #   # Check RssRouter in general
+  #   {_feed, latest_timestamp} = feeds |> Enum.max_by(fn {_feed, dt} -> DateTime.to_unix(dt) end)
 
-    if Timex.before?(latest_timestamp, Timex.shift(Timex.now(), hours: -6)) do
-      HomeBot.Bot.notify_users("RssRouter has not been updated since #{latest_timestamp}")
-    end
+  #   if Timex.before?(latest_timestamp, Timex.shift(Timex.now(), hours: -6)) do
+  #     HomeBot.Bot.notify_users("RssRouter has not been updated since #{latest_timestamp}")
+  #   end
 
-    # Check specific feeds
-    # feeds
-    # |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -30)) end)
-    # |> Enum.each(fn {feed, dt} -> HomeBot.Bot.notify_users("#{feed} has not been updated since #{dt}") end)
-  end
+  #   # Check specific feeds
+  #   # feeds
+  #   # |> Enum.filter(fn {_feed, dt} -> Timex.before?(dt, Timex.shift(Timex.now, days: -30)) end)
+  #   # |> Enum.each(fn {feed, dt} -> HomeBot.Bot.notify_users("#{feed} has not been updated since #{dt}") end)
+  # end
 
   defp check_smart_meter do
     %{time: latest_timestamp} = HomeBot.DataStore.get_latest_energy_measurement()

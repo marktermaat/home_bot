@@ -53,7 +53,7 @@ defmodule HomeWeb.EnergyController do
       ticks: params
         |> Enum.filter(fn {key, _value} -> String.starts_with?(key, "hours_") end)
         |> Enum.filter(fn {_key, value} -> value == "true" end)
-        |> Enum.map(fn {key, _value} -> String.slice(key, 6..-1) end)
+        |> Enum.map(fn {key, _value} -> String.slice(key, 6..-1//1) end)
         |> Enum.join(",")
     ]
 

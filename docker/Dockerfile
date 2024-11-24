@@ -1,3 +1,15 @@
+# ===== Node.js build phase
+FROM erickueen/phoenix:1.5.4 as node_builder
+
+# Copy only the assets
+COPY assets ./assets
+COPY deps ./deps
+WORKDIR /assets
+
+# Install and build assets
+RUN npm install && \
+    npm run deploy
+
 # ===== Build phase
 FROM elixir:1.13.3-alpine as builder
 ENV MIX_ENV=prod
@@ -15,6 +27,9 @@ COPY priv ./priv
 COPY mix.exs ./mix.exs
 COPY mix.lock ./mix.lock
 COPY .version ./.version
+
+# Copy built assets from Node.js phase
+COPY --from=node_builder /priv/static ./priv/static
 
 # Build release
 RUN mix local.rebar --force && \

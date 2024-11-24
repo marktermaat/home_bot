@@ -12,6 +12,7 @@ defmodule HomeWeather.OpenWeather.ApiClient do
     unix_date = DateTime.new!(date, ~T[00:00:00]) |> DateTime.to_unix()
     HTTPoison.start()
 
+    IO.puts("Retrieving weather data")
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
       retry with: constant_backoff(1000) |> Stream.take(10) do
         HTTPoison.get(
@@ -23,6 +24,8 @@ defmodule HomeWeather.OpenWeather.ApiClient do
       else
         error -> raise "Unexpected response from OpenWeather API: #{inspect(error)}"
       end
+
+    IO.inspect(body)
 
     body
     |> Jason.decode!(keys: :atoms)
